@@ -1,4 +1,13 @@
-"""Generation engine using Jinja2 templates."""
+"""Generation engine using Jinja2 templates.
+
+IMPORTANT REQUIREMENT FOR README.md:
+The generated README.md content MUST be systematically and rigorously:
+- Verbose (detailed explanations)
+- Detailed (comprehensive coverage)
+- Complete (highest possible quality)
+
+All generated documentation should prioritize completeness and detail over brevity.
+"""
 
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader

@@ -211,7 +211,79 @@ Sans ces fichiers, GitHub affiche "Community Standards: 0%" en rouge !
 
 ## 🎯 Exemples concrets
 
-### Exemple 1 : Un novice veut faire un site web
+### Exemple 1 : Script d'encodage/décodage Base64 (Mode NOVICE)
+
+**Scénario :** Vous voulez créer un outil CLI pour encoder/décoder des credentials en Base64.
+
+**macOS / Linux :**
+```bash
+poetry run github-scaffolding-generator init
+
+=== GitHub Scaffolding Generator ===
+
+Choisissez votre mode :
+  1 - 🟢 Mode NOVICE (5 questions simples)
+  2 - 🔵 Mode EXPERT (toutes les options)
+
+Votre choix (1-2) [1]: 1
+
+--- Mode NOVICE ---
+
+Nom du projet ? (ex: mon-outil): base64-tool
+
+Tu fais quoi ?
+  1 - Un outil en ligne de commande (terminal)
+  2 - Un site web ou application
+  3 - Une bibliothèque à partager
+  4 - Un automate GitHub
+  5 - De la documentation
+  6 - Plusieurs projets ensemble
+Choix (1-6): 1
+
+✓ Je configure pour : Un outil en ligne de commande (terminal)
+
+Description courte ? (une phrase): Un outil pour encoder/décoder des credentials en Base64
+
+Pseudo GitHub ?: testuser
+
+Licence ? [MIT]: MIT
+
+Dossier de sortie ? [output]: output
+
+Génération de base64-tool en cours...
+
+16 fichiers générés :
+  ✓ output/base64-tool/README.md
+  ✓ output/base64-tool/LICENSE
+  ✓ output/base64-tool/CODE_OF_CONDUCT.md
+  ✓ output/base64-tool/CONTRIBUTING.md
+  ✓ output/base64-tool/SECURITY.md
+  ✓ output/base64-tool/CHANGELOG.md
+  ✓ output/base64-tool/.github/CODEOWNERS
+  ✓ output/base64-tool/.github/dependabot.yml
+  ✓ output/base64-tool/.github/PULL_REQUEST_TEMPLATE.md
+  ✓ output/base64-tool/.github/ISSUE_TEMPLATE/bug_report.yml
+  ✓ output/base64-tool/.github/ISSUE_TEMPLATE/feature_request.yml
+  ✓ output/base64-tool/.github/workflows/ci.yml
+  ✓ output/base64-tool/.gitignore
+  ✓ output/base64-tool/.gitattributes
+  ✓ output/base64-tool/.editorconfig
+  ✓ output/base64-tool/pyproject.toml
+
+Terminé ! Les fichiers sont dans output/base64-tool/
+```
+
+**Ce qu'on a obtenu :**
+- L'outil a déviné : Type = `cli`, Stack = `Python 3.12 + Poetry`, CI = `lint,test`
+- 16 fichiers générés avec tout rempli (nom, description, pseudo)
+- Le fichier `README.md` contient déjà "Un outil pour encoder/décoder des credentials en Base64"
+- Le `pyproject.toml` est prêt avec le nom et la description
+
+**Windows 10/11 (PowerShell 7.6+) :** Même interaction, mêmes résultats.
+
+---
+
+### Exemple 2 : Un site web (Mode NOVICE)
 
 **macOS / Linux :**
 ```bash
@@ -219,6 +291,34 @@ poetry run github-scaffolding-generator init
 # Choisir 1 (Mode NOVICE)
 # Répondre : mon-blog, 2 (site web), "Un blog", votrepseudo, MIT
 # → 15 fichiers générés dans output/mon-blog/
+```
+
+**Windows 10/11 (PowerShell 7.6+) :**
+```powershell
+poetry run github-scaffolding-generator init
+# Choisir 1 (Mode NOVICE)
+# Répondre : mon-blog, 2 (site web), "Un blog", votrepseudo, MIT
+# → 15 fichiers générés dans output/mon-blog/
+```
+
+---
+
+### Exemple 3 : Un outil CLI Python (Mode EXPERT)
+
+**macOS / Linux :**
+```bash
+poetry run github-scaffolding-generator init
+# Choisir 2 (Mode EXPERT)
+# Répondre : mon-outil, cli, Python 3.12 + Poetry, "Un outil", votrepseudo, MIT, public, lint,test, output
+# → 16 fichiers générés dans output/mon-outil/
+```
+
+**Windows 10/11 (PowerShell 7.6+) :**
+```powershell
+poetry run github-scaffolding-generator init
+# Choisir 2 (Mode EXPERT)
+# Répondre : mon-outil, cli, Python 3.12 + Poetry, "Un outil", votrepseudo, MIT, public, lint,test, output
+# → 16 fichiers générés dans output/mon-outil/
 ```
 
 **Windows 10/11 (PowerShell 7.6+) :**

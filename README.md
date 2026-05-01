@@ -122,6 +122,100 @@ poetry run github-scaffolding-generator init
 
 ---
 
+## 🟡 Mode INTERMÉDIAIRE (6-7 questions)
+
+**Pour qui ?** Vous connaissez les bases mais voulez un peu plus de contrôle sans être submergé par 9 options.
+
+**📚 Concepts clés :**
+- Même lexique que le mode NOVICE
+- **Licence** = Permis d'utilisation (MIT = libre, Apache = entreprise, GPL = copyleft, Propriétaire = fermé)
+- **Visibilité** = Public (tout le monde voit) ou Privé (vous seul ou votre équipe)
+- **CI (Continuous Integration)** = Automatisation : plus vous ajoutez d'options (lint, test, build, release), plus c'est vérifié
+
+### Lancer l'outil (Mode INTERMÉDIAIRE)
+
+**macOS / Linux :**
+
+```bash
+poetry run github-scaffolding-generator init
+```
+
+**Windows 10/11 (PowerShell 7.6+) :**
+
+```powershell
+poetry run github-scaffolding-generator init
+```
+
+Choisir `2` dans le menu.
+
+### Les 6-7 questions (exemple)
+
+```markdown
+=== GitHub Scaffolding Generator ===
+
+Choisissez votre mode :
+  1 - 🟢 Mode NOVICE (5 questions simples)
+  2 - 🟡 Mode INTERMÉDIAIRE (6-7 questions)
+  3 - 🔵 Mode EXPERT (toutes les options)
+
+Votre choix (1-3) [1]: 2
+
+--- Mode INTERMÉDIAIRE ---
+
+Nom du projet ? (ex: mon-outil): mon-outil-api
+
+Type de projet ?
+  1 - CLI (outil en ligne de commande)
+  2 - Webapp (site web ou application)
+  3 - Library (bibliothèque à partager)
+  4 - GitHub Action (automate)
+  5 - Docs (documentation)
+  6 - Monorepo (plusieurs projets)
+Choix (1-6): 2
+
+✓ Type détecté : Un site web ou application
+
+Description courte ? (une phrase): Une API REST pour gérer des tâches
+Pseudo GitHub ?: votrepseudo
+
+Licence ?
+  1 - MIT (libre, permissive)
+  2 - Apache-2.0 (libre, protection brevet)
+  3 - GPL-3.0 (libre, copyleft)
+  4 - Propriétaire (non libre)
+Choix (1-4) [1]: 1
+
+Visibilité ? (public/private) [public]: public
+
+CI (intégration continue) ?
+  1 - Basique (lint + test)
+  2 - Complet (lint + test + build)
+  3 - Avancé (lint + test + build + release)
+Choix (1-3) [1]: 2
+
+Dossier de sortie ? [output]: output
+
+Génération de mon-outil-api en cours...
+
+16 fichiers générés :
+  ✓ output/mon-outil-api/README.md
+  ✓ output/mon-outil-api/LICENSE
+  ...
+```
+
+**L'outil devine :**
+- Type de projet → `webapp` (basé sur votre choix)
+- Stack technique → `Node 20 + pnpm` (prédéfini pour webapp)
+
+**Vous choisissez :**
+- Licence (parmi les 4 options courantes)
+- Visibilité (public/private)
+- Niveau de CI (basique, complet, avancé)
+
+**Résultat :** 16 fichiers générés avec la stack adaptée et votre niveau de CI choisi !
+
+---
+
 ## 🔵 Mode EXPERT (toutes les options)
 
 **Pour qui ?** Vous connaissez les termes techniques et voulez contrôler chaque paramètre.
@@ -240,9 +334,10 @@ poetry run github-scaffolding-generator init
 
 Choisissez votre mode :
   1 - 🟢 Mode NOVICE (5 questions simples)
-  2 - 🔵 Mode EXPERT (toutes les options)
+  2 - 🟡 Mode INTERMÉDIAIRE (6-7 questions)
+  3 - 🔵 Mode EXPERT (toutes les options)
 
-Votre choix (1-2) [1]: 1
+Votre choix (1-3) [1]: 1
 
 --- Mode NOVICE ---
 
@@ -371,6 +466,23 @@ poetry run github-scaffolding-generator init
 # Répondre : mon-outil, cli, Python 3.12 + Poetry, "Un outil", votrepseudo, MIT, public, lint,test, output
 # → 16 fichiers générés dans output/mon-outil/
 ```
+
+---
+
+## 📊 Comparatif des 3 modes
+
+| Caractéristique | 🟢 NOVICE | 🟡 INTERMÉDIAIRE | 🔵 EXPERT |
+| --- | --- | --- | --- |
+| **Nombre de questions** | 5 | 6-7 | 9 |
+| **Type de projet** | Détecté auto | Détecté auto | Manuel |
+| **Stack technique** | Détectée auto | Détectée auto | Manuel |
+| **Licence** | Une seule (MIT) | 4 choix (MIT/Apache/GPL/Propriétaire) | Toutes options |
+| **Visibilité** | Public uniquement | Public ou Private | Public ou Private |
+| **CI (intégration continue)** | Basique (lint+test) | 3 niveaux (basique/complet/avancé) | Manuel (lint,test,build,release) |
+| **Dossier de sortie** | `output/` | `output/` | Manuel |
+| **Mode rapide** | Non | Non | Oui |
+| **Fichiers générés** | 15-16 | 15-16 | 16 |
+| **Pour qui ?** | Débutants complets | Développeurs avec quelques bases | Experts, DevOps |
 
 ---
 

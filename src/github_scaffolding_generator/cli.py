@@ -18,17 +18,20 @@ ACTIVITY_MAPPING = {
 
 @app.command()
 def init():
-    """Lance le menu interactif (novice ou expert)."""
+    """Lance le menu interactif (novice, intermédiaire ou expert)."""
     typer.echo("\n=== GitHub Scaffolding Generator ===\n")
     typer.echo("Choisissez votre mode :")
     typer.echo("  1 - 🟢 Mode NOVICE (5 questions simples)")
-    typer.echo("  2 - 🔵 Mode EXPERT (toutes les options)\n")
-    
-    mode = typer.prompt("Votre choix (1-2)", default="1")
-    
+    typer.echo("  2 - 🟡 Mode INTERMÉDIAIRE (6-7 questions)")
+    typer.echo("  3 - 🔵 Mode EXPERT (toutes les options)\n")
+
+    mode = typer.prompt("Votre choix (1-3)", default="1")
+
     if mode == "1":
         _novice_mode()
     elif mode == "2":
+        _intermediate_mode()
+    elif mode == "3":
         _expert_mode()
     else:
         typer.echo("Erreur : Choix invalide")
@@ -63,6 +66,59 @@ def _novice_mode():
     output_dir = typer.prompt("Dossier de sortie ?", default="output")
     
     _generate_files(project_name, project_type, stack, description, author, license, "public", ci_targets, output_dir, False)
+
+
+def _intermediate_mode():
+    """Mode intermédiaire avec plus d'options que le novice."""
+    typer.echo("\n--- Mode INTERMÉDIAIRE ---\n")
+
+    project_name = typer.prompt("Nom du projet ? (ex: mon-outil)")
+
+    typer.echo("\nType de projet ?")
+    typer.echo("  1 - CLI (outil en ligne de commande)")
+    typer.echo("  2 - Webapp (site web ou application)")
+    typer.echo("  3 - Library (bibliothèque à partager)")
+    typer.echo("  4 - GitHub Action (automate)")
+    typer.echo("  5 - Docs (documentation)")
+    typer.echo("  6 - Monorepo (plusieurs projets)")
+    activity = typer.prompt("Choix (1-6)")
+
+    if activity not in ACTIVITY_MAPPING:
+        typer.echo("Erreur : Choix invalide (1-6)")
+        raise typer.Exit(1)
+
+    project_type, stack_default, ci_default, activity_desc = ACTIVITY_MAPPING[activity]
+    typer.echo(f"\n✓ Type détecté : {activity_desc}")
+
+    # Questions intermédiaires
+    description = typer.prompt("Description courte ? (une phrase)")
+    author = typer.prompt("Pseudo GitHub ?")
+
+    # Choix de la licence avec options courantes
+    typer.echo("\nLicence ?")
+    typer.echo("  1 - MIT (libre, permissive)")
+    typer.echo("  2 - Apache-2.0 (libre, protection brevet)")
+    typer.echo("  3 - GPL-3.0 (libre, copyleft)")
+    typer.echo("  4 - Propriétaire (non libre)")
+    license_choice = typer.prompt("Choix (1-4)", default="1")
+    license_map = {"1": "MIT", "2": "Apache-2.0", "3": "GPL-3.0", "4": "Proprietary"}
+    license = license_map.get(license_choice, "MIT")
+
+    # Visibilité
+    visibility = typer.prompt("Visibilité ? (public/private)", default="public")
+
+    # CI avec options guidées
+    typer.echo("\nCI (intégration continue) ?")
+    typer.echo("  1 - Basique (lint + test)")
+    typer.echo("  2 - Complet (lint + test + build)")
+    typer.echo("  3 - Avancé (lint + test + build + release)")
+    ci_choice = typer.prompt("Choix (1-3)", default="1")
+    ci_map = {"1": "lint,test", "2": "lint,test,build", "3": "lint,test,build,release"}
+    ci_targets = ci_map.get(ci_choice, "lint,test")
+
+    output_dir = typer.prompt("Dossier de sortie ?", default="output")
+
+    _generate_files(project_name, project_type, stack_default, description, author, license, visibility, ci_targets, output_dir, False)
 
 
 def _expert_mode():

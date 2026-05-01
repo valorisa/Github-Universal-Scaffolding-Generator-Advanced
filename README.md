@@ -6,9 +6,11 @@
 
 > **QUOI ?** Un outil qui crée automatiquement tous les fichiers pour un nouveau dépôt GitHub (README, LICENSE, CI, etc.) en répondant à quelques questions.
 >
-> **POUR QUI ?** Novices complets, développeurs, mainteneurs open-source, équipes DevOps.
+> **POUR QUI ?** Novices complets (vous ne connaissez rien), développeurs, mainteneurs open-source, équipes DevOps.
 >
 > **COMBIEN DE TEMPS ?** 1 minute au lieu de 2-4 heures de configuration manuelle.
+>
+> **CE QUE ÇA FAIT :** GitHub demande 15+ fichiers précis pour considérer un projet comme "conforme" (Community Standards). Cet outil les génère tous automatiquement avec vos informations pré-remplies.
 
 ---
 
@@ -71,6 +73,13 @@ poetry install
 
 **Pour qui ?** Vous ne connaissez pas les termes techniques (stack, CI, lint, etc.).
 
+**📚 Petit lexique pour comprendre :**
+- **Stack technique** = Les outils pour créer votre projet (ex: Python, JavaScript, Go...)
+- **CI** (Continuous Integration) = Un robot qui vérifie automatiquement que votre code ne contient pas d'erreurs
+- **Lint** = Un outil qui vérifie que votre code est bien écrit (indentation, noms de variables...)
+- **Build** = Transformation de votre code source en programme utilisable
+- **Type de projet** = Ce que vous fabriquez (un site web, un outil, une bibliothèque...)
+
 ### Lancer l'outil
 
 **macOS / Linux :**
@@ -105,6 +114,13 @@ poetry run github-scaffolding-generator init
 
 **Pour qui ?** Vous connaissez les termes techniques et voulez contrôler chaque paramètre.
 
+**📚 Rappel des termes techniques :**
+- **Stack** = Combinaison du langage (Python, JS...) + outil de gestion (Poetry, pnpm, Maven...)
+- **CI (Continuous Integration)** = Automatisation : vérifie le code à chaque modification
+- **Lint** = Vérification du style du code (espaces, noms de variables...)
+- **Build** = Compilation/préparation du projet pour la mise en production
+- **Release** = Création d'une version officielle (v1.0.0, v1.1.0...)
+
 ### Lancer l'outil
 
 **macOS / Linux :**
@@ -132,6 +148,32 @@ Choisir `2` dans le menu.
 ```
 
 **Résultat :** 16 fichiers générés avec votre configuration exacte !
+
+---
+
+## 📋 Qu'est-ce que les "GitHub Community Standards" ?
+
+C'est un ensemble de **15+ fichiers** que GitHub demande pour considérer un projet comme "professionnel" et "accueillant" :
+
+### Pourquoi c'est important ?
+- ✅ **Badge vert** = Les utilisateurs font confiance à votre projet
+- ✅ **Sécurité** = Les gens savent comment signaler des bugs
+- ✅ **Contributions** = Les autres développeurs peuvent vous aider facilement
+- ✅ **Maintenance** = Vous avez les templates pour issues et Pull Requests
+
+### Les fichiers obligatoires générés :
+1. **README.md** = Page d'accueil (description, installation, usage)
+2. **LICENSE** = Droits d'utilisation (MIT = libre, Apache = entreprise...)
+3. **CODE_OF_CONDUCT.md** = Règles de vie de la communauté
+4. **CONTRIBUTING.md** = Comment aider au projet
+5. **SECURITY.md** = Comment signaler une faille de sécurité
+6. **CHANGELOG.md** = Historique des changements
+7. **.github/workflows/ci.yml** = Robot qui vérifie le code (CI)
+8. **.github/dependabot.yml** = Mise à jour auto des bibliothèques
+9. **.github/CODEOWNERS** = Qui approuve les modifications
+10. **Templates d'issues et PR** = Modèles pour bugs et nouveautés
+
+Sans ces fichiers, GitHub affiche "Community Standards: 0%" en rouge !
 
 ---
 
@@ -204,22 +246,35 @@ poetry run github-scaffolding-generator init
 ## ❓ FAQ (Novices)
 
 ### "Je ne sais pas quoi choisir comme type de projet !"
+Voici des exemples concrets pour choisir :
 - **cli** = Un outil qu'on lance dans le terminal (ex: `mon-outil --help`)
-- **webapp** = Un site web ou application
-- **library** = Du code qu'on partage avec d'autres (ex: une bibliothèque)
-- **github-action** = Un automate pour GitHub
-- **docs** = De la documentation
-- **monorepo** = Plusieurs projets dans un seul dépôt
+  *Exemple :* Un convertisseur de fichiers, un outil de renommage, un script de sauvegarde
+- **webapp** = Un site web ou application accessible par navigateur
+  *Exemple :* Un blog, une boutique en ligne, un tableau de bord, un réseau social
+- **library** = Du code qu'on partage avec d'autres développeurs (on appelle ça "paquet" ou "bibliothèque")
+  *Exemple :* Une librairie de calculs mathématiques, un outil de validation d'emails
+- **github-action** = Un automate qui s'exécute sur GitHub lors d'un événement
+  *Exemple :* Vérifier le code, publier sur PyPI, fermer les issues inactives
+- **docs** = Un site de documentation uniquement (pas de code exécutable)
+  *Exemple :* La doc de votre API, un wiki d'entreprise, un tutoriel
+- **monorepo** = Plusieurs projets dans un seul dépôt (structure avancée)
+  *Exemple :* Un dépôt contenant le frontend, le backend, et les outils de build ensemble
 
 ### "C'est quoi une stack technique ?"
-C'est l'ensemble des outils pour développer :
-- **Python 3.12 + Poetry** = Pour du Python
-- **Node 20 + pnpm** = Pour du JavaScript/Node.js
-- **Go 1.22** = Pour du Go
-- **Java 21 + Maven** = Pour du Java
-- **Rust 1.70 + Cargo** = Pour du Rust
+C'est l'ensemble des outils pour développer (langage de programmation + gestionnaire de paquets) :
 
-En mode novice, l'outil choisit la stack pour vous !
+- **Python 3.12 + Poetry** = Pour du Python (langage simple et populaire)
+  *Poetry aide à gerer les bibliothèques externes*
+- **Node 20 + pnpm** = Pour du JavaScript/Node.js (pour sites web, applications)
+  *pnpm est un gestionnaire de paquets rapide pour JavaScript*
+- **Go 1.22** = Pour du Go (langage rapide pour serveurs)
+  *Pas besoin de gestionnaire supplémentaire, Go gère tout*
+- **Java 21 + Maven** = Pour du Java (utilisé par les grandes entreprises)
+  *Maven télécharge automatiquement les bibliothèques Java*
+- **Rust 1.70 + Cargo** = Pour du Rust (langage moderne et sûr)
+  *Cargo est le gestionnaire de paquets officiel de Rust*
+
+**En mode novice**, l'outil choisit la stack pour vous automatiquement !
 
 ### "Dois-je modifier les fichiers générés ?"
 Non ! Tous les champs sont remplis avec vos réponses. Vous pouvez directement :

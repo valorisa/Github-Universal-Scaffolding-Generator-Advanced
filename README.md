@@ -19,12 +19,14 @@
 ### 1. Installer Python 3.12+
 
 **Pourquoi Python 3.12+ ?**
+
 - ✅ **Compatibilité maximale** : Python 3.12 est supporté par toutes les bibliothèques modernes
 - ✅ **Performance** : Python 3.12 est 10-20% plus rapide que les versions précédentes
 - ✅ **Support long terme** : Mises à jour de sécurité jusqu'en 2028
 - ⚠️ **Versions antérieures** : Python 3.8-3.11 fonctionnent aussi, mais 3.12 est recommandé
 
 **macOS / Linux :**
+
 ```bash
 # Vérifier la version
 python3 --version
@@ -32,6 +34,7 @@ python3 --version
 ```
 
 **Windows 10/11 (PowerShell 7.6+) :**
+
 ```powershell
 # Vérifier la version
 python --version
@@ -46,11 +49,13 @@ python --version
 ### 2. Installer Poetry (gestionnaire de paquets)
 
 **macOS / Linux :**
+
 ```bash
 curl -sSL https://install.python-poetry.org | python3 -
 ```
 
 **Windows 10/11 (PowerShell 7.6+) :**
+
 ```powershell
 (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
 ```
@@ -60,6 +65,7 @@ curl -sSL https://install.python-poetry.org | python3 -
 ### 3. Installer l'outil
 
 **macOS / Linux :**
+
 ```bash
 git clone https://github.com/valorisa/Github-Universal-Scaffolding-Generator-Advanced.git
 cd Github-Universal-Scaffolding-Generator-Advanced
@@ -67,6 +73,7 @@ poetry install
 ```
 
 **Windows 10/11 (PowerShell 7.6+) :**
+
 ```powershell
 git clone https://github.com/valorisa/Github-Universal-Scaffolding-Generator-Advanced.git
 cd Github-Universal-Scaffolding-Generator-Advanced
@@ -80,31 +87,30 @@ poetry install
 **Pour qui ?** Vous ne connaissez pas les termes techniques (stack, CI, lint, etc.).
 
 **📚 Petit lexique pour comprendre :**
+
 - **Stack technique** = Les outils pour créer votre projet (ex: Python, JavaScript, Go...)
 - **CI** (Continuous Integration) = Un robot qui vérifie automatiquement que votre code ne contient pas d'erreurs
 - **Lint** = Un outil qui vérifie que votre code est bien écrit (indentation, noms de variables...)
 - **Build** = Transformation de votre code source en programme utilisable
 - **Type de projet** = Ce que vous fabriquez (un site web, un outil, une bibliothèque...)
 
-### Lancer l'outil
+### Lancer l'outil (Mode NOVICE)
 
 **macOS / Linux :**
+
 ```bash
 poetry run github-scaffolding-generator init
 ```
 
 **Windows 10/11 (PowerShell 7.6+) :**
+
 ```powershell
 poetry run github-scaffolding-generator init
 ```
 
 ### Les 5 questions (exemples)
-```
-1. Nom du projet ? → mon-blog
-2. Tu fais quoi ? → 2 (Un site web ou application)
-3. Description ? → Un blog statique avec Eleventy
-4. Pseudo GitHub ? → votrepseudo
-5. Licence ? → MIT (ou Entrée pour accepter MIT par défaut)
+```markdown
+(exemples de réponses)
 ```
 
 **L'outil devine tout seul :**
@@ -121,26 +127,31 @@ poetry run github-scaffolding-generator init
 **Pour qui ?** Vous connaissez les termes techniques et voulez contrôler chaque paramètre.
 
 **📚 Rappel des termes techniques :**
+
 - **Stack** = Combinaison du langage (Python, JS...) + outil de gestion (Poetry, pnpm, Maven...)
 - **CI (Continuous Integration)** = Automatisation : vérifie le code à chaque modification
 - **Lint** = Vérification du style du code (espaces, noms de variables...)
 - **Build** = Compilation/préparation du projet pour la mise en production
-- **Release** = Création d'une version officielle (v1.0.0, v1.1.0...)
+ - **Release** = Création d'une version officielle (v1.0.0, v1.1.0...)
 
-### Lancer l'outil
+### Lancer l'outil (Mode EXPERT)
 
 **macOS / Linux :**
+
 ```bash
 poetry run github-scaffolding-generator init
 ```
 
 **Windows 10/11 (PowerShell 7.6+) :**
+
 ```powershell
 poetry run github-scaffolding-generator init
 ```
+
 Choisir `2` dans le menu.
 
 ### Les 9 options disponibles
+
 ```
 1. Nom du projet ? → mon-outil
 2. Type de projet ? → cli (ou webapp/library/github-action/docs/monorepo)
@@ -162,12 +173,14 @@ Choisir `2` dans le menu.
 C'est un ensemble de **15+ fichiers** que GitHub demande pour considérer un projet comme "professionnel" et "accueillant" :
 
 ### Pourquoi c'est important ?
+
 - ✅ **Badge vert** = Les utilisateurs font confiance à votre projet
 - ✅ **Sécurité** = Les gens savent comment signaler des bugs
 - ✅ **Contributions** = Les autres développeurs peuvent vous aider facilement
 - ✅ **Maintenance** = Vous avez les templates pour issues et Pull Requests
 
-### Les fichiers obligatoires générés :
+### Les fichiers obligatoires générés
+
 1. **README.md** = Page d'accueil (description, installation, usage)
 2. **LICENSE** = Droits d'utilisation (MIT = libre, Apache = entreprise...)
 3. **CODE_OF_CONDUCT.md** = Règles de vie de la communauté
@@ -186,6 +199,7 @@ Sans ces fichiers, GitHub affiche "Community Standards: 0%" en rouge !
 ## 📦 Ce qui est généré (15-16 fichiers)
 
 ### Fichiers Community Standards (obligatoires pour GitHub)
+
 - `README.md` - Page d'accueil de votre projet
 - `LICENSE` - Licence (MIT, Apache, etc.)
 - `CODE_OF_CONDUCT.md` - Code de conduite
@@ -194,6 +208,7 @@ Sans ces fichiers, GitHub affiche "Community Standards: 0%" en rouge !
 - `CHANGELOG.md` - Suivi des changements
 
 ### Configuration GitHub
+
 - `.github/workflows/ci.yml` - Pipeline CI (lint, tests, build)
 - `.github/dependabot.yml` - Mise à jour automatique des dépendances
 - `.github/CODEOWNERS` - Propriétaires du code
@@ -202,6 +217,7 @@ Sans ces fichiers, GitHub affiche "Community Standards: 0%" en rouge !
 - `.github/ISSUE_TEMPLATE/feature_request.yml` - Template de demande de fonctionnalité
 
 ### Fichiers de configuration
+
 - `.gitignore` - Fichiers à ignorer par Git
 - `.gitattributes` - Attributs Git (fins de ligne, etc.)
 - `.editorconfig` - Configuration de l'éditeur de code
@@ -216,6 +232,7 @@ Sans ces fichiers, GitHub affiche "Community Standards: 0%" en rouge !
 **Scénario :** Vous voulez créer un outil CLI pour encoder/décoder des credentials en Base64.
 
 **macOS / Linux :**
+
 ```bash
 poetry run github-scaffolding-generator init
 
@@ -274,6 +291,7 @@ Terminé ! Les fichiers sont dans output/base64-tool/
 ```
 
 **Ce qu'on a obtenu :**
+
 - L'outil a déviné : Type = `cli`, Stack = `Python 3.12 + Poetry`, CI = `lint,test`
 - 16 fichiers générés avec tout rempli (nom, description, pseudo)
 - Le fichier `README.md` contient déjà "Un outil pour encoder/décoder des credentials en Base64"
@@ -286,6 +304,7 @@ Terminé ! Les fichiers sont dans output/base64-tool/
 ### Exemple 2 : Un site web (Mode NOVICE)
 
 **macOS / Linux :**
+
 ```bash
 poetry run github-scaffolding-generator init
 # Choisir 1 (Mode NOVICE)
@@ -294,6 +313,7 @@ poetry run github-scaffolding-generator init
 ```
 
 **Windows 10/11 (PowerShell 7.6+) :**
+
 ```powershell
 poetry run github-scaffolding-generator init
 # Choisir 1 (Mode NOVICE)
@@ -306,6 +326,7 @@ poetry run github-scaffolding-generator init
 ### Exemple 3 : Un outil CLI Python (Mode EXPERT)
 
 **macOS / Linux :**
+
 ```bash
 poetry run github-scaffolding-generator init
 # Choisir 2 (Mode EXPERT)
@@ -314,6 +335,7 @@ poetry run github-scaffolding-generator init
 ```
 
 **Windows 10/11 (PowerShell 7.6+) :**
+
 ```powershell
 poetry run github-scaffolding-generator init
 # Choisir 2 (Mode EXPERT)
@@ -322,6 +344,7 @@ poetry run github-scaffolding-generator init
 ```
 
 **Windows 10/11 (PowerShell 7.6+) :**
+
 ```powershell
 poetry run github-scaffolding-generator init
 # Choisir 1 (Mode NOVICE)
@@ -332,6 +355,7 @@ poetry run github-scaffolding-generator init
 ### Exemple 2 : Un expert veut faire un outil CLI Python
 
 **macOS / Linux :**
+
 ```bash
 poetry run github-scaffolding-generator init
 # Choisir 2 (Mode EXPERT)
@@ -340,6 +364,7 @@ poetry run github-scaffolding-generator init
 ```
 
 **Windows 10/11 (PowerShell 7.6+) :**
+
 ```powershell
 poetry run github-scaffolding-generator init
 # Choisir 2 (Mode EXPERT)
@@ -352,7 +377,9 @@ poetry run github-scaffolding-generator init
 ## ❓ FAQ (Novices)
 
 ### "Je ne sais pas quoi choisir comme type de projet !"
+
 Voici des exemples concrets pour choisir :
+
 - **cli** = Un outil qu'on lance dans le terminal (ex: `mon-outil --help`)
   *Exemple :* Un convertisseur de fichiers, un outil de renommage, un script de sauvegarde
 - **webapp** = Un site web ou application accessible par navigateur
@@ -367,6 +394,7 @@ Voici des exemples concrets pour choisir :
   *Exemple :* Un dépôt contenant le frontend, le backend, et les outils de build ensemble
 
 ### "C'est quoi une stack technique ?"
+
 C'est l'ensemble des outils pour développer (langage de programmation + gestionnaire de paquets) :
 
 - **Python 3.12 + Poetry** = Pour du Python (langage simple et populaire)
@@ -383,9 +411,11 @@ C'est l'ensemble des outils pour développer (langage de programmation + gestion
 **En mode novice**, l'outil choisit la stack pour vous automatiquement !
 
 ### "Dois-je modifier les fichiers générés ?"
+
 Non ! Tous les champs sont remplis avec vos réponses. Vous pouvez directement :
 
 **macOS / Linux :**
+
 ```bash
 cp -r output/mon-projet/ /chemin/vers/votre/nouveau/depot/
 cd /chemin/vers/votre/nouveau/depot/
@@ -396,6 +426,7 @@ git push
 ```
 
 **Windows 10/11 (PowerShell 7.6+) :**
+
 ```powershell
 Copy-Item -Recurse output/mon-projet/ -Destination C:/chemin/vers/votre/nouveau/depot/
 cd C:/chemin/vers/votre/nouveau/depot/
@@ -418,12 +449,14 @@ Les contributions sont les bienvenues !
 **Tests locaux :**
 
 **macOS / Linux :**
+
 ```bash
 poetry run ruff check .  # Vérifier le code
 poetry run pytest tests/  # Lancer les tests
 ```
 
 **Windows 10/11 (PowerShell 7.6+) :**
+
 ```powershell
 poetry run ruff check .  # Vérifier le code
 poetry run pytest tests/  # Lancer les tests
@@ -436,6 +469,7 @@ poetry run pytest tests/  # Lancer les tests
 Ce projet est sous licence **MIT** - vous pouvez l'utiliser gratuitement, le modifier, et le redistribuer.
 
 Résumé :
+
 - ✅ Utilisation commerciale autorisée
 - ✅ Modification autorisée
 - ✅ Distribution autorisée

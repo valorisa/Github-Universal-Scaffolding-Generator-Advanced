@@ -12,19 +12,54 @@
 
 ---
 
-## 🚀 Installation (tout le monde)
+## 🚀 Installation
 
 ### 1. Installer Python 3.12+
-- Télécharger sur [python.org](https://www.python.org/downloads/)
-- Vérifier : `python3 --version` doit afficher `Python 3.12.x`
+
+**macOS / Linux :**
+```bash
+# Vérifier la version
+python3 --version
+# Doit afficher : Python 3.12.x
+```
+
+**Windows 10/11 (PowerShell 7.6+) :**
+```powershell
+# Vérifier la version
+python --version
+# Doit afficher : Python 3.12.x
+
+# Si Python n'est pas installé :
+# Télécharger sur https://www.python.org/downloads/
+```
+
+---
 
 ### 2. Installer Poetry (gestionnaire de paquets)
+
+**macOS / Linux :**
 ```bash
 curl -sSL https://install.python-poetry.org | python3 -
 ```
 
+**Windows 10/11 (PowerShell 7.6+) :**
+```powershell
+(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
+```
+
+---
+
 ### 3. Installer l'outil
+
+**macOS / Linux :**
 ```bash
+git clone https://github.com/valorisa/Github-Universal-Scaffolding-Generator-Advanced.git
+cd Github-Universal-Scaffolding-Generator-Advanced
+poetry install
+```
+
+**Windows 10/11 (PowerShell 7.6+) :**
+```powershell
 git clone https://github.com/valorisa/Github-Universal-Scaffolding-Generator-Advanced.git
 cd Github-Universal-Scaffolding-Generator-Advanced
 poetry install
@@ -37,7 +72,14 @@ poetry install
 **Pour qui ?** Vous ne connaissez pas les termes techniques (stack, CI, lint, etc.).
 
 ### Lancer l'outil
+
+**macOS / Linux :**
 ```bash
+poetry run github-scaffolding-generator init
+```
+
+**Windows 10/11 (PowerShell 7.6+) :**
+```powershell
 poetry run github-scaffolding-generator init
 ```
 
@@ -64,7 +106,14 @@ poetry run github-scaffolding-generator init
 **Pour qui ?** Vous connaissez les termes techniques et voulez contrôler chaque paramètre.
 
 ### Lancer l'outil
+
+**macOS / Linux :**
 ```bash
+poetry run github-scaffolding-generator init
+```
+
+**Windows 10/11 (PowerShell 7.6+) :**
+```powershell
 poetry run github-scaffolding-generator init
 ```
 Choisir `2` dans le menu.
@@ -115,6 +164,8 @@ Choisir `2` dans le menu.
 ## 🎯 Exemples concrets
 
 ### Exemple 1 : Un novice veut faire un site web
+
+**macOS / Linux :**
 ```bash
 poetry run github-scaffolding-generator init
 # Choisir 1 (Mode NOVICE)
@@ -122,8 +173,26 @@ poetry run github-scaffolding-generator init
 # → 15 fichiers générés dans output/mon-blog/
 ```
 
+**Windows 10/11 (PowerShell 7.6+) :**
+```powershell
+poetry run github-scaffolding-generator init
+# Choisir 1 (Mode NOVICE)
+# Répondre : mon-blog, 2 (site web), "Un blog", votrepseudo, MIT
+# → 15 fichiers générés dans output/mon-blog/
+```
+
 ### Exemple 2 : Un expert veut faire un outil CLI Python
+
+**macOS / Linux :**
 ```bash
+poetry run github-scaffolding-generator init
+# Choisir 2 (Mode EXPERT)
+# Répondre : mon-outil, cli, Python 3.12 + Poetry, "Un outil", votrepseudo, MIT, public, lint,test, output
+# → 16 fichiers générés dans output/mon-outil/
+```
+
+**Windows 10/11 (PowerShell 7.6+) :**
+```powershell
 poetry run github-scaffolding-generator init
 # Choisir 2 (Mode EXPERT)
 # Répondre : mon-outil, cli, Python 3.12 + Poetry, "Un outil", votrepseudo, MIT, public, lint,test, output
@@ -154,9 +223,21 @@ En mode novice, l'outil choisit la stack pour vous !
 
 ### "Dois-je modifier les fichiers générés ?"
 Non ! Tous les champs sont remplis avec vos réponses. Vous pouvez directement :
+
+**macOS / Linux :**
 ```bash
 cp -r output/mon-projet/ /chemin/vers/votre/nouveau/depot/
 cd /chemin/vers/votre/nouveau/depot/
+git init
+git add .
+git commit -m "feat: initial scaffolding"
+git push
+```
+
+**Windows 10/11 (PowerShell 7.6+) :**
+```powershell
+Copy-Item -Recurse output/mon-projet/ -Destination C:/chemin/vers/votre/nouveau/depot/
+cd C:/chemin/vers/votre/nouveau/depot/
 git init
 git add .
 git commit -m "feat: initial scaffolding"
@@ -174,7 +255,15 @@ Les contributions sont les bienvenues !
 3. Soumettre une Pull Request → Suivez les règles dans [CONTRIBUTING.md](CONTRIBUTING.md)
 
 **Tests locaux :**
+
+**macOS / Linux :**
 ```bash
+poetry run ruff check .  # Vérifier le code
+poetry run pytest tests/  # Lancer les tests
+```
+
+**Windows 10/11 (PowerShell 7.6+) :**
+```powershell
 poetry run ruff check .  # Vérifier le code
 poetry run pytest tests/  # Lancer les tests
 ```

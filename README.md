@@ -18,18 +18,24 @@
 
 ### 1. Installer Python 3.12+
 
+**Pourquoi Python 3.12+ ?**
+- ✅ **Compatibilité maximale** : Python 3.12 est supporté par toutes les bibliothèques modernes
+- ✅ **Performance** : Python 3.12 est 10-20% plus rapide que les versions précédentes
+- ✅ **Support long terme** : Mises à jour de sécurité jusqu'en 2028
+- ⚠️ **Versions antérieures** : Python 3.8-3.11 fonctionnent aussi, mais 3.12 est recommandé
+
 **macOS / Linux :**
 ```bash
 # Vérifier la version
 python3 --version
-# Doit afficher : Python 3.12.x
+# Doit afficher : Python 3.12.x (ou 3.13.x, etc.)
 ```
 
 **Windows 10/11 (PowerShell 7.6+) :**
 ```powershell
 # Vérifier la version
 python --version
-# Doit afficher : Python 3.12.x
+# Doit afficher : Python 3.12.x (ou 3.13.x, etc.)
 
 # Si Python n'est pas installé :
 # Télécharger sur https://www.python.org/downloads/

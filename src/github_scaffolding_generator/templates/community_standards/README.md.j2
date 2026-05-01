@@ -1136,6 +1136,100 @@ Merci à tous les contributeurs open-source qui rendent ces outils possibles !
 
 ---
 
+## ⚙️ Configuration de la section "About" sur GitHub
+
+La section **"About"** (en haut à droite dans l'interface GitHub) est cruciale pour le référencement et la compréhension rapide de votre projet. Voici comment la configurer correctement :
+
+### 📝 Description détaillée
+
+La description doit être **courte mais descriptive** (limite GitHub : **350 caractères**).
+
+**Pour {{ project_name }} :**
+```
+{{ description }}
+```
+
+**Recommandations pour une bonne description :**
+- ✅ Soyez concis mais précis (moins de 350 caractères)
+- ✅ Incluez les mots-clés principaux (ex: "CLI", "Python", "scaffolding")
+- ✅ Mentionnez la valeur ajoutée (ex: "génère automatiquement", "en une commande")
+- ❌ Évitez le jargon trop technique pour les novices
+- ❌ Ne dépassez pas la limite de caractères
+
+**Exemples de bonnes descriptions :**
+| Projet | Description |
+|--------|-------------|
+| CLI tool | "Outil CLI pour encoder/décoder en Base64, écrit en Python avec support multi-plateformes" |
+| Web app | "Application web moderne pour la gestion de tâches avec React et API REST" |
+| Library | "Bibliothèque Python pour la validation d'emails avec support international" |
+
+### 🔗 URL du projet
+
+L'URL permet de lier votre projet à un site web officiel, une documentation, ou une démo.
+
+**Pour {{ project_name }} :**
+```
+https://github.com/{{ author }}/{{ project_name }}
+```
+
+**Options courantes :**
+- **Dépôt GitHub** : `https://github.com/{{ author }}/{{ project_name }}`
+- **Documentation** : `https://{{ project_name }}.readthedocs.io/` (si disponible)
+- **Site web** : `https://www.votre-site.com/`
+- **Démo** : `https://demo.votre-site.com/`
+
+**Comment configurer :**
+1. Allez sur la page principale de votre dépôt
+2. Cliquez sur l'icône ⚙️ (paramètres) à droite dans la section "About"
+3. Collez l'URL dans le champ "Website"
+4. Cliquez sur "Save changes"
+
+### 🏷️ Topics (max 20)
+
+Les **topics** sont des étiquettes qui améliorent la découvrabilité de votre projet. GitHub limite à **20 topics maximum**.
+
+**Topics recommandés pour {{ project_name }} :**
+
+```
+github-scaffolding, community-standards, generator, cli, python, jinja2, typer, 
+poetry, automation, scaffolding-tool, github-community, open-source, 
+project-template, repository-setup, ci-cd, markdown, linting, testing, 
+{% if 'Python' in stack %}python312, poetry{% elif 'Node' in stack %}nodejs, pnpm{% elif 'Go' in stack %}golang, go122{% elif 'Java' in stack %}java, maven{% elif 'Rust' in stack %}rust, cargo{% endif %}, 
+{{ project_name | lower | replace(' ', '-') }}
+```
+
+**Règles pour les topics :**
+- ✅ Utilisez des mots-clés pertinents et recherchés
+- ✅ Préférez le format `kebab-case` (ex: `github-scaffolding`)
+- ✅ Incluez la stack technique (ex: `python`, `nodejs`, `rust`)
+- ✅ Ajoutez des concepts (ex: `cli`, `generator`, `automation`)
+- ❌ Pas d'espaces dans les topics
+- ❌ Pas plus de 20 topics
+- ❌ Évitez les doublons (ex: `python` et `python3`)
+
+**Comment ajouter des topics :**
+1. Sur la page du dépôt, cliquez sur ⚙️ dans "About"
+2. Tapez un topic et appuyez sur Entrée
+3. Répétez jusqu'à 20 topics maximum
+4. Cliquez sur "Save changes"
+
+**Exemple de configuration About pour {{ project_name }} :**
+
+| Champ | Valeur |
+|-------|--------|
+| **Description** | `{{ description[:350] }}` |
+| **Website** | `https://github.com/{{ author }}/{{ project_name }}` |
+| **Topics** | `github-scaffolding`, `generator`, `cli`, `python`, `jinja2`, `typer`, `poetry`, `automation`, `community-standards`, `open-source` (et 10 autres) |
+
+### 🎯 Pourquoi c'est important ?
+
+- ✅ **Découvrabilité** : Les utilisateurs trouvent votre projet via la recherche GitHub
+- ✅ **Crédibilité** : Une section "About" complète inspire confiance
+- ✅ **SEO** : Les topics améliorent le référencement sur les moteurs de recherche
+- ✅ **Clarté** : Les visiteurs comprennent immédiatement l'objet du projet
+
+---
+
 ## 🎉 Conclusion
 
 Merci d'utiliser **{{ project_name }}** !

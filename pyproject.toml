@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "github-scaffolding-generator"
+version = "1.0.0"
+description = "CLI tool to generate GitHub repository scaffolding"
+authors = ["valorisa <valorisa@users.noreply.github.com>"]
+packages = [{include = "github_scaffolding_generator", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+typer = "^0.12.0"
+jinja2 = "^3.1.0"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.3.0"
+pytest = "^8.0.0"
+
+[tool.poetry.scripts]
+github-scaffolding-generator = "github_scaffolding_generator.cli:app"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

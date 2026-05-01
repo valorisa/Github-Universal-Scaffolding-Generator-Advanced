@@ -1,0 +1,19 @@
+name: Feature Request
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: "Thanks for suggesting a feature!"
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      options:
+        - label: I agree to follow the Code of Conduct
+          required: true

@@ -1,0 +1,25 @@
+name: Bug Report
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: "Thanks for reporting a bug!"
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      required: true
+  - type: dropdown
+    id: version
+    attributes:
+      label: Version
+      options: ["1.0.0"]
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      options:
+        - label: I agree to follow the Code of Conduct
+          required: true

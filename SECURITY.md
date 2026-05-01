@@ -1,9 +1,11 @@
 # Security Policy
 
 ## Supported Versions
+
 | Version | Supported |
 |---------|-----------|
 | 1.x.x   | ✅        |
 
 ## Reporting
-Email valorisa@users.noreply.github.com. Acknowledged within 48h, patch released ASAP.
+
+Email [valorisa@users.noreply.github.com](mailto:valorisa@users.noreply.github.com). Acknowledged within 48h, patch released ASAP.

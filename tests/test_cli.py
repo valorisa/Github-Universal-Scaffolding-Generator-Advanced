@@ -27,7 +27,6 @@ def test_validate_invalid_project_type():
 def test_generator():
     from github_scaffolding_generator.generator import Generator
     import tempfile
-    import os
     
     with tempfile.TemporaryDirectory() as tmpdir:
         gen = Generator(output_dir=tmpdir)

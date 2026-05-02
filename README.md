@@ -108,6 +108,8 @@ poetry run github-scaffolding-generator init
 poetry run github-scaffolding-generator init
 ```
 
+Choisir `1` dans le menu.
+
 ### Les 5 questions (exemples)
 ```markdown
 === GitHub Scaffolding Generator ===

@@ -452,36 +452,119 @@ poetry run github-scaffolding-generator init
 
 ---
 
-### Exemple 3 : Un outil CLI Python (Mode EXPERT)
+### Exemple 3 : Une API REST pour gérer des tâches (Mode INTERMÉDIAIRE)
+
+**Scénario :** Vous voulez créer une API REST pour gérer une liste de tâches (todo list).
 
 **macOS / Linux :**
 
 ```bash
 poetry run github-scaffolding-generator init
-# Choisir 2 (Mode EXPERT)
-# Répondre : mon-outil, cli, Python 3.12 + Poetry, "Un outil", votrepseudo, MIT, public, lint,test, output
-# → 16 fichiers générés dans output/mon-outil/
+
+=== GitHub Scaffolding Generator ===
+
+Choisissez votre mode :
+  1 - 🟢 Mode NOVICE (5 questions simples)
+  2 - 🟡 Mode INTERMÉDIAIRE (6-7 questions)
+  3 - 🔵 Mode EXPERT (toutes les options)
+
+Votre choix (1-3) [1]: 2
+
+--- Mode INTERMÉDIAIRE ---
+
+Nom du projet ? (ex: mon-outil): mon-outil-api
+
+Type de projet ?
+  1 - CLI (outil en ligne de commande)
+  2 - Webapp (site web ou application)
+  3 - Library (bibliothèque à partager)
+  4 - GitHub Action (automate)
+  5 - Docs (documentation)
+  6 - Monorepo (plusieurs projets)
+Choix (1-6): 2
+
+✓ Type détecté : Un site web ou application
+
+Description courte ? (une phrase): Une API REST pour gérer des tâches
+Pseudo GitHub ?: votrepseudo
+
+Licence ?
+  1 - MIT (libre, permissive)
+  2 - Apache-2.0 (libre, protection brevet)
+  3 - GPL-3.0 (libre, copyleft)
+  4 - Propriétaire (non libre)
+Choix (1-4) [1]: 1
+
+Visibilité ? (public/private) [public]: public
+
+CI (intégration continue) ?
+  1 - Basique (lint + test)
+  2 - Complet (lint + test + build)
+  3 - Avancé (lint + test + build + release)
+Choix (1-3) [1]: 2
+
+Dossier de sortie ? [output]: output
+
+Génération de mon-outil-api en cours...
+
+16 fichiers générés :
+  ✓ output/mon-outil-api/README.md
+  ✓ output/mon-outil-api/LICENSE
+  ✓ output/mon-outil-api/CODE_OF_CONDUCT.md
+  ✓ output/mon-outil-api/CONTRIBUTING.md
+  ✓ output/mon-outil-api/SECURITY.md
+  ✓ output/mon-outil-api/CHANGELOG.md
+  ✓ output/mon-outil-api/.github/CODEOWNERS
+  ✓ output/mon-outil-api/.github/dependabot.yml
+  ✓ output/mon-outil-api/.github/PULL_REQUEST_TEMPLATE.md
+  ✓ output/mon-outil-api/.github/ISSUE_TEMPLATE/bug_report.yml
+  ✓ output/mon-outil-api/.github/ISSUE_TEMPLATE/feature_request.yml
+  ✓ output/mon-outil-api/.github/workflows/ci.yml
+  ✓ output/mon-outil-api/.gitignore
+  ✓ output/mon-outil-api/.gitattributes
+  ✓ output/mon-outil-api/.editorconfig
+  ✓ output/mon-outil-api/pyproject.toml
+
+Terminé ! Les fichiers sont dans output/mon-outil-api/
+```
+
+**Ce qu'on a obtenu :**
+
+- L'outil a détecté : Type = `webapp`, Stack = `Node 20 + pnpm`
+- 16 fichiers générés avec licence MIT, visibilité public, CI complet
+- Le fichier `README.md` contient déjà "Une API REST pour gérer des tâches"
+
+**Windows 10/11 (PowerShell 7.6+) :** Même interaction, mêmes résultats.
+
+---
+
+### Exemple 4 : Une bibliothèque open-source (Mode INTERMÉDIAIRE)
+
+**Scénario :** Vous voulez créer une bibliothèque JavaScript pour valider des emails.
+
+**macOS / Linux :**
+
+```bash
+poetry run github-scaffolding-generator init
+# Choisir 2 (Mode INTERMÉDIAIRE)
+# Répondre : email-validator, 3 (library), "Une bibliothèque pour valider des emails", votrepseudo
+# Choisir licence : 3 (GPL-3.0), visibilité : public, CI : 3 (avancé)
+# → 16 fichiers générés dans output/email-validator/
 ```
 
 **Windows 10/11 (PowerShell 7.6+) :**
 
 ```powershell
 poetry run github-scaffolding-generator init
-# Choisir 2 (Mode EXPERT)
-# Répondre : mon-outil, cli, Python 3.12 + Poetry, "Un outil", votrepseudo, MIT, public, lint,test, output
-# → 16 fichiers générés dans output/mon-outil/
+# Choisir 2 (Mode INTERMÉDIAIRE)
+# Répondre : email-validator, 3 (library), "Une bibliothèque pour valider des emails", votrepseudo
+# Choisir licence : 3 (GPL-3.0), visibilité : public, CI : 3 (avancé)
+# → 16 fichiers générés dans output/email-validator/
 ```
 
-**Windows 10/11 (PowerShell 7.6+) :**
+---
 
-```powershell
-poetry run github-scaffolding-generator init
-# Choisir 1 (Mode NOVICE)
-# Répondre : mon-blog, 2 (site web), "Un blog", votrepseudo, MIT
-# → 15 fichiers générés dans output/mon-blog/
-```
-
-### Exemple 2 : Un expert veut faire un outil CLI Python
+### Exemple 5 : Un outil CLI Python (Mode EXPERT)
 
 **macOS / Linux :**
 

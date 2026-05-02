@@ -110,7 +110,41 @@ poetry run github-scaffolding-generator init
 
 ### Les 5 questions (exemples)
 ```markdown
-(exemples de réponses)
+=== GitHub Scaffolding Generator ===
+
+Choisissez votre mode :
+  1 - 🟢 Mode NOVICE (5 questions simples)
+  2 - 🟡 Mode INTERMÉDIAIRE (6-7 questions)
+  3 - 🔵 Mode EXPERT (toutes les options)
+
+Votre choix (1-3) [1]: 1
+
+--- Mode NOVICE ---
+
+Nom du projet ? (ex: mon-outil): mon-blog
+
+Tu fais quoi ?
+  1 - Un outil en ligne de commande (terminal)
+  2 - Un site web ou application
+  3 - Une bibliothèque à partager
+  4 - Un automate GitHub
+  5 - De la documentation
+  6 - Plusieurs projets ensemble
+Choix (1-6): 2
+
+✓ Je configure pour : Un site web ou application
+
+Description courte ? (une phrase): Un blog personnel avec articles et commentaires
+Pseudo GitHub ?: monpseudo
+Licence ? [MIT]: MIT
+Dossier de sortie ? [output]: output
+
+Génération de mon-blog en cours...
+
+15 fichiers générés :
+  ✓ output/mon-blog/README.md
+  ✓ output/mon-blog/LICENSE
+  ...
 ```
 
 **L'outil devine tout seul :**

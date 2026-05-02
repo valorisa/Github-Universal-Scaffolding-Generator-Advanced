@@ -276,7 +276,7 @@ poetry run github-scaffolding-generator init
 poetry run github-scaffolding-generator init
 ```
 
-Choisir `2` dans le menu.
+Choisir `3` dans le menu.
 
 ### Les 9 options disponibles
 

@@ -43,9 +43,11 @@ def validate_stack(stack: str) -> str:
 def validate_license(license_name: Optional[str]) -> str:
     if license_name is None:
         return "MIT"
-    if license_name not in VALID_LICENSES:
-        raise ValidationError(f"Invalid license. Must be one of: {', '.join(VALID_LICENSES)}")
-    return license_name
+    normalized = license_name.lower()
+    for valid in VALID_LICENSES:
+        if normalized == valid.lower():
+            return valid
+    raise ValidationError(f"Invalid license. Must be one of: {', '.join(VALID_LICENSES)}")
 
 
 def validate_visibility(visibility: Optional[str]) -> str:

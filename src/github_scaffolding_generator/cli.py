@@ -4,8 +4,6 @@ from .generator import Generator
 
 app = typer.Typer(name="github-scaffolding-generator", rich_markup_mode="markdown")
 
-
-# Mapping simplifié pour les novices
 ACTIVITY_MAPPING = {
     "1": ("cli", "Python 3.12 + Poetry", "lint,test", "Un outil en ligne de commande (terminal)"),
     "2": ("webapp", "Node 20 + pnpm", "lint,test", "Un site web ou application"),
@@ -14,6 +12,48 @@ ACTIVITY_MAPPING = {
     "5": ("docs", "Node 20 + pnpm", "lint,test", "De la documentation"),
     "6": ("monorepo", "Node 20 + pnpm", "lint,test,build", "Plusieurs projets ensemble"),
 }
+
+INTERMEDIATE_LABELS = {
+    "1": "CLI (outil en ligne de commande)",
+    "2": "Webapp (site web ou application)",
+    "3": "Library (bibliothèque à partager)",
+    "4": "GitHub Action (automate)",
+    "5": "Docs (documentation)",
+    "6": "Monorepo (plusieurs projets)",
+}
+
+LICENSE_MAP = {"1": "MIT", "2": "Apache-2.0", "3": "GPL-3.0", "4": "proprietary"}
+CI_MAP = {"1": "lint,test", "2": "lint,test,build", "3": "lint,test,build,release"}
+
+
+def _prompt_activity(question: str, labels: dict) -> tuple:
+    typer.echo(f"\n{question}")
+    for key, label in labels.items():
+        typer.echo(f"  {key} - {label}")
+    choice = typer.prompt("Choix (1-6)")
+    if choice not in ACTIVITY_MAPPING:
+        typer.echo("Erreur : Choix invalide (1-6)")
+        raise typer.Exit(1)
+    return ACTIVITY_MAPPING[choice]
+
+
+def _prompt_license() -> str:
+    typer.echo("\nLicence ?")
+    typer.echo("  1 - MIT (libre, permissive)")
+    typer.echo("  2 - Apache-2.0 (libre, protection brevet)")
+    typer.echo("  3 - GPL-3.0 (libre, copyleft)")
+    typer.echo("  4 - Propriétaire (non libre)")
+    choice = typer.prompt("Choix (1-4)", default="1")
+    return LICENSE_MAP.get(choice, "MIT")
+
+
+def _prompt_ci() -> str:
+    typer.echo("\nCI (intégration continue) ?")
+    typer.echo("  1 - Basique (lint + test)")
+    typer.echo("  2 - Complet (lint + test + build)")
+    typer.echo("  3 - Avancé (lint + test + build + release)")
+    choice = typer.prompt("Choix (1-3)", default="1")
+    return CI_MAP.get(choice, "lint,test")
 
 
 @app.command()
@@ -27,126 +67,73 @@ def init():
 
     mode = typer.prompt("Votre choix (1-3)", default="1")
 
-    if mode == "1":
-        _novice_mode()
-    elif mode == "2":
-        _intermediate_mode()
-    elif mode == "3":
-        _expert_mode()
-    else:
+    modes = {"1": _novice_mode, "2": _intermediate_mode, "3": _expert_mode}
+    handler = modes.get(mode)
+    if handler is None:
         typer.echo("Erreur : Choix invalide")
         raise typer.Exit(1)
+    handler()
 
 
 def _novice_mode():
-    """Mode simplifié pour les novices."""
     typer.echo("\n--- Mode NOVICE ---\n")
-    
+
     project_name = typer.prompt("Nom du projet ? (ex: mon-outil)")
-    
-    typer.echo("\nTu fais quoi ?")
-    typer.echo("  1 - Un outil en ligne de commande (terminal)")
-    typer.echo("  2 - Un site web ou application")
-    typer.echo("  3 - Une bibliothèque à partager")
-    typer.echo("  4 - Un automate GitHub")
-    typer.echo("  5 - De la documentation")
-    typer.echo("  6 - Plusieurs projets ensemble")
-    activity = typer.prompt("Choix (1-6)")
-    
-    if activity not in ACTIVITY_MAPPING:
-        typer.echo("Erreur : Choix invalide (1-6)")
-        raise typer.Exit(1)
-    
-    project_type, stack, ci_targets, activity_desc = ACTIVITY_MAPPING[activity]
+
+    novice_labels = {k: v[3] for k, v in ACTIVITY_MAPPING.items()}
+    project_type, stack, ci_targets, activity_desc = _prompt_activity("Tu fais quoi ?", novice_labels)
     typer.echo(f"\n✓ Je configure pour : {activity_desc}")
-    
+
     description = typer.prompt("Description courte ? (une phrase)")
     author = typer.prompt("Pseudo GitHub ?")
-    license = typer.prompt("Licence ?", default="MIT")
+    license_name = typer.prompt("Licence ?", default="MIT")
     output_dir = typer.prompt("Dossier de sortie ?", default="output")
-    
-    _generate_files(project_name, project_type, stack, description, author, license, "public", ci_targets, output_dir, False)
+
+    _generate_files(project_name, project_type, stack, description, author, license_name, "public", ci_targets, output_dir, False)
 
 
 def _intermediate_mode():
-    """Mode intermédiaire avec plus d'options que le novice."""
     typer.echo("\n--- Mode INTERMÉDIAIRE ---\n")
 
     project_name = typer.prompt("Nom du projet ? (ex: mon-outil)")
 
-    typer.echo("\nType de projet ?")
-    typer.echo("  1 - CLI (outil en ligne de commande)")
-    typer.echo("  2 - Webapp (site web ou application)")
-    typer.echo("  3 - Library (bibliothèque à partager)")
-    typer.echo("  4 - GitHub Action (automate)")
-    typer.echo("  5 - Docs (documentation)")
-    typer.echo("  6 - Monorepo (plusieurs projets)")
-    activity = typer.prompt("Choix (1-6)")
-
-    if activity not in ACTIVITY_MAPPING:
-        typer.echo("Erreur : Choix invalide (1-6)")
-        raise typer.Exit(1)
-
-    project_type, stack_default, ci_default, activity_desc = ACTIVITY_MAPPING[activity]
+    project_type, stack, _, activity_desc = _prompt_activity("Type de projet ?", INTERMEDIATE_LABELS)
     typer.echo(f"\n✓ Type détecté : {activity_desc}")
 
-    # Questions intermédiaires
     description = typer.prompt("Description courte ? (une phrase)")
     author = typer.prompt("Pseudo GitHub ?")
-
-    # Choix de la licence avec options courantes
-    typer.echo("\nLicence ?")
-    typer.echo("  1 - MIT (libre, permissive)")
-    typer.echo("  2 - Apache-2.0 (libre, protection brevet)")
-    typer.echo("  3 - GPL-3.0 (libre, copyleft)")
-    typer.echo("  4 - Propriétaire (non libre)")
-    license_choice = typer.prompt("Choix (1-4)", default="1")
-    license_map = {"1": "MIT", "2": "Apache-2.0", "3": "GPL-3.0", "4": "Proprietary"}
-    license = license_map.get(license_choice, "MIT")
-
-    # Visibilité
+    license_name = _prompt_license()
     visibility = typer.prompt("Visibilité ? (public/private)", default="public")
-
-    # CI avec options guidées
-    typer.echo("\nCI (intégration continue) ?")
-    typer.echo("  1 - Basique (lint + test)")
-    typer.echo("  2 - Complet (lint + test + build)")
-    typer.echo("  3 - Avancé (lint + test + build + release)")
-    ci_choice = typer.prompt("Choix (1-3)", default="1")
-    ci_map = {"1": "lint,test", "2": "lint,test,build", "3": "lint,test,build,release"}
-    ci_targets = ci_map.get(ci_choice, "lint,test")
-
+    ci_targets = _prompt_ci()
     output_dir = typer.prompt("Dossier de sortie ?", default="output")
 
-    _generate_files(project_name, project_type, stack_default, description, author, license, visibility, ci_targets, output_dir, False)
+    _generate_files(project_name, project_type, stack, description, author, license_name, visibility, ci_targets, output_dir, False)
 
 
 def _expert_mode():
-    """Mode complet pour les experts."""
     typer.echo("\n--- Mode EXPERT ---\n")
-    
+
     project_name = typer.prompt("Nom du projet ?")
     project_type = typer.prompt("Type de projet ? (cli/webapp/library/github-action/docs/monorepo)")
     stack = typer.prompt("Stack technique ? (Python 3.12 + Poetry / Node 20 + pnpm / Go 1.22 / Java 21 + Maven / Rust 1.70 + Cargo)")
     description = typer.prompt("Description ?")
     author = typer.prompt("Pseudo GitHub ?")
-    license = typer.prompt("Licence ?", default="MIT")
+    license_name = typer.prompt("Licence ?", default="MIT")
     visibility = typer.prompt("Visibilité ? (public/private)", default="public")
     ci_targets = typer.prompt("CI targets ? (lint,test,build,release)", default="lint,test")
     output_dir = typer.prompt("Dossier de sortie ?", default="output")
     quick = typer.prompt("Mode rapide ? (yes/no)", default="no")
-    
-    _generate_files(project_name, project_type, stack, description, author, license, visibility, ci_targets, output_dir, quick == "yes")
+
+    _generate_files(project_name, project_type, stack, description, author, license_name, visibility, ci_targets, output_dir, quick == "yes")
 
 
-def _generate_files(project_name, project_type, stack, description, author, license, visibility, ci_targets, output_dir, quick):
-    """Génère les fichiers avec les paramètres donnés."""
+def _generate_files(project_name, project_type, stack, description, author, license_name, visibility, ci_targets, output_dir, quick):
     try:
         context = validate_all(
             project_name=project_name,
             project_type=project_type,
             stack=stack,
-            license_name=license,
+            license_name=license_name,
             visibility=visibility,
             ci_targets=ci_targets,
         )

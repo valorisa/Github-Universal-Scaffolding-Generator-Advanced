@@ -20,13 +20,14 @@ $ErrorActionPreference = "Stop"
 $ProjectName = "{{ project_name }}"
 $Author = "{{ author }}"
 $Visibility = "{{ visibility }}"
+$Description = "{{ description }}"
 
 Write-Host ""
 Write-Host "=== Setup: $ProjectName ===" -ForegroundColor Cyan
 Write-Host ""
 
 # 1. Verify gh CLI is authenticated
-Write-Host "[1/5] Checking GitHub CLI authentication..." -ForegroundColor Yellow
+Write-Host "[1/6] Checking GitHub CLI authentication..." -ForegroundColor Yellow
 $authStatus = gh auth status 2>&1
 if ($LASTEXITCODE -ne 0) {
     Write-Host "ERROR: GitHub CLI not authenticated." -ForegroundColor Red
@@ -36,20 +37,40 @@ if ($LASTEXITCODE -ne 0) {
 $ghUser = gh api user -q ".login"
 Write-Host "  OK - Authenticated as $ghUser" -ForegroundColor Green
 
-# 2. Create the repository on GitHub
+# 2. Confirm repository details before creation
 Write-Host ""
-Write-Host "[2/5] Creating repository $Author/$ProjectName ($Visibility)..." -ForegroundColor Yellow
+Write-Host "[2/6] Confirm repository details:" -ForegroundColor Yellow
+Write-Host ""
+Write-Host "  Repository : $Author/$ProjectName"
+Write-Host "  Visibility : $Visibility"
+Write-Host "  Description: $Description"
+Write-Host ""
+$NewName = Read-Host "Change repository name? (Enter = keep '$ProjectName', or type new name)"
+if ($NewName -ne "") {
+    $ProjectName = $NewName
+    Write-Host "  -> Repository name changed to: $Author/$ProjectName" -ForegroundColor Cyan
+}
+Write-Host ""
+$Confirm = Read-Host "Proceed with creation? (Y/n)"
+if ($Confirm -match "^[Nn]") {
+    Write-Host "Aborted." -ForegroundColor Gray
+    exit 0
+}
+
+# 3. Create the repository on GitHub
+Write-Host ""
+Write-Host "[3/6] Creating repository $Author/$ProjectName ($Visibility)..." -ForegroundColor Yellow
 $repoExists = gh repo view "$Author/$ProjectName" 2>&1
 if ($LASTEXITCODE -eq 0) {
     Write-Host "  Repository already exists, skipping creation." -ForegroundColor Gray
 } else {
-    gh repo create "$Author/$ProjectName" --$Visibility --description "{{ description }}"
+    gh repo create "$Author/$ProjectName" --$Visibility --description "$Description"
     Write-Host "  Repository created." -ForegroundColor Green
 }
 
-# 3. Initialize git and set remote
+# 4. Initialize git and set remote
 Write-Host ""
-Write-Host "[3/5] Initializing git repository..." -ForegroundColor Yellow
+Write-Host "[4/6] Initializing git repository..." -ForegroundColor Yellow
 if (Test-Path .git) {
     Write-Host "  Git already initialized, skipping." -ForegroundColor Gray
 } else {
@@ -58,9 +79,9 @@ if (Test-Path .git) {
     Write-Host "  Git initialized with remote origin." -ForegroundColor Green
 }
 
-# 4. Verify markdown (optional, non-blocking)
+# 5. Verify markdown (optional, non-blocking)
 Write-Host ""
-Write-Host "[4/5] Checking markdown files..." -ForegroundColor Yellow
+Write-Host "[5/6] Checking markdown files..." -ForegroundColor Yellow
 $npxExists = Get-Command npx -ErrorAction SilentlyContinue
 if ($npxExists) {
     npx markdownlint-cli2 "**/*.md"
@@ -74,9 +95,9 @@ if ($npxExists) {
     Write-Host "  npx not found, skipping markdown check." -ForegroundColor Gray
 }
 
-# 5. Commit and push
+# 6. Commit and push
 Write-Host ""
-Write-Host "[5/5] Committing and pushing to GitHub..." -ForegroundColor Yellow
+Write-Host "[6/6] Committing and pushing to GitHub..." -ForegroundColor Yellow
 git add .
 git commit -m "feat: initial scaffolding via GitHub Universal Scaffolding Generator"
 git branch -M main

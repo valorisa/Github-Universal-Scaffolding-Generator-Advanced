@@ -14,13 +14,14 @@ set -euo pipefail
 PROJECT_NAME="{{ project_name }}"
 AUTHOR="{{ author }}"
 VISIBILITY="{{ visibility }}"
+DESCRIPTION="{{ description }}"
 
 echo ""
 echo "=== Setup: ${PROJECT_NAME} ==="
 echo ""
 
 # 1. Verify gh CLI is authenticated
-echo "[1/5] Checking GitHub CLI authentication..."
+echo "[1/6] Checking GitHub CLI authentication..."
 if ! gh auth status >/dev/null 2>&1; then
     echo "ERROR: GitHub CLI not authenticated."
     echo "Run 'gh auth login' first, then re-run this script."
@@ -28,19 +29,39 @@ if ! gh auth status >/dev/null 2>&1; then
 fi
 echo "  OK - Authenticated as $(gh api user -q .login)"
 
-# 2. Create the repository on GitHub
+# 2. Confirm repository details before creation
 echo ""
-echo "[2/5] Creating repository ${AUTHOR}/${PROJECT_NAME} (${VISIBILITY})..."
+echo "[2/6] Confirm repository details:"
+echo ""
+echo "  Repository : ${AUTHOR}/${PROJECT_NAME}"
+echo "  Visibility : ${VISIBILITY}"
+echo "  Description: ${DESCRIPTION}"
+echo ""
+read -rp "Change repository name? (Enter = keep '${PROJECT_NAME}', or type new name): " NEW_NAME
+if [ -n "${NEW_NAME}" ]; then
+    PROJECT_NAME="${NEW_NAME}"
+    echo "  → Repository name changed to: ${AUTHOR}/${PROJECT_NAME}"
+fi
+echo ""
+read -rp "Proceed with creation? (Y/n): " CONFIRM
+if [[ "${CONFIRM}" =~ ^[Nn] ]]; then
+    echo "Aborted."
+    exit 0
+fi
+
+# 3. Create the repository on GitHub
+echo ""
+echo "[3/6] Creating repository ${AUTHOR}/${PROJECT_NAME} (${VISIBILITY})..."
 if gh repo view "${AUTHOR}/${PROJECT_NAME}" >/dev/null 2>&1; then
     echo "  Repository already exists, skipping creation."
 else
-    gh repo create "${AUTHOR}/${PROJECT_NAME}" --"${VISIBILITY}" --description "{{ description }}"
+    gh repo create "${AUTHOR}/${PROJECT_NAME}" --"${VISIBILITY}" --description "${DESCRIPTION}"
     echo "  Repository created."
 fi
 
-# 3. Initialize git and set remote
+# 4. Initialize git and set remote
 echo ""
-echo "[3/5] Initializing git repository..."
+echo "[4/6] Initializing git repository..."
 if [ -d .git ]; then
     echo "  Git already initialized, skipping."
 else
@@ -49,18 +70,18 @@ else
     echo "  Git initialized with remote origin."
 fi
 
-# 4. Verify markdown (optional, non-blocking)
+# 5. Verify markdown (optional, non-blocking)
 echo ""
-echo "[4/5] Checking markdown files..."
+echo "[5/6] Checking markdown files..."
 if command -v npx >/dev/null 2>&1; then
     npx markdownlint-cli2 "**/*.md" && echo "  Markdown OK" || echo "  Warnings found (non-blocking)"
 else
     echo "  npx not found, skipping markdown check."
 fi
 
-# 5. Commit and push
+# 6. Commit and push
 echo ""
-echo "[5/5] Committing and pushing to GitHub..."
+echo "[6/6] Committing and pushing to GitHub..."
 git add .
 git commit -m "feat: initial scaffolding via GitHub Universal Scaffolding Generator"
 git branch -M main

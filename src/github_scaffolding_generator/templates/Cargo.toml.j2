@@ -1,0 +1,30 @@
+[package]
+name = "{{ project_name }}"
+version = "0.1.0"
+edition = "2021"
+description = "{{ description }}"
+authors = ["{{ author }}"]
+{% if license == "MIT" %}
+license = "MIT"
+{% elif license == "Apache-2.0" %}
+license = "Apache-2.0"
+{% elif license == "GPL-3.0" %}
+license = "GPL-3.0-only"
+{% elif license == "BSD-3-Clause" %}
+license = "BSD-3-Clause"
+{% endif %}
+repository = "https://github.com/{{ author }}/{{ project_name }}"
+
+{% if project_type == "library" %}
+[lib]
+name = "{{ project_name | replace('-', '_') }}"
+path = "src/lib.rs"
+{% elif project_type == "cli" %}
+[[bin]]
+name = "{{ project_name }}"
+path = "src/main.rs"
+{% endif %}
+
+[dependencies]
+
+[dev-dependencies]

@@ -5,10 +5,47 @@ charset = utf-8
 end_of_line = lf
 insert_final_newline = true
 indent_style = space
+{% if "Python" in stack %}
 indent_size = 4
+{% elif "Go" in stack %}
+indent_style = tab
+indent_size = 4
+{% else %}
+indent_size = 2
+{% endif %}
+trim_trailing_whitespace = true
 
+{% if "Python" in stack %}
 [*.py]
 max_line_length = 120
+indent_size = 4
+{% endif %}
+
+{% if "Node" in stack %}
+[*.{js,ts,jsx,tsx}]
+indent_size = 2
+
+[*.{json,css,scss}]
+indent_size = 2
+{% endif %}
+
+{% if "Java" in stack %}
+[*.java]
+indent_size = 4
+max_line_length = 120
+{% endif %}
+
+{% if "Rust" in stack %}
+[*.rs]
+indent_size = 4
+max_line_length = 100
+{% endif %}
 
 [*.yml]
 indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+
+[Makefile]
+indent_style = tab

@@ -1,11 +1,48 @@
 * text=auto eol=lf
 
-*.py text
-*.md text
+{% if "Python" in stack %}
+*.py text diff=python
+*.pyi text diff=python
+{% endif %}
+{% if "Node" in stack %}
+*.js text
+*.ts text
+*.jsx text
+*.tsx text
+*.css text
+*.scss text
+{% endif %}
+{% if "Go" in stack %}
+*.go text diff=golang
+{% endif %}
+{% if "Java" in stack %}
+*.java text diff=java
+*.gradle text
+{% endif %}
+{% if "Rust" in stack %}
+*.rs text diff=rust
+*.toml text
+{% endif %}
+
+*.md text diff=markdown
 *.yml text
+*.yaml text
 *.json text
 *.toml text
 
 *.png binary
 *.jpg binary
 *.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+
+{% if "Node" in stack %}
+pnpm-lock.yaml -diff linguist-generated=true
+{% endif %}
+{% if "Python" in stack %}
+poetry.lock -diff linguist-generated=true
+{% endif %}
+{% if "Rust" in stack %}
+Cargo.lock -diff linguist-generated=true
+{% endif %}

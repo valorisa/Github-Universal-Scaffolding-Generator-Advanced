@@ -1,13 +1,34 @@
 ## Description
+
 Closes #[issue]
 
-## Type
+## Type of change
 - [ ] Bug fix
-- [ ] Feature
-- [ ] Docs
+- [ ] New feature
+- [ ] Documentation
+- [ ] Refactoring
 - [ ] Breaking change
 
 ## Checklist
 - [ ] Self-review done
-- [ ] Tests pass
-- [ ] Conventional Commit message
+- [ ] Code follows the project conventions
+{% if "lint" in ci_targets %}
+- [ ] Linter passes without warnings
+{% endif %}
+{% if "test" in ci_targets %}
+- [ ] Tests added/updated and passing
+{% endif %}
+{% if "build" in ci_targets %}
+- [ ] Build succeeds
+{% endif %}
+- [ ] Conventional Commit message format used
+{% if project_type == "library" %}
+- [ ] Public API documented
+- [ ] CHANGELOG.md updated
+{% endif %}
+{% if project_type == "webapp" %}
+- [ ] Tested in browser (desktop + mobile)
+{% endif %}
+{% if project_type == "cli" %}
+- [ ] CLI help text updated if commands changed
+{% endif %}

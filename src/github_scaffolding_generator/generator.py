@@ -9,6 +9,7 @@ The generated README.md content MUST be systematically and rigorously:
 All generated documentation should prioritize completeness and detail over brevity.
 """
 
+from datetime import date
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 from typing import Dict, List
@@ -27,6 +28,10 @@ class Generator:
         )
 
     def generate(self, context: Dict) -> List[str]:
+        today = date.today()
+        context.setdefault("today", today.isoformat())
+        context.setdefault("year", str(today.year))
+
         project_name = context["project_name"]
         project_dir = self.output_dir / project_name
         project_dir.mkdir(parents=True, exist_ok=True)
@@ -82,7 +87,16 @@ class Generator:
             ".gitattributes": "gitattributes.j2",
             ".editorconfig": "editorconfig.j2",
         }
-        if context.get("stack", "").startswith("Python"):
+        stack = context.get("stack", "")
+        if "Python" in stack:
             template_map["pyproject.toml"] = "pyproject.toml.j2"
+        elif "Node" in stack:
+            template_map["package.json"] = "package.json.j2"
+        elif "Go" in stack:
+            template_map["go.mod"] = "go.mod.j2"
+        elif "Java" in stack:
+            template_map["pom.xml"] = "pom.xml.j2"
+        elif "Rust" in stack:
+            template_map["Cargo.toml"] = "Cargo.toml.j2"
 
         return self._render_template_map(project_dir, template_map, context)

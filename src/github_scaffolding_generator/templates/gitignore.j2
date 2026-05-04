@@ -1,3 +1,4 @@
+{% if "Python" in stack %}
 # Python
 __pycache__/
 *.py[cod]
@@ -8,18 +9,71 @@ dist/
 build/
 *.egg
 .env
-.venv
+.venv/
 venv/
 
 # Poetry
 poetry.lock
+{% elif "Node" in stack %}
+# Node.js
+node_modules/
+dist/
+build/
+.env
+.env.local
+.env.*.local
+*.tgz
+.pnpm-store/
+.npmrc
+
+# Logs
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+{% elif "Go" in stack %}
+# Go
+bin/
+vendor/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+{% elif "Java" in stack %}
+# Java / Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.logs
+.settings/
+.classpath
+.project
+.factorypath
+{% elif "Rust" in stack %}
+# Rust
+target/
+Cargo.lock
+**/*.rs.bk
+*.pdb
+{% endif %}
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+*.sublime-workspace
+*.sublime-project
 
 # OS
 .DS_Store
 Thumbs.db
+Desktop.ini
+
+# Output
+output/

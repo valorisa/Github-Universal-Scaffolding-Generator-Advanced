@@ -1,23 +1,128 @@
-# Contributing
+# Contributing to {{ project_name }}
 
-## Branches
+Thank you for your interest in contributing to **{{ project_name }}**!
 
-- `main` (protected)
-- `feat/*`, `fix/*`, `docs/*`
+## Prerequisites
 
-## Conventional Commits
+{% if "Python" in stack %}
+- Python 3.12+
+- Poetry (package manager)
+{% elif "Node" in stack %}
+- Node.js 20+
+- pnpm (package manager)
+{% elif "Go" in stack %}
+- Go 1.22+
+{% elif "Java" in stack %}
+- Java 21+
+- Maven
+{% elif "Rust" in stack %}
+- Rust 1.70+ (via rustup)
+- Cargo
+{% endif %}
 
-Respect [Conventional Commits 1.0.0](https://www.conventionalcommits.org/) :
-- `feat:`, `fix:`, `docs:`, `chore:`, `refactor:`, `test:`
+## Getting Started
 
-## PR Process
+1. Fork the repository
+2. Clone your fork
+3. Create a feature branch: `git checkout -b feat/my-feature`
+4. Make your changes
+5. Run checks locally (see below)
+6. Commit using [Conventional Commits](https://www.conventionalcommits.org/)
+7. Push and open a Pull Request
 
-1. Create branch according to convention
-2. Lint/test locally
+## Local Development
+
+{% if "Python" in stack %}
+```bash
+poetry install
+{% if "lint" in ci_targets %}
+poetry run ruff check .          # Lint
+{% endif %}
+{% if "test" in ci_targets %}
+poetry run pytest tests/         # Test
+{% endif %}
+{% if "build" in ci_targets %}
+poetry build                     # Build
+{% endif %}
+```
+{% elif "Node" in stack %}
+```bash
+pnpm install
+{% if "lint" in ci_targets %}
+pnpm lint                        # Lint
+{% endif %}
+{% if "test" in ci_targets %}
+pnpm test                        # Test
+{% endif %}
+{% if "build" in ci_targets %}
+pnpm build                       # Build
+{% endif %}
+```
+{% elif "Go" in stack %}
+```bash
+{% if "lint" in ci_targets %}
+golangci-lint run                # Lint
+{% endif %}
+{% if "test" in ci_targets %}
+go test ./...                    # Test
+{% endif %}
+{% if "build" in ci_targets %}
+go build ./...                   # Build
+{% endif %}
+```
+{% elif "Java" in stack %}
+```bash
+{% if "lint" in ci_targets %}
+mvn checkstyle:check             # Lint
+{% endif %}
+{% if "test" in ci_targets %}
+mvn test                         # Test
+{% endif %}
+{% if "build" in ci_targets %}
+mvn package -DskipTests          # Build
+{% endif %}
+```
+{% elif "Rust" in stack %}
+```bash
+{% if "lint" in ci_targets %}
+cargo clippy -- -D warnings      # Lint
+{% endif %}
+{% if "test" in ci_targets %}
+cargo test                       # Test
+{% endif %}
+{% if "build" in ci_targets %}
+cargo build --release            # Build
+{% endif %}
+```
+{% endif %}
+
+## Branch Naming
+
+- `feat/*` - New features
+- `fix/*` - Bug fixes
+- `docs/*` - Documentation only
+- `refactor/*` - Code refactoring
+- `test/*` - Adding or updating tests
+
+## Commit Messages
+
+We use [Conventional Commits 1.0.0](https://www.conventionalcommits.org/):
+
+- `feat:` - New feature
+- `fix:` - Bug fix
+- `docs:` - Documentation
+- `chore:` - Maintenance
+- `refactor:` - Code refactoring
+- `test:` - Tests
+
+## Pull Request Process
+
+1. Create branch following naming convention
+2. Run all local checks
 3. Commit using Conventional Commits
-4. Open PR with template
-5. Wait for review @{{ author }}
+4. Open PR using the provided template
+5. Wait for review from @{{ author }}
 
 ## Versioning
 
-[SemVer 2.0.0](https://semver.org/) + [Keep a Changelog](https://keepachangelog.com/)
+This project follows [SemVer 2.0.0](https://semver.org/) and [Keep a Changelog](https://keepachangelog.com/).

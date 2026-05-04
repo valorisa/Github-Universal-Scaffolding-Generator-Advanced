@@ -1,0 +1,51 @@
+{
+  "name": "{{ project_name }}",
+  "version": "1.0.0",
+  "description": "{{ description }}",
+  "author": "{{ author }}",
+{% if license == "MIT" %}
+  "license": "MIT",
+{% elif license == "Apache-2.0" %}
+  "license": "Apache-2.0",
+{% elif license == "GPL-3.0" %}
+  "license": "GPL-3.0",
+{% elif license == "BSD-3-Clause" %}
+  "license": "BSD-3-Clause",
+{% else %}
+  "license": "UNLICENSED",
+  "private": true,
+{% endif %}
+{% if project_type == "cli" %}
+  "type": "module",
+  "bin": {
+    "{{ project_name }}": "./src/index.js"
+  },
+{% elif project_type == "webapp" %}
+  "type": "module",
+  "main": "./src/index.js",
+{% elif project_type == "library" %}
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+{% else %}
+  "type": "module",
+{% endif %}
+  "scripts": {
+    "lint": "eslint src/",
+    "test": "vitest run",
+{% if project_type == "library" %}
+    "build": "tsc",
+{% elif project_type == "webapp" %}
+    "build": "vite build",
+    "dev": "vite",
+{% else %}
+    "build": "tsc",
+{% endif %}
+    "clean": "rm -rf dist/"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@9.0.0"
+}

@@ -234,3 +234,145 @@ def test_generator_node_stack_excludes_pyproject():
         gen = Generator(output_dir=tmpdir)
         files = gen.generate(_make_context(stack="Node 20 + pnpm"))
         assert not any("pyproject.toml" in f for f in files)
+
+
+# ---------------------------------------------------------------------------
+# Multi-stack project file generation
+# ---------------------------------------------------------------------------
+
+def test_generator_node_stack_includes_package_json():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        files = gen.generate(_make_context(stack="Node 20 + pnpm"))
+        assert any("package.json" in f for f in files)
+
+
+def test_generator_go_stack_includes_go_mod():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        files = gen.generate(_make_context(stack="Go 1.22"))
+        assert any("go.mod" in f for f in files)
+
+
+def test_generator_java_stack_includes_pom_xml():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        files = gen.generate(_make_context(stack="Java 21 + Maven"))
+        assert any("pom.xml" in f for f in files)
+
+
+def test_generator_rust_stack_includes_cargo_toml():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        files = gen.generate(_make_context(stack="Rust 1.70 + Cargo"))
+        assert any("Cargo.toml" in f for f in files)
+
+
+# ---------------------------------------------------------------------------
+# Multi-license generation
+# ---------------------------------------------------------------------------
+
+@pytest.mark.parametrize("license_name,expected_text", [
+    ("MIT", "MIT License"),
+    ("Apache-2.0", "Apache License"),
+    ("GPL-3.0", "GNU GENERAL PUBLIC LICENSE"),
+    ("BSD-3-Clause", "BSD 3-Clause License"),
+    ("proprietary", "PROPRIETARY LICENSE"),
+])
+def test_generator_license_content(license_name, expected_text):
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        gen.generate(_make_context(license=license_name))
+        from pathlib import Path
+        license_file = Path(tmpdir) / "test-project" / "LICENSE"
+        content = license_file.read_text(encoding="utf-8")
+        assert expected_text in content
+
+
+# ---------------------------------------------------------------------------
+# Template variable injection
+# ---------------------------------------------------------------------------
+
+def test_generator_injects_today_and_year():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        gen.generate(_make_context())
+        from pathlib import Path
+        from datetime import date
+        changelog = Path(tmpdir) / "test-project" / "CHANGELOG.md"
+        content = changelog.read_text(encoding="utf-8")
+        assert date.today().isoformat() in content
+        assert str(date.today().year) in content
+
+
+def test_generator_injects_project_name_in_templates():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        gen.generate(_make_context(project_name="my-cool-app"))
+        from pathlib import Path
+        changelog = Path(tmpdir) / "my-cool-app" / "CHANGELOG.md"
+        content = changelog.read_text(encoding="utf-8")
+        assert "my-cool-app" in content
+
+
+# ---------------------------------------------------------------------------
+# CI multi-stack generation
+# ---------------------------------------------------------------------------
+
+@pytest.mark.parametrize("stack,expected_content", [
+    ("Python 3.12 + Poetry", "setup-python"),
+    ("Node 20 + pnpm", "setup-node"),
+    ("Go 1.22", "setup-go"),
+    ("Java 21 + Maven", "setup-java"),
+    ("Rust 1.70 + Cargo", "rust-toolchain"),
+])
+def test_generator_ci_adapts_to_stack(stack, expected_content):
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        gen.generate(_make_context(stack=stack))
+        from pathlib import Path
+        ci_file = Path(tmpdir) / "test-project" / ".github" / "workflows" / "ci.yml"
+        content = ci_file.read_text(encoding="utf-8")
+        assert expected_content in content
+
+
+# ---------------------------------------------------------------------------
+# Dependabot multi-stack
+# ---------------------------------------------------------------------------
+
+@pytest.mark.parametrize("stack,expected_ecosystem", [
+    ("Python 3.12 + Poetry", "pip"),
+    ("Node 20 + pnpm", "npm"),
+    ("Go 1.22", "gomod"),
+    ("Java 21 + Maven", "maven"),
+    ("Rust 1.70 + Cargo", "cargo"),
+])
+def test_generator_dependabot_adapts_to_stack(stack, expected_ecosystem):
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        gen.generate(_make_context(stack=stack))
+        from pathlib import Path
+        dep_file = Path(tmpdir) / "test-project" / ".github" / "dependabot.yml"
+        content = dep_file.read_text(encoding="utf-8")
+        assert expected_ecosystem in content
+
+
+# ---------------------------------------------------------------------------
+# Gitignore multi-stack
+# ---------------------------------------------------------------------------
+
+@pytest.mark.parametrize("stack,expected_pattern", [
+    ("Python 3.12 + Poetry", "__pycache__"),
+    ("Node 20 + pnpm", "node_modules"),
+    ("Go 1.22", "vendor"),
+    ("Java 21 + Maven", "target/"),
+    ("Rust 1.70 + Cargo", "target/"),
+])
+def test_generator_gitignore_adapts_to_stack(stack, expected_pattern):
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        gen.generate(_make_context(stack=stack))
+        from pathlib import Path
+        gitignore = Path(tmpdir) / "test-project" / ".gitignore"
+        content = gitignore.read_text(encoding="utf-8")
+        assert expected_pattern in content

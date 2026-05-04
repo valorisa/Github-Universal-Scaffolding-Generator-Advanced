@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.github.{{ author }}</groupId>
+    <artifactId>{{ project_name }}</artifactId>
+    <version>1.0.0</version>
+{% if project_type == "library" %}
+    <packaging>jar</packaging>
+{% elif project_type == "webapp" %}
+    <packaging>war</packaging>
+{% else %}
+    <packaging>jar</packaging>
+{% endif %}
+
+    <name>{{ project_name }}</name>
+    <description>{{ description }}</description>
+    <url>https://github.com/{{ author }}/{{ project_name }}</url>
+
+    <licenses>
+        <license>
+{% if license == "MIT" %}
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+{% elif license == "Apache-2.0" %}
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+{% elif license == "GPL-3.0" %}
+            <name>GNU General Public License v3.0</name>
+            <url>https://www.gnu.org/licenses/gpl-3.0.html</url>
+{% elif license == "BSD-3-Clause" %}
+            <name>BSD 3-Clause License</name>
+            <url>https://opensource.org/licenses/BSD-3-Clause</url>
+{% endif %}
+        </license>
+    </licenses>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.3.1</version>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,20 +1,41 @@
-name: Bug Report
+name: "Bug Report - {{ project_name }}"
 title: "[Bug]: "
 labels: ["bug"]
 body:
   - type: markdown
     attributes:
-      value: "Thanks for reporting a bug!"
+      value: "Thanks for reporting a bug in **{{ project_name }}**!"
   - type: textarea
     id: what-happened
     attributes:
       label: What happened?
+      description: Describe the bug clearly. Include steps to reproduce.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen instead?
+    validations:
       required: true
   - type: dropdown
     id: version
     attributes:
       label: Version
-      options: ["1.0.0"]
+      options:
+        - "1.0.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      options:
+        - Linux
+        - macOS
+        - Windows
+    validations:
       required: true
   - type: checkboxes
     id: terms

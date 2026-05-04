@@ -1,1 +1,11 @@
 * @{{ author }}
+{% if project_type == "monorepo" %}
+docs/ @{{ author }}
+{% elif project_type == "webapp" %}
+src/ @{{ author }}
+public/ @{{ author }}
+{% elif project_type == "cli" or project_type == "library" %}
+src/ @{{ author }}
+tests/ @{{ author }}
+{% endif %}
+.github/ @{{ author }}

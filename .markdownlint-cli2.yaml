@@ -1,4 +1,4 @@
-# Minimal Markdownlint config
+# Markdownlint config for the generator project itself
 # See https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
 
 # Ignore output folder and generated files
@@ -6,29 +6,34 @@ ignores:
   - "output/**"
   - "**/output/**"
 
-# Rules (minimal set)
+# Rules
 config:
   # Headers
-  MD001: true  # Heading levels should only increment by one
-  MD002: true  # First heading should be h1
-  MD022: false  # Blanks around headings (disabled - examples have tight formatting)
-   
+  MD001: true
+  MD002: true
+  MD022: false
+
   # Code blocks
-  MD031: false  # Blanks around fenced code blocks (disabled)
-  MD040: false  # Fenced code blocks should have language specified (disabled - examples have mixed langs)
-   
+  MD031: false
+  MD040: false
+
   # Links
-  MD042: true  # No empty links
-  MD043: false  # Required heading structure (disabled)
-      
+  MD042: true
+  MD043: false
+  MD051: false
+
   # Lists
-  MD005: false  # Inconsistent indentation (disabled)
-  MD007: false  # Unordered list indentation (disabled)
-  MD032: false  # Blanks around lists (disabled)
-   
+  MD005: false
+  MD007: false
+  MD032: false
+
+  # Tables
+  MD058: false
+  MD060: false
+
   # Spacing
-  MD012: true  # No multiple consecutive blank lines (max 2)
-  MD047: true  # Files should end with a single newline character
-   
-  # Line length - disabled (examples have long commands)
-  MD013: false  # Line length (disabled)
+  MD012: true
+  MD047: true
+
+  # Line length - disabled (examples, tables, URLs)
+  MD013: false

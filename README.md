@@ -110,7 +110,7 @@ poetry run github-scaffolding-generator init
 
 Choisir `1` dans le menu.
 
-### Les 5 questions (exemples)
+### Les 6 questions (exemples)
 ```markdown
 === GitHub Scaffolding Generator ===
 
@@ -136,6 +136,14 @@ Choix (1-6): 2
 
 ✓ Je configure pour : Un site web ou application
 
+Quel langage utilises-tu ? (Entrée = garder le défaut)
+  1 - Python
+  2 - JavaScript / Node.js
+  3 - Go
+  4 - Java
+  5 - Rust
+Choix (1-5) [2]: ← Entrée pour garder Node.js (défaut webapp)
+
 Description courte ? (une phrase): Un blog personnel avec articles et commentaires
 Pseudo GitHub ?: monpseudo
 Licence ? [MIT]: MIT
@@ -149,12 +157,12 @@ Génération de mon-blog en cours...
   ...
 ```
 
-**L'outil devine tout seul :**
-- Type de projet → `webapp`
-- Stack technique → `Node 20 + pnpm`
-- Configuration CI → `lint,test`
+**L'outil propose un défaut intelligent :**
+- Type de projet → `webapp` (choisi par l'utilisateur)
+- Stack technique → `Node 20 + pnpm` (défaut proposé, modifiable)
+- Configuration CI → `lint,test` (automatique)
 
-**Résultat :** 15 fichiers générés dans `output/mon-blog/` prêts à être poussés sur GitHub !
+**Résultat :** 16 fichiers générés dans `output/mon-blog/` prêts à être poussés sur GitHub !
 
 ---
 
@@ -184,7 +192,7 @@ poetry run github-scaffolding-generator init
 
 Choisir `2` dans le menu.
 
-### Les 6-7 questions (exemple)
+### Les 7-8 questions (exemple)
 
 ```markdown
 === GitHub Scaffolding Generator ===
@@ -211,6 +219,14 @@ Choix (1-6): 2
 
 ✓ Type détecté : Un site web ou application
 
+Quel langage utilises-tu ? (Entrée = garder le défaut)
+  1 - Python
+  2 - JavaScript / Node.js
+  3 - Go
+  4 - Java
+  5 - Rust
+Choix (1-5) [2]: 4  ← Override vers Java
+
 Description courte ? (une phrase): Une API REST pour gérer des tâches
 Pseudo GitHub ?: votrepseudo
 
@@ -236,14 +252,15 @@ Génération de mon-outil-api en cours...
 16 fichiers générés :
   ✓ output/mon-outil-api/README.md
   ✓ output/mon-outil-api/LICENSE
+  ✓ output/mon-outil-api/pom.xml
   ...
 ```
 
-**L'outil devine :**
-- Type de projet → `webapp` (basé sur votre choix)
-- Stack technique → `Node 20 + pnpm` (prédéfini pour webapp)
+**Défaut intelligent proposé :**
+- Stack technique → `Node 20 + pnpm` (défaut pour webapp, modifiable)
 
 **Vous choisissez :**
+- Langage (5 options, avec défaut intelligent pré-sélectionné)
 - Licence (parmi les 4 options courantes)
 - Visibilité (public/private)
 - Niveau de CI (basique, complet, avancé)
@@ -280,21 +297,59 @@ poetry run github-scaffolding-generator init
 
 Choisir `3` dans le menu.
 
-### Les 9 options disponibles
+### Les 8 questions (exemple)
 
-```
-1. Nom du projet ? → mon-outil
-2. Type de projet ? → cli (ou webapp/library/github-action/docs/monorepo)
-3. Stack technique ? → Python 3.12 + Poetry (ou Node/Go/Java/Rust)
-4. Description ? → Un outil pour convertir des images
-5. Pseudo GitHub ? → votrepseudo
-6. Licence ? → MIT (ou Apache-2.0/GPL-3.0/BSD-3-Clause/proprietary)
-7. Visibilité ? → public (ou private)
-8. CI targets ? → lint,test,build,release
-9. Dossier de sortie ? → output (ou autre)
+```markdown
+--- Mode EXPERT ---
+
+Nom du projet ?: mon-outil
+
+Type de projet ?
+  1 - cli
+  2 - webapp
+  3 - library
+  4 - github-action
+  5 - docs
+  6 - monorepo
+Choix (1-6): 1
+
+Stack technique ?
+  1 - Python 3.12 + Poetry
+  2 - Node 20 + pnpm
+  3 - Go 1.22
+  4 - Java 21 + Maven
+  5 - Rust 1.70 + Cargo
+Choix (1-5): 5
+
+Description ?: Un outil pour convertir des images
+Pseudo GitHub ?: votrepseudo
+
+Licence ?
+  1 - MIT
+  2 - Apache-2.0
+  3 - GPL-3.0
+  4 - BSD-3-Clause
+  5 - Propriétaire
+Choix (1-5): 1
+
+Visibilité ? (public/private) [public]: public
+
+CI targets ?
+  1 - lint,test
+  2 - lint,test,build
+  3 - lint,test,build,release
+  4 - Personnalisé (saisie libre)
+Choix (1-4): 3
+
+Dossier de sortie ? [output]: output
+
+Génération de mon-outil en cours...
+16 fichiers générés :
+  ✓ output/mon-outil/Cargo.toml
+  ...
 ```
 
-**Résultat :** 16 fichiers générés avec votre configuration exacte !
+**Résultat :** 16 fichiers générés avec votre configuration exacte, sans risque de faute de frappe !
 
 ---
 
@@ -566,24 +621,20 @@ poetry run github-scaffolding-generator init
 
 ---
 
-### Exemple 5 : Un outil CLI Python (Mode EXPERT)
-
-**macOS / Linux :**
+### Exemple 5 : Un outil CLI Rust (Mode EXPERT)
 
 ```bash
 poetry run github-scaffolding-generator init
-# Choisir 2 (Mode EXPERT)
-# Répondre : mon-outil, cli, Python 3.12 + Poetry, "Un outil", votrepseudo, MIT, public, lint,test, output
-# → 16 fichiers générés dans output/mon-outil/
-```
-
-**Windows 10/11 (PowerShell 7.6+) :**
-
-```powershell
-poetry run github-scaffolding-generator init
-# Choisir 2 (Mode EXPERT)
-# Répondre : mon-outil, cli, Python 3.12 + Poetry, "Un outil", votrepseudo, MIT, public, lint,test, output
-# → 16 fichiers générés dans output/mon-outil/
+# Choisir 3 (Mode EXPERT)
+# Type de projet : 1 (cli)
+# Stack : 5 (Rust 1.70 + Cargo)
+# Description : "Un outil rapide"
+# Pseudo : votrepseudo
+# Licence : 1 (MIT)
+# Visibilité : public
+# CI targets : 3 (lint,test,build,release)
+# Dossier : output
+# → 16 fichiers générés dans output/mon-outil/ avec Cargo.toml
 ```
 
 ---
@@ -592,15 +643,14 @@ poetry run github-scaffolding-generator init
 
 | Caractéristique | 🟢 NOVICE | 🟡 INTERMÉDIAIRE | 🔵 EXPERT |
 | --- | --- | --- | --- |
-| **Nombre de questions** | 5 | 6-7 | 9 |
-| **Type de projet** | Détecté auto | Détecté auto | Manuel |
-| **Stack technique** | Détectée auto | Détectée auto | Manuel |
-| **Licence** | Une seule (MIT) | 4 choix (MIT/Apache/GPL/Propriétaire) | Toutes options |
+| **Nombre de questions** | 6 | 7-8 | 8 |
+| **Type de projet** | Menu 1-6 (descriptions simples) | Menu 1-6 (labels techniques) | Menu 1-6 (noms bruts) |
+| **Stack / Langage** | Menu 1-5 avec défaut intelligent | Menu 1-5 avec défaut intelligent | Menu 1-5 sans défaut |
+| **Licence** | Texte libre, défaut MIT | 4 choix (MIT/Apache/GPL/Propriétaire) | 5 choix (+ BSD-3-Clause) |
 | **Visibilité** | Public uniquement | Public ou Private | Public ou Private |
-| **CI (intégration continue)** | Basique (lint+test) | 3 niveaux (basique/complet/avancé) | Manuel (lint,test,build,release) |
-| **Dossier de sortie** | `output/` | `output/` | Manuel |
-| **Mode rapide** | Non | Non | Oui |
-| **Fichiers générés** | 15-16 | 15-16 | 16 |
+| **CI (intégration continue)** | Automatique (lint+test) | 3 niveaux (basique/complet/avancé) | 3 presets + saisie libre |
+| **Dossier de sortie** | `output/` (défaut) | `output/` (défaut) | `output/` (défaut) |
+| **Fichiers générés** | 16 | 16 | 16 |
 | **Pour qui ?** | Débutants complets | Développeurs avec quelques bases | Experts, DevOps |
 
 ---

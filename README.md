@@ -416,8 +416,6 @@ Sans ces fichiers, GitHub affiche "Community Standards: 0%" en rouge !
 
 **Scénario :** Vous voulez créer un outil CLI pour encoder/décoder des credentials en Base64.
 
-**macOS / Linux :**
-
 ```bash
 poetry run github-scaffolding-generator init
 
@@ -445,12 +443,17 @@ Choix (1-6): 1
 
 ✓ Je configure pour : Un outil en ligne de commande (terminal)
 
+Quel langage utilises-tu ? (Entrée = garder le défaut)
+  1 - Python
+  2 - JavaScript / Node.js
+  3 - Go
+  4 - Java
+  5 - Rust
+Choix (1-5) [1]: ← Entrée (garde Python, défaut pour CLI)
+
 Description courte ? (une phrase): Un outil pour encoder/décoder des credentials en Base64
-
 Pseudo GitHub ?: testuser
-
 Licence ? [MIT]: MIT
-
 Dossier de sortie ? [output]: output
 
 Génération de base64-tool en cours...
@@ -478,7 +481,7 @@ Terminé ! Les fichiers sont dans output/base64-tool/
 
 **Ce qu'on a obtenu :**
 
-- L'outil a déviné : Type = `cli`, Stack = `Python 3.12 + Poetry`, CI = `lint,test`
+- Type = `cli`, Stack = `Python 3.12 + Poetry` (défaut intelligent), CI = `lint,test`
 - 16 fichiers générés avec tout rempli (nom, description, pseudo)
 - Le fichier `README.md` contient déjà "Un outil pour encoder/décoder des credentials en Base64"
 - Le `pyproject.toml` est prêt avec le nom et la description
@@ -487,33 +490,23 @@ Terminé ! Les fichiers sont dans output/base64-tool/
 
 ---
 
-### Exemple 2 : Un site web (Mode NOVICE)
-
-**macOS / Linux :**
+### Exemple 2 : Un site web en Go (Mode NOVICE)
 
 ```bash
 poetry run github-scaffolding-generator init
 # Choisir 1 (Mode NOVICE)
-# Répondre : mon-blog, 2 (site web), "Un blog", votrepseudo, MIT
-# → 15 fichiers générés dans output/mon-blog/
-```
-
-**Windows 10/11 (PowerShell 7.6+) :**
-
-```powershell
-poetry run github-scaffolding-generator init
-# Choisir 1 (Mode NOVICE)
-# Répondre : mon-blog, 2 (site web), "Un blog", votrepseudo, MIT
-# → 15 fichiers générés dans output/mon-blog/
+# Nom : mon-blog
+# Activité : 2 (site web) → défaut proposé : [2] Node
+# Langage : 3 (Go) ← override du défaut
+# Description : "Un blog", Pseudo : votrepseudo, Licence : MIT
+# → 16 fichiers générés dans output/mon-blog/ avec go.mod
 ```
 
 ---
 
-### Exemple 3 : Une API REST pour gérer des tâches (Mode INTERMÉDIAIRE)
+### Exemple 3 : Une API REST en Java (Mode INTERMÉDIAIRE)
 
-**Scénario :** Vous voulez créer une API REST pour gérer une liste de tâches (todo list).
-
-**macOS / Linux :**
+**Scénario :** Vous voulez créer une API REST pour gérer une liste de tâches, en Java.
 
 ```bash
 poetry run github-scaffolding-generator init
@@ -542,6 +535,14 @@ Choix (1-6): 2
 
 ✓ Type détecté : Un site web ou application
 
+Quel langage utilises-tu ? (Entrée = garder le défaut)
+  1 - Python
+  2 - JavaScript / Node.js
+  3 - Go
+  4 - Java
+  5 - Rust
+Choix (1-5) [2]: 4  ← Override vers Java
+
 Description courte ? (une phrase): Une API REST pour gérer des tâches
 Pseudo GitHub ?: votrepseudo
 
@@ -550,7 +551,7 @@ Licence ?
   2 - Apache-2.0 (libre, protection brevet)
   3 - GPL-3.0 (libre, copyleft)
   4 - Propriétaire (non libre)
-Choix (1-4) [1]: 1
+Choix (1-4) [1]: 2
 
 Visibilité ? (public/private) [public]: public
 
@@ -580,43 +581,38 @@ Génération de mon-outil-api en cours...
   ✓ output/mon-outil-api/.gitignore
   ✓ output/mon-outil-api/.gitattributes
   ✓ output/mon-outil-api/.editorconfig
-  ✓ output/mon-outil-api/pyproject.toml
+  ✓ output/mon-outil-api/pom.xml
 
 Terminé ! Les fichiers sont dans output/mon-outil-api/
 ```
 
 **Ce qu'on a obtenu :**
 
-- L'outil a détecté : Type = `webapp`, Stack = `Node 20 + pnpm`
-- 16 fichiers générés avec licence MIT, visibilité public, CI complet
-- Le fichier `README.md` contient déjà "Une API REST pour gérer des tâches"
+- Type = `webapp`, Stack = `Java 21 + Maven` (override du défaut Node)
+- Licence Apache-2.0, CI complet (lint + test + build)
+- `pom.xml` généré avec la bonne configuration Maven
+- CI utilise `setup-java@v4` + `mvn checkstyle:check` / `mvn test` / `mvn package`
 
 **Windows 10/11 (PowerShell 7.6+) :** Même interaction, mêmes résultats.
 
 ---
 
-### Exemple 4 : Une bibliothèque open-source (Mode INTERMÉDIAIRE)
+### Exemple 4 : Une bibliothèque Node.js open-source (Mode INTERMÉDIAIRE)
 
 **Scénario :** Vous voulez créer une bibliothèque JavaScript pour valider des emails.
-
-**macOS / Linux :**
 
 ```bash
 poetry run github-scaffolding-generator init
 # Choisir 2 (Mode INTERMÉDIAIRE)
-# Répondre : email-validator, 3 (library), "Une bibliothèque pour valider des emails", votrepseudo
-# Choisir licence : 3 (GPL-3.0), visibilité : public, CI : 3 (avancé)
-# → 16 fichiers générés dans output/email-validator/
-```
-
-**Windows 10/11 (PowerShell 7.6+) :**
-
-```powershell
-poetry run github-scaffolding-generator init
-# Choisir 2 (Mode INTERMÉDIAIRE)
-# Répondre : email-validator, 3 (library), "Une bibliothèque pour valider des emails", votrepseudo
-# Choisir licence : 3 (GPL-3.0), visibilité : public, CI : 3 (avancé)
-# → 16 fichiers générés dans output/email-validator/
+# Nom : email-validator
+# Type : 3 (library) → défaut proposé : [1] Python
+# Langage : 2 (Node.js) ← override vers Node
+# Description : "Une bibliothèque pour valider des emails"
+# Pseudo : votrepseudo
+# Licence : 3 (GPL-3.0)
+# Visibilité : public
+# CI : 3 (avancé = lint,test,build,release)
+# → 16 fichiers générés dans output/email-validator/ avec package.json
 ```
 
 ---

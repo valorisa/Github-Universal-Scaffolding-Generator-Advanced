@@ -9,6 +9,8 @@ The generated README.md content MUST be systematically and rigorously:
 All generated documentation should prioritize completeness and detail over brevity.
 """
 
+import os
+import sys
 from datetime import date
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
@@ -41,6 +43,11 @@ class Generator:
         generated_files.extend(self._generate_github_files(project_dir, context))
         generated_files.extend(self._generate_ci(project_dir, context))
         generated_files.extend(self._generate_project_files(project_dir, context))
+
+        if sys.platform != "win32":
+            setup_sh = project_dir / "setup.sh"
+            if setup_sh.exists():
+                os.chmod(setup_sh, 0o755)
 
         return generated_files
 
@@ -87,6 +94,8 @@ class Generator:
             ".gitattributes": "gitattributes.j2",
             ".editorconfig": "editorconfig.j2",
             ".markdownlint-cli2.yaml": "markdownlint-cli2.yaml.j2",
+            "setup.sh": "setup.sh.j2",
+            "setup.ps1": "setup.ps1.j2",
         }
         stack = context.get("stack", "")
         if "Python" in stack:

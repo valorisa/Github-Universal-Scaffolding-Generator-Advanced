@@ -35,6 +35,14 @@ INTERMEDIATE_LABELS = {
 LICENSE_MAP = {"1": "MIT", "2": "Apache-2.0", "3": "GPL-3.0", "4": "proprietary"}
 CI_MAP = {"1": "lint,test", "2": "lint,test,build", "3": "lint,test,build,release"}
 
+STACK_MAP = {
+    "1": "Python 3.12 + Poetry",
+    "2": "Node 20 + pnpm",
+    "3": "Go 1.22",
+    "4": "Java 21 + Maven",
+    "5": "Rust 1.70 + Cargo",
+}
+
 
 def _prompt_activity(question: str, labels: dict) -> tuple:
     typer.echo(f"\n{question}")
@@ -45,6 +53,18 @@ def _prompt_activity(question: str, labels: dict) -> tuple:
         typer.echo("Erreur : Choix invalide (1-6)")
         raise typer.Exit(1)
     return ACTIVITY_MAPPING[choice]
+
+
+def _prompt_stack(default_stack: str) -> str:
+    default_key = next((k for k, v in STACK_MAP.items() if v == default_stack), "1")
+    typer.echo("\nQuel langage utilises-tu ? (Entrée = garder le défaut)")
+    typer.echo("  1 - Python")
+    typer.echo("  2 - JavaScript / Node.js")
+    typer.echo("  3 - Go")
+    typer.echo("  4 - Java")
+    typer.echo("  5 - Rust")
+    choice = typer.prompt("Choix (1-5)", default=default_key)
+    return STACK_MAP.get(choice, default_stack)
 
 
 def _prompt_license() -> str:
@@ -91,8 +111,10 @@ def _novice_mode():
     project_name = typer.prompt("Nom du projet ? (ex: mon-outil)")
 
     novice_labels = {k: v[3] for k, v in ACTIVITY_MAPPING.items()}
-    project_type, stack, ci_targets, activity_desc = _prompt_activity("Tu fais quoi ?", novice_labels)
+    project_type, default_stack, ci_targets, activity_desc = _prompt_activity("Tu fais quoi ?", novice_labels)
     typer.echo(f"\n✓ Je configure pour : {activity_desc}")
+
+    stack = _prompt_stack(default_stack)
 
     description = typer.prompt("Description courte ? (une phrase)")
     author = typer.prompt("Pseudo GitHub ?")
@@ -107,8 +129,10 @@ def _intermediate_mode():
 
     project_name = typer.prompt("Nom du projet ? (ex: mon-outil)")
 
-    project_type, stack, _, activity_desc = _prompt_activity("Type de projet ?", INTERMEDIATE_LABELS)
+    project_type, default_stack, _, activity_desc = _prompt_activity("Type de projet ?", INTERMEDIATE_LABELS)
     typer.echo(f"\n✓ Type détecté : {activity_desc}")
+
+    stack = _prompt_stack(default_stack)
 
     description = typer.prompt("Description courte ? (une phrase)")
     author = typer.prompt("Pseudo GitHub ?")

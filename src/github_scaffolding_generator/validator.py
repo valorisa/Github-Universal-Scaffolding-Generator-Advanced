@@ -16,6 +16,7 @@ VALID_STACKS = [
     "PHP 8.3 + Composer",
     "C# / .NET 8",
     "Ruby 3.3 + Bundler",
+    "PowerShell 7 + Pester",
 ]
 
 

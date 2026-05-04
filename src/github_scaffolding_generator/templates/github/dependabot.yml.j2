@@ -48,6 +48,12 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 10
+{% elif "PowerShell" in stack %}
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
 {% endif %}
   - package-ecosystem: "github-actions"
     directory: "/"

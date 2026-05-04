@@ -36,6 +36,11 @@
 *.gemspec text
 Gemfile text
 {% endif %}
+{% if "PowerShell" in stack %}
+*.ps1 text
+*.psm1 text
+*.psd1 text
+{% endif %}
 
 *.md text diff=markdown
 *.yml text

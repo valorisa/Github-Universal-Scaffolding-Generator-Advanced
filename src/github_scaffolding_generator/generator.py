@@ -114,5 +114,7 @@ class Generator:
             template_map[f"{context.get('project_name', 'project')}.csproj"] = "project.csproj.j2"
         elif "Ruby" in stack:
             template_map["Gemfile"] = "Gemfile.j2"
+        elif "PowerShell" in stack:
+            template_map[f"{context.get('project_name', 'module')}.psd1"] = "module.psd1.j2"
 
         return self._render_template_map(project_dir, template_map, context)

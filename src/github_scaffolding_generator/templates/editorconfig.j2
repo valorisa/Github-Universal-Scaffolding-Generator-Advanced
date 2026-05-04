@@ -65,6 +65,17 @@ max_line_length = 120
 indent_size = 2
 {% endif %}
 
+{% if "PowerShell" in stack %}
+[*.ps1]
+indent_size = 4
+
+[*.psm1]
+indent_size = 4
+
+[*.psd1]
+indent_size = 4
+{% endif %}
+
 [*.yml]
 indent_size = 2
 

@@ -396,6 +396,25 @@ ruby --version
 gem install bundler
 bundler --version
 ```
+{% elif 'PowerShell' in stack %}
+#### 2. PowerShell 7+
+
+```bash
+pwsh --version
+# Doit afficher : PowerShell 7.x.x (ou supérieur)
+```
+
+**Installation :**
+- **macOS** : `brew install powershell`
+- **Linux** : [Instructions Microsoft](https://learn.microsoft.com/powershell/scripting/install/installing-powershell-on-linux)
+- **Windows** : Inclus dans Windows ou via [Microsoft Store](https://aka.ms/powershell)
+
+#### 3. Pester + PSScriptAnalyzer
+
+```powershell
+Install-Module -Name Pester -Force -Scope CurrentUser
+Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+```
 {% endif %}
 
 ---
@@ -445,6 +464,11 @@ dotnet restore
 ```bash
 bundle install
 ```
+{% elif 'PowerShell' in stack %}
+```powershell
+Install-Module -Name Pester -Force -Scope CurrentUser
+Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+```
 {% endif %}
 
 #### Étape 3 : Vérifier l'installation
@@ -481,6 +505,11 @@ dotnet run
 ```bash
 bundle exec ruby lib/{{ project_name }}.rb
 ```
+{% elif 'PowerShell' in stack %}
+```powershell
+Import-Module ./{{ project_name }}.psd1
+Get-Command -Module {{ project_name }}
+```
 {% endif %}
 
 ### Installation sur Windows 10/11
@@ -506,6 +535,8 @@ composer install
 dotnet restore
 {% elif 'Ruby' in stack %}
 bundle install
+{% elif 'PowerShell' in stack %}
+Install-Module -Name Pester -Force -Scope CurrentUser
 {% endif %}
 ```
 

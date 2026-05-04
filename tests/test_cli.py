@@ -58,6 +58,7 @@ def test_validate_project_type_invalid():
     "PHP 8.3 + Composer",
     "C# / .NET 8",
     "Ruby 3.3 + Bundler",
+    "PowerShell 7 + Pester",
 ])
 def test_validate_stack_valid(stack):
     assert validate_stack(stack) == stack
@@ -292,6 +293,13 @@ def test_generator_ruby_stack_includes_gemfile():
         assert any("Gemfile" in f for f in files)
 
 
+def test_generator_powershell_stack_includes_psd1():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        files = gen.generate(_make_context(stack="PowerShell 7 + Pester"))
+        assert any(".psd1" in f for f in files)
+
+
 # ---------------------------------------------------------------------------
 # Multi-license generation
 # ---------------------------------------------------------------------------
@@ -352,6 +360,7 @@ def test_generator_injects_project_name_in_templates():
     ("PHP 8.3 + Composer", "setup-php"),
     ("C# / .NET 8", "setup-dotnet"),
     ("Ruby 3.3 + Bundler", "setup-ruby"),
+    ("PowerShell 7 + Pester", "PSScriptAnalyzer"),
 ])
 def test_generator_ci_adapts_to_stack(stack, expected_content):
     with tempfile.TemporaryDirectory() as tmpdir:
@@ -376,6 +385,7 @@ def test_generator_ci_adapts_to_stack(stack, expected_content):
     ("PHP 8.3 + Composer", "composer"),
     ("C# / .NET 8", "nuget"),
     ("Ruby 3.3 + Bundler", "bundler"),
+    ("PowerShell 7 + Pester", "nuget"),
 ])
 def test_generator_dependabot_adapts_to_stack(stack, expected_ecosystem):
     with tempfile.TemporaryDirectory() as tmpdir:
@@ -400,6 +410,7 @@ def test_generator_dependabot_adapts_to_stack(stack, expected_ecosystem):
     ("PHP 8.3 + Composer", "vendor/"),
     ("C# / .NET 8", "bin/"),
     ("Ruby 3.3 + Bundler", "vendor/bundle"),
+    ("PowerShell 7 + Pester", "TestResults"),
 ])
 def test_generator_gitignore_adapts_to_stack(stack, expected_pattern):
     with tempfile.TemporaryDirectory() as tmpdir:
@@ -424,6 +435,7 @@ def test_generator_gitignore_adapts_to_stack(stack, expected_pattern):
     ("PHP 8.3 + Composer", "composer install"),
     ("C# / .NET 8", "dotnet restore"),
     ("Ruby 3.3 + Bundler", "bundle install"),
+    ("PowerShell 7 + Pester", "Install-Module"),
 ])
 def test_generator_readme_adapts_installation_to_stack(stack, expected_content):
     with tempfile.TemporaryDirectory() as tmpdir:

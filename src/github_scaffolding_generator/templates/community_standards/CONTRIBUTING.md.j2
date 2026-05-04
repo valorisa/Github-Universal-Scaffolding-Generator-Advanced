@@ -26,6 +26,9 @@ Thank you for your interest in contributing to **{{ project_name }}**!
 {% elif "Ruby" in stack %}
 - Ruby 3.3+
 - Bundler
+{% elif "PowerShell" in stack %}
+- PowerShell 7+
+- Pester (testing framework)
 {% endif %}
 
 ## Getting Started
@@ -136,6 +139,20 @@ bundle exec rspec                # Test
 {% endif %}
 {% if "build" in ci_targets %}
 gem build *.gemspec              # Build
+{% endif %}
+```
+{% elif "PowerShell" in stack %}
+```powershell
+Install-Module -Name Pester -Force -Scope CurrentUser
+Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+{% if "lint" in ci_targets %}
+Invoke-ScriptAnalyzer -Path src/ -Recurse  # Lint
+{% endif %}
+{% if "test" in ci_targets %}
+Invoke-Pester -Path tests/       # Test
+{% endif %}
+{% if "build" in ci_targets %}
+Test-ModuleManifest -Path *.psd1  # Build/Validate
 {% endif %}
 ```
 {% endif %}

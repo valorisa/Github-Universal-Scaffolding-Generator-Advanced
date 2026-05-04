@@ -60,7 +60,9 @@
 
 ### Qu'est-ce que {{ project_name }} ?
 
-{{ project_name }} est un projet développé par **{{ author }}** dans le but de fournir une solution robuste, maintenue et documentée. Ce projet s'inscrit dans une démarche de qualité logicielle exemplaire, respectant les standards de la communauté open-source moderne.
+{{ project_name }} est un projet développé par **{{ author }}** dans le but de fournir
+une solution robuste, maintenue et documentée. Ce projet s'inscrit dans une démarche
+de qualité logicielle exemplaire, respectant les standards de la communauté open-source.
 
 **Description complète :**
 {{ description }}
@@ -393,7 +395,8 @@ cargo build
 
 ### Variables d'environnement
 
-Bien que ce projet fonctionne sans configuration externe, vous pouvez personnaliser certains comportements avec des variables d'environnement :
+Bien que ce projet fonctionne sans configuration externe, vous pouvez personnaliser
+certains comportements avec des variables d'environnement :
 
 | Variable | Description | Valeur par défaut | Exemple |
 |----------|-------------|-------------------|---------|
@@ -758,7 +761,7 @@ poetry run github-scaffolding-generator init
 Utilisateur → CLI (cli.py) → Validation (validator.py) → Génération (generator.py) → Templates Jinja2 → Fichiers générés
 ```
 
-1. **Interface CLI** (`cli.py`) : 
+1. **Interface CLI** (`cli.py`) :
    - Accueille l'utilisateur avec le menu (NOVICE/INTERMÉDIAIRE/EXPERT)
    - Pose les questions selon le mode choisi
    - Collecte les réponses
@@ -1093,18 +1096,47 @@ C'est l'ensemble des outils pour développer (langage + gestionnaire) :
 
 #### "Dois-je modifier les fichiers générés ?"
 
-Non ! Tous les champs sont remplis avec vos réponses. Vous pouvez directement :
+Non ! Tous les champs sont remplis avec vos réponses. Vous pouvez directement pousser sur GitHub :
 
 ```bash
-# Copier les fichiers générés vers votre nouveau dépôt
-cp -r output/mon-projet/ /chemin/vers/votre/nouveau/depot/
+# 1. Vérifier l'authentification GitHub CLI (une seule fois)
+gh auth status || gh auth login
 
-# Initialiser Git et pousser
-cd /chemin/vers/votre/nouveau/depot/
-git init
+# 2. Créer le dépôt sur GitHub et le cloner
+gh repo create {{ author }}/{{ project_name }} --public --clone
+cd {{ project_name }}
+
+# 3. Copier les fichiers générés
+cp -r /chemin/vers/output/{{ project_name }}/* .
+cp -r /chemin/vers/output/{{ project_name }}/.* . 2>/dev/null
+
+# 4. Vérifier le markdown (optionnel)
+npx markdownlint-cli2 "**/*.md"
+
+# 5. Commit et push
 git add .
 git commit -m "feat: initial scaffolding"
-git remote add origin https://github.com/votre-pseudo/votre-repo.git
+git push -u origin main
+```
+
+**Sur Windows (PowerShell 7.6+) :**
+
+```powershell
+# 1. Vérifier l'authentification GitHub CLI
+gh auth status
+# Si non authentifié :
+gh auth login
+
+# 2. Créer le dépôt et cloner
+gh repo create {{ author }}/{{ project_name }} --public --clone
+cd {{ project_name }}
+
+# 3. Copier les fichiers générés
+Copy-Item -Recurse -Force "C:\chemin\vers\output\{{ project_name }}\*" .
+
+# 4. Commit et push
+git add .
+git commit -m "feat: initial scaffolding"
 git push -u origin main
 ```
 
@@ -1222,18 +1254,21 @@ poetry run pytest tests/ -v
 ### Prochaines versions (idées)
 
 #### v1.1.0 (en cours de réflexion)
+
 - [ ] Ajout de templates pour Docker
 - [ ] Support des monorepos complexes
 - [ ] Génération de documentation avec Sphinx/MkDocs
 - [ ] Intégration avec GitHub API pour créer le dépôt directement
 
 #### v1.2.0 (futur)
+
 - [ ] Mode "interactif avancé" avec interface graphique (TUI)
 - [ ] Support de plus de stacks (Ruby, PHP, C#, etc.)
 - [ ] Génération de fichiers de configuration IDE (.vscode/, .idea/)
 - [ ] Internationalisation (traduction des templates)
 
 #### v2.0.0 (lointain)
+
 - [ ] Refactoring majeur avec architecture modulaire
 - [ ] Plugins système pour étendre les fonctionnalités
 - [ ] Interface web (WASM ?)
@@ -1326,7 +1361,7 @@ Ce projet est sous licence **{{ license }}**.
 
 Ce projet s'appuie sur d'excellents outils et standards :
 
-- **[GitHub Community Standards](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-growth/about-community-profiles-for-public-repositories)** - Les standards de bonnes pratiques
+- **[GitHub Community Standards][gh-community]** - Les standards de bonnes pratiques
 - **[Contributor Covenant](https://www.contributor-covenant.org/)** - Le standard de code de conduite (v2.1)
 - **[Conventional Commits](https://www.conventionalcommits.org/)** - Le standard de messages de commit
 - **[Semantic Versioning](https://semver.org/)** - Le standard de versioning (SemVer)
@@ -1352,7 +1387,7 @@ Merci à tous les contributeurs open-source qui rendent ces outils possibles !
 ## 🔗 Liens utiles
 
 - **Documentation GitHub** : [https://docs.github.com/](https://docs.github.com/)
-- **GitHub Community Standards** : [About community profiles](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-growth/about-community-profiles-for-public-repositories)
+- **GitHub Community Standards** : [About community profiles][gh-community]
 {% if 'Python' in stack %}
 - **Python 3.12 Docs** : [https://docs.python.org/3.12/](https://docs.python.org/3.12/)
 - **Poetry Documentation** : [https://python-poetry.org/docs/](https://python-poetry.org/docs/)
@@ -1381,7 +1416,9 @@ Merci à tous les contributeurs open-source qui rendent ces outils possibles !
 
 ## ⚙️ Configuration de la section "About" sur GitHub
 
-La section **"About"** (en haut à droite dans l'interface GitHub) est cruciale pour le référencement et la compréhension rapide de votre projet. Voici comment la configurer correctement :
+La section **"About"** (en haut à droite dans l'interface GitHub) est cruciale
+pour le référencement et la compréhension rapide de votre projet.
+Voici comment la configurer correctement :
 
 ### 📝 Description détaillée
 
@@ -1477,7 +1514,8 @@ project-template, repository-setup, ci-cd, markdown, linting, testing,
 
 Merci d'utiliser **{{ project_name }}** !
 
-Ce projet a été conçu avec soin pour respecter les plus hauts standards de qualité. Si vous trouvez cet outil utile, n'hésitez pas à :
+Ce projet a été conçu avec soin pour respecter les plus hauts standards de qualité.
+Si vous trouvez cet outil utile, n'hésitez pas à :
 
 - ⭐ **Star** le projet sur GitHub
 - 🐛 **Signaler** les bugs ou proposer des améliorations
@@ -1490,3 +1528,5 @@ Ce projet a été conçu avec soin pour respecter les plus hauts standards de qu
 
 *Dernière mise à jour : {{ today }}*
 *Généré automatiquement par GitHub Universal Scaffolding Generator*
+
+[gh-community]: https://docs.github.com/en/communities/setting-up-your-project-for-healthy-growth/about-community-profiles-for-public-repositories

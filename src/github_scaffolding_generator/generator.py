@@ -86,6 +86,7 @@ class Generator:
             ".gitignore": "gitignore.j2",
             ".gitattributes": "gitattributes.j2",
             ".editorconfig": "editorconfig.j2",
+            ".markdownlint-cli2.yaml": "markdownlint-cli2.yaml.j2",
         }
         stack = context.get("stack", "")
         if "Python" in stack:

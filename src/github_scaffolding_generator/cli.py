@@ -33,7 +33,17 @@ INTERMEDIATE_LABELS = {
 }
 
 LICENSE_MAP = {"1": "MIT", "2": "Apache-2.0", "3": "GPL-3.0", "4": "proprietary"}
+EXPERT_LICENSE_MAP = {"1": "MIT", "2": "Apache-2.0", "3": "GPL-3.0", "4": "BSD-3-Clause", "5": "proprietary"}
 CI_MAP = {"1": "lint,test", "2": "lint,test,build", "3": "lint,test,build,release"}
+
+PROJECT_TYPE_MAP = {
+    "1": "cli",
+    "2": "webapp",
+    "3": "library",
+    "4": "github-action",
+    "5": "docs",
+    "6": "monorepo",
+}
 
 STACK_MAP = {
     "1": "Python 3.12 + Poetry",
@@ -148,17 +158,66 @@ def _expert_mode():
     typer.echo("\n--- Mode EXPERT ---\n")
 
     project_name = typer.prompt("Nom du projet ?")
-    project_type = typer.prompt("Type de projet ? (cli/webapp/library/github-action/docs/monorepo)")
-    stack = typer.prompt("Stack technique ? (Python 3.12 + Poetry / Node 20 + pnpm / Go 1.22 / Java 21 + Maven / Rust 1.70 + Cargo)")
+
+    typer.echo("\nType de projet ?")
+    typer.echo("  1 - cli")
+    typer.echo("  2 - webapp")
+    typer.echo("  3 - library")
+    typer.echo("  4 - github-action")
+    typer.echo("  5 - docs")
+    typer.echo("  6 - monorepo")
+    type_choice = typer.prompt("Choix (1-6)")
+    if type_choice not in PROJECT_TYPE_MAP:
+        typer.echo("Erreur : Choix invalide (1-6)")
+        raise typer.Exit(1)
+    project_type = PROJECT_TYPE_MAP[type_choice]
+
+    typer.echo("\nStack technique ?")
+    typer.echo("  1 - Python 3.12 + Poetry")
+    typer.echo("  2 - Node 20 + pnpm")
+    typer.echo("  3 - Go 1.22")
+    typer.echo("  4 - Java 21 + Maven")
+    typer.echo("  5 - Rust 1.70 + Cargo")
+    stack_choice = typer.prompt("Choix (1-5)")
+    if stack_choice not in STACK_MAP:
+        typer.echo("Erreur : Choix invalide (1-5)")
+        raise typer.Exit(1)
+    stack = STACK_MAP[stack_choice]
+
     description = typer.prompt("Description ?")
     author = typer.prompt("Pseudo GitHub ?")
-    license_name = typer.prompt("Licence ?", default="MIT")
-    visibility = typer.prompt("Visibilité ? (public/private)", default="public")
-    ci_targets = typer.prompt("CI targets ? (lint,test,build,release)", default="lint,test")
-    output_dir = typer.prompt("Dossier de sortie ?", default="output")
-    quick = typer.prompt("Mode rapide ? (yes/no)", default="no")
 
-    _generate_files(project_name, project_type, stack, description, author, license_name, visibility, ci_targets, output_dir, quick == "yes")
+    typer.echo("\nLicence ?")
+    typer.echo("  1 - MIT")
+    typer.echo("  2 - Apache-2.0")
+    typer.echo("  3 - GPL-3.0")
+    typer.echo("  4 - BSD-3-Clause")
+    typer.echo("  5 - Propriétaire")
+    license_choice = typer.prompt("Choix (1-5)")
+    if license_choice not in EXPERT_LICENSE_MAP:
+        typer.echo("Erreur : Choix invalide (1-5)")
+        raise typer.Exit(1)
+    license_name = EXPERT_LICENSE_MAP[license_choice]
+
+    visibility = typer.prompt("Visibilité ? (public/private)", default="public")
+
+    typer.echo("\nCI targets ?")
+    typer.echo("  1 - lint,test")
+    typer.echo("  2 - lint,test,build")
+    typer.echo("  3 - lint,test,build,release")
+    typer.echo("  4 - Personnalisé (saisie libre)")
+    ci_choice = typer.prompt("Choix (1-4)")
+    if ci_choice == "4":
+        ci_targets = typer.prompt("CI targets ? (ex: lint,test,build)")
+    elif ci_choice in CI_MAP:
+        ci_targets = CI_MAP[ci_choice]
+    else:
+        typer.echo("Erreur : Choix invalide (1-4)")
+        raise typer.Exit(1)
+
+    output_dir = typer.prompt("Dossier de sortie ?", default="output")
+
+    _generate_files(project_name, project_type, stack, description, author, license_name, visibility, ci_targets, output_dir, False)
 
 
 def _generate_files(project_name, project_type, stack, description, author, license_name, visibility, ci_targets, output_dir, quick):

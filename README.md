@@ -689,29 +689,72 @@ C'est l'ensemble des outils pour développer (langage de programmation + gestion
 
 ### "Dois-je modifier les fichiers générés ?"
 
-Non ! Tous les champs sont remplis avec vos réponses. Vous pouvez directement :
+Non ! Tous les champs sont remplis avec vos réponses. Chaque projet généré inclut
+un **script d'installation automatique** (`setup.sh` pour macOS/Linux, `setup.ps1`
+pour Windows) qui crée le dépôt GitHub et pousse les fichiers en une commande.
+
+**Prérequis (une seule fois) :**
+
+```bash
+gh auth login
+# → Ouvre le navigateur pour authentification GitHub
+```
 
 **macOS / Linux :**
 
 ```bash
-cp -r output/mon-projet/ /chemin/vers/votre/nouveau/depot/
-cd /chemin/vers/votre/nouveau/depot/
-git init
-git add .
-git commit -m "feat: initial scaffolding"
-git push
+cd output/mon-projet
+chmod +x setup.sh
+./setup.sh
 ```
 
 **Windows 10/11 (PowerShell 7.6+) :**
 
 ```powershell
-Copy-Item -Recurse output/mon-projet/ -Destination C:/chemin/vers/votre/nouveau/depot/
-cd C:/chemin/vers/votre/nouveau/depot/
-git init
-git add .
-git commit -m "feat: initial scaffolding"
-git push
+cd output\mon-projet
+.\setup.ps1
 ```
+
+**Déroulé complet du script :**
+
+```
+=== Setup: mon-projet ===
+
+[1/6] Checking GitHub CLI authentication...
+  OK - Authenticated as votrepseudo
+
+[2/6] Confirm repository details:
+
+  Repository : votrepseudo/mon-projet
+  Visibility : public
+  Description: Ma description du projet
+
+Change repository name? (Enter = keep 'mon-projet', or type new name): mon-vrai-nom
+  → Repository name changed to: votrepseudo/mon-vrai-nom
+
+Proceed with creation? (Y/n): Y
+
+[3/6] Creating repository votrepseudo/mon-vrai-nom (public)...
+  Repository created.
+
+[4/6] Initializing git repository...
+  Git initialized with remote origin.
+
+[5/6] Checking markdown files...
+  Markdown OK
+
+[6/6] Committing and pushing to GitHub...
+
+=== Done! ===
+
+Your repository is live at: https://github.com/votrepseudo/mon-vrai-nom
+```
+
+**L'utilisateur a 3 choix à l'étape 2 :**
+
+- **Entrée** → garde le nom actuel, continue
+- **Taper un nouveau nom** → renomme le repository avant création
+- **`n`** → annule tout, rien n'est créé sur GitHub
 
 ---
 

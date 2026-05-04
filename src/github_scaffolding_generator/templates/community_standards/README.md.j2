@@ -155,14 +155,39 @@ Cette stack a été choisie pour :
 
 ### Outils de développement
 
+{% if 'Python' in stack %}
 | Outil | Usage | Version recommandée |
 |-------|-------|---------------------|
-| **Typer** | CLI framework (Python) | 0.12.5+ |
-| **Jinja2** | Moteur de templates | 3.1.0+ |
-| **Click** | Utilitaires CLI | 8.1.7+ |
-| **Ruff** | Linter Python ultra-rapide | 0.3.0+ |
+| **Poetry** | Gestion des dépendances | 1.8+ |
+| **Ruff** | Linter ultra-rapide | 0.3.0+ |
 | **pytest** | Framework de tests | 8.0.0+ |
-| **markdownlint-cli2** | Linting Markdown | 0.22.0+ |
+| **mypy** | Typage statique (optionnel) | 1.8+ |
+{% elif 'Node' in stack %}
+| Outil | Usage | Version recommandée |
+|-------|-------|---------------------|
+| **pnpm** | Gestionnaire de paquets | 9.0+ |
+| **ESLint** | Linter JavaScript/TypeScript | 9.0+ |
+| **Vitest** | Framework de tests rapide | 1.0+ |
+| **TypeScript** | Typage statique (optionnel) | 5.4+ |
+{% elif 'Go' in stack %}
+| Outil | Usage | Version recommandée |
+|-------|-------|---------------------|
+| **golangci-lint** | Linter multi-règles | 1.56+ |
+| **go test** | Tests natifs | Inclus dans Go |
+| **go vet** | Analyse statique | Inclus dans Go |
+{% elif 'Java' in stack %}
+| Outil | Usage | Version recommandée |
+|-------|-------|---------------------|
+| **Maven** | Build et dépendances | 3.9+ |
+| **Checkstyle** | Linter de style | 10.14+ |
+| **JUnit 5** | Framework de tests | 5.10+ |
+{% elif 'Rust' in stack %}
+| Outil | Usage | Version recommandée |
+|-------|-------|---------------------|
+| **Cargo** | Build et dépendances | Inclus dans Rust |
+| **Clippy** | Linter idiomatique | Inclus via rustup |
+| **cargo test** | Tests natifs | Inclus dans Cargo |
+{% endif %}
 
 ---
 
@@ -176,22 +201,28 @@ Cette stack a été choisie pour :
 
 ### Logiciels requis
 
-#### 1. Python 3.12+
+#### 1. Git
 
-**Vérification :**
+```bash
+git --version
+```
+
+**Installation :** [https://git-scm.com/downloads](https://git-scm.com/downloads)
+
+{% if 'Python' in stack %}
+#### 2. Python 3.12+
+
 ```bash
 python3 --version
 # Doit afficher : Python 3.12.x (ou supérieur)
 ```
 
 **Installation :**
-- **macOS** : `brew install python@3.12` ou [télécharger sur python.org](https://www.python.org/downloads/)
+- **macOS** : `brew install python@3.12` ou [python.org](https://www.python.org/downloads/)
 - **Linux** : `sudo apt install python3.12` (Ubuntu/Debian) ou équivalent
-- **Windows** : [Télécharger l'installateur Python](https://www.python.org/downloads/windows/)
+- **Windows** : [Télécharger sur python.org](https://www.python.org/downloads/windows/)
 
-#### 2. Poetry (gestionnaire de paquets Python)
-
-**Installation :**
+#### 3. Poetry (gestionnaire de paquets)
 
 **macOS / Linux :**
 ```bash
@@ -203,101 +234,157 @@ curl -sSL https://install.python-poetry.org | python3 -
 (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
 ```
 
-**Vérification :**
 ```bash
 poetry --version
-# Doit afficher : Poetry (version) ...
 ```
+{% elif 'Node' in stack %}
+#### 2. Node.js 20+
 
-#### 3. Git
-
-**Vérification :**
 ```bash
-git --version
+node --version
+# Doit afficher : v20.x.x (ou supérieur)
 ```
 
-**Installation :** [https://git-scm.com/downloads](https://git-scm.com/downloads)
+**Installation :**
+- **macOS** : `brew install node@20` ou [nodejs.org](https://nodejs.org/)
+- **Linux** : Via [NodeSource](https://github.com/nodesource/distributions) ou `nvm install 20`
+- **Windows** : [Télécharger sur nodejs.org](https://nodejs.org/)
+
+#### 3. pnpm (gestionnaire de paquets)
+
+```bash
+npm install -g pnpm
+pnpm --version
+```
+{% elif 'Go' in stack %}
+#### 2. Go 1.22+
+
+```bash
+go version
+# Doit afficher : go1.22.x (ou supérieur)
+```
+
+**Installation :**
+- **macOS** : `brew install go` ou [go.dev](https://go.dev/dl/)
+- **Linux** : [Télécharger sur go.dev](https://go.dev/dl/)
+- **Windows** : [Télécharger sur go.dev](https://go.dev/dl/)
+{% elif 'Java' in stack %}
+#### 2. Java 21+ (JDK)
+
+```bash
+java --version
+# Doit afficher : openjdk 21.x.x (ou supérieur)
+```
+
+**Installation :**
+- **macOS** : `brew install openjdk@21`
+- **Linux** : `sudo apt install openjdk-21-jdk`
+- **Windows** : [Adoptium Temurin](https://adoptium.net/)
+
+#### 3. Maven
+
+```bash
+mvn --version
+```
+
+- **macOS** : `brew install maven`
+- **Linux** : `sudo apt install maven`
+- **Windows** : [Télécharger sur maven.apache.org](https://maven.apache.org/download.cgi)
+{% elif 'Rust' in stack %}
+#### 2. Rust 1.70+ (via rustup)
+
+```bash
+rustc --version
+cargo --version
+```
+
+**Installation (tous OS) :**
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+Sous Windows, téléchargez [rustup-init.exe](https://rustup.rs/).
+{% endif %}
 
 ---
 
 ## 🚀 Installation
 
-### Installation sur macOS / Linux
+### Installation
 
 #### Étape 1 : Cloner le dépôt
 
 ```bash
-# Cloner le projet dans votre dossier de travail
 git clone https://github.com/{{ author }}/{{ project_name }}.git
-
-# Naviguer dans le dossier du projet
-cd {{ project_name }}
-```
-
-#### Étape 2 : Installer les dépendances avec Poetry
-
-```bash
-# Installer toutes les dépendances (développement inclus)
-poetry install
-
-# Si vous ne voulez que les dépendances de production
-poetry install --without dev
-```
-
-#### Étape 3 : Activer l'environnement virtuel (optionnel)
-
-```bash
-# Activer le shell Poetry (recommandé)
-poetry shell
-
-# Ou exécuter les commandes avec 'poetry run'
-poetry run {{ project_name }} --help
-```
-
-### Installation sur Windows 10/11
-
-#### Prérequis Windows
-
-Assurez-vous d'utiliser **PowerShell 7.6 ou supérieur** (et non Windows PowerShell 5.1).
-
-```powershell
-# Vérifier la version de PowerShell
-$PSVersionTable.PSVersion
-```
-
-Si nécessaire, installez PowerShell 7 : [https://learn.microsoft.com/powershell/scripting/install/installing-powershell](https://learn.microsoft.com/powershell/scripting/install/installing-powershell)
-
-#### Étape 1 : Cloner le dépôt
-
-```powershell
-# Cloner le projet
-git clone https://github.com/{{ author }}/{{ project_name }}.git
-
-# Naviguer dans le dossier
 cd {{ project_name }}
 ```
 
 #### Étape 2 : Installer les dépendances
 
-```powershell
-# Installer avec Poetry
+{% if 'Python' in stack %}
+```bash
 poetry install
 ```
-
-### Vérification de l'installation
-
-Après l'installation, vérifiez que tout fonctionne :
-
+{% elif 'Node' in stack %}
 ```bash
-# Test de la commande principale (mode NOVICE par défaut)
-poetry run {{ project_name }} init
+pnpm install
+```
+{% elif 'Go' in stack %}
+```bash
+go mod download
+```
+{% elif 'Java' in stack %}
+```bash
+mvn install
+```
+{% elif 'Rust' in stack %}
+```bash
+cargo build
+```
+{% endif %}
 
-# Doit afficher le menu interactif :
-# === GitHub Scaffolding Generator ===
-# Choisissez votre mode :
-#   1 - 🟢 Mode NOVICE (5 questions simples)
-#   2 - 🟡 Mode INTERMÉDIAIRE (6-7 questions)
-#   3 - 🔵 Mode EXPERT (toutes les options)
+#### Étape 3 : Vérifier l'installation
+
+{% if 'Python' in stack %}
+```bash
+poetry run {{ project_name }} --help
+```
+{% elif 'Node' in stack %}
+```bash
+pnpm start
+```
+{% elif 'Go' in stack %}
+```bash
+go run .
+```
+{% elif 'Java' in stack %}
+```bash
+mvn exec:java
+```
+{% elif 'Rust' in stack %}
+```bash
+cargo run
+```
+{% endif %}
+
+### Installation sur Windows 10/11
+
+Les mêmes commandes fonctionnent sous PowerShell 7.6+.
+
+```powershell
+git clone https://github.com/{{ author }}/{{ project_name }}.git
+cd {{ project_name }}
+{% if 'Python' in stack %}
+poetry install
+{% elif 'Node' in stack %}
+pnpm install
+{% elif 'Go' in stack %}
+go mod download
+{% elif 'Java' in stack %}
+mvn install
+{% elif 'Rust' in stack %}
+cargo build
+{% endif %}
 ```
 
 ---
@@ -328,9 +415,10 @@ poetry run {{ project_name }} init
 
 ### Fichiers de configuration
 
+{% if 'Python' in stack %}
 #### `pyproject.toml`
 
-Le fichier `pyproject.toml` centralise la configuration du projet Python :
+Configuration du projet Python avec Poetry :
 
 ```toml
 [tool.poetry]
@@ -338,32 +426,67 @@ name = "{{ project_name }}"
 version = "1.0.0"
 description = "{{ description }}"
 authors = ["{{ author }}"]
-packages = [{include = "github_scaffolding_generator", from = "src"}]
-
-[tool.poetry.dependencies]
-python = "^3.12"
-typer = "0.12.5"
-jinja2 = "^3.1.0"
-click = "8.1.7"
-
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.3.0"
-pytest = "^8.0.0"
-
-[tool.ruff]
-line-length = 100
-target-version = "py312"
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
 ```
+{% elif 'Node' in stack %}
+#### `package.json`
+
+Configuration du projet Node.js :
+
+```json
+{
+  "name": "{{ project_name }}",
+  "version": "1.0.0",
+  "description": "{{ description }}",
+  "packageManager": "pnpm@9.0.0"
+}
+```
+{% elif 'Go' in stack %}
+#### `go.mod`
+
+Module Go :
+
+```
+module github.com/{{ author }}/{{ project_name }}
+go 1.22
+```
+{% elif 'Java' in stack %}
+#### `pom.xml`
+
+Configuration Maven :
+
+```xml
+<groupId>com.github.{{ author }}</groupId>
+<artifactId>{{ project_name }}</artifactId>
+<version>1.0.0</version>
+```
+{% elif 'Rust' in stack %}
+#### `Cargo.toml`
+
+Configuration Cargo :
+
+```toml
+[package]
+name = "{{ project_name }}"
+version = "0.1.0"
+edition = "2021"
+```
+{% endif %}
 
 #### `.github/workflows/ci.yml`
 
-Le pipeline CI/CD est préconfiguré avec trois jobs :
-- **lint** : Vérification du code avec Ruff
-- **lint-md** : Vérification Markdown avec markdownlint-cli2
-- **test** : Exécution de la suite de tests avec pytest
+Le pipeline CI/CD est préconfiguré et s'exécute à chaque push/PR sur `main` :
+{% if "lint" in ci_targets %}
+- **lint** : Vérification du style et des erreurs
+{% endif %}
+{% if "test" in ci_targets %}
+- **test** : Exécution de la suite de tests
+{% endif %}
+{% if "build" in ci_targets %}
+- **build** : Compilation / packaging du projet
+{% endif %}
+{% if "release" in ci_targets %}
+- **release** : Publication automatisée
+{% endif %}
 
 ---
 
@@ -435,7 +558,7 @@ Choix (1-6): 1
 ✓ Je configure pour : Un outil en ligne de commande (terminal)
 
 Description courte ? (une phrase): Un outil pour encoder/décoder en Base64
-Pseudo GitHub ?: {{ author }}
+Pseudo GitHub ?: votre-pseudo
 Licence ? [MIT]: MIT
 Dossier de sortie ? [output]: output
 
@@ -489,7 +612,7 @@ Choix (1-6): 2
 ✓ Type détecté : Un site web ou application
 
 Description courte ? (une phrase): Une API REST pour gérer des tâches
-Pseudo GitHub ?: {{ author }}
+Pseudo GitHub ?: votre-pseudo
 
 Licence ?
   1 - MIT (libre, permissive)
@@ -524,7 +647,7 @@ Nom du projet ?: mon-projet-expert
 Type de projet ? (cli/webapp/library/github-action/docs/monorepo): webapp
 Stack technique ? (Python 3.12 + Poetry / Node 20 + pnpm / Go 1.22 / Java 21 + Maven / Rust 1.70 + Cargo): Node 20 + pnpm
 Description ?: Une application web moderne avec React
-Pseudo GitHub ?: {{ author }}
+Pseudo GitHub ?: votre-pseudo
 Licence ? [MIT]: Apache-2.0
 Visibilité ? (public/private) [public]: public
 CI targets ? (lint,test,build,release) [lint,test]: lint,test,build
@@ -574,40 +697,59 @@ poetry run github-scaffolding-generator init
 ```
 {{ project_name }}/
 ├── .github/                          # Configuration GitHub
-│   ├── workflows/                     # Pipelines CI/CD
-│   │   └── ci.yml                    # Workflow principal
-│   ├── ISSUE_TEMPLATE/               # Modèles d'issues
-│   │   ├── bug_report.yml            # Signalement de bug
-│   │   └── feature_request.yml       # Demande de fonctionnalité
-│   ├── PULL_REQUEST_TEMPLATE.md      # Modèle de PR
-│   ├── CODEOWNERS                    # Propriétaires du code
-│   └── dependabot.yml                # Mise à jour auto des dépendances
-├── src/                              # Code source
-│   └── github_scaffolding_generator/  # Package principal
+│   ├── workflows/
+│   │   └── ci.yml                    # Pipeline CI/CD
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.yml
+│   │   └── feature_request.yml
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   ├── CODEOWNERS
+│   └── dependabot.yml
+{% if 'Python' in stack %}
+├── src/
+│   └── {{ project_name | replace('-', '_') }}/
 │       ├── __init__.py
-│       ├── cli.py                    # Interface ligne de commande
-│       ├── generator.py              # Moteur de génération
-│       ├── validator.py              # Validation des entrées
-│       └── templates/                # Templates Jinja2
-│           ├── community_standards/  # Fichiers standards GitHub
-│           ├── github/               # Configuration GitHub
-│           ├── ci/                   # Pipeline CI
-│           └── ...
-├── tests/                            # Tests unitaires
-│   └── test_cli.py
-├── output/                           # Dossier de sortie (généré)
-│   └── [nom-du-projet]/             # Projets générés
-├── .gitignore                        # Fichiers ignorés par Git
-├── .gitattributes                    # Attributs Git
-├── .editorconfig                     # Configuration éditeur
-├── pyproject.toml                    # Configuration du projet Python
-├── README.md                         # Ce fichier
-├── LICENSE                           # Licence du projet
-├── CODE_OF_CONDUCT.md                # Code de conduite
-├── CONTRIBUTING.md                   # Guide de contribution
-├── SECURITY.md                       # Politique de sécurité
-├── CHANGELOG.md                      # Historique des changements
-└── TASK_RESUME.md                    # (Si présent) Tâches en cours
+│       └── ...                       # Code source
+├── tests/
+│   └── test_*.py
+├── pyproject.toml                    # Configuration Poetry
+{% elif 'Node' in stack %}
+├── src/
+│   └── index.ts                      # Point d'entrée
+├── tests/
+│   └── *.test.ts
+├── package.json                      # Configuration pnpm
+├── tsconfig.json                     # Configuration TypeScript
+{% elif 'Go' in stack %}
+├── cmd/
+│   └── main.go                       # Point d'entrée
+├── internal/                         # Code interne
+├── pkg/                              # Code exportable
+├── go.mod                            # Dépendances Go
+{% elif 'Java' in stack %}
+├── src/
+│   ├── main/java/                    # Code source
+│   └── test/java/                    # Tests
+├── pom.xml                           # Configuration Maven
+{% elif 'Rust' in stack %}
+├── src/
+{% if project_type == 'library' %}
+│   └── lib.rs                        # Point d'entrée bibliothèque
+{% else %}
+│   └── main.rs                       # Point d'entrée
+{% endif %}
+├── tests/
+├── Cargo.toml                        # Configuration Cargo
+{% endif %}
+├── .gitignore
+├── .gitattributes
+├── .editorconfig
+├── README.md
+├── LICENSE
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── SECURITY.md
+└── CHANGELOG.md
 ```
 
 ### Flux de données
@@ -642,114 +784,160 @@ Utilisateur → CLI (cli.py) → Validation (validator.py) → Génération (gen
 
 ### Configuration de l'environnement de développement
 
-#### 1. Cloner et installer
-
 ```bash
 git clone https://github.com/{{ author }}/{{ project_name }}.git
 cd {{ project_name }}
+{% if 'Python' in stack %}
 poetry install
 poetry shell
-```
-
-#### 2. Installer les hooks pre-commit (optionnel)
-
-```bash
-poetry run pip install pre-commit
-poetry run pre-commit install
+{% elif 'Node' in stack %}
+pnpm install
+{% elif 'Go' in stack %}
+go mod download
+{% elif 'Java' in stack %}
+mvn install
+{% elif 'Rust' in stack %}
+cargo build
+{% endif %}
 ```
 
 ### Standards de code
 
+{% if 'Python' in stack %}
 #### Linting avec Ruff
 
 ```bash
 # Vérifier tout le code
 poetry run ruff check .
 
-# Corriger automatiquement les erreurs simples
+# Corriger automatiquement
 poetry run ruff check . --fix
 ```
-
-**Configuration Ruff** (dans `pyproject.toml`) :
-```toml
-[tool.ruff]
-line-length = 100
-target-version = "py312"
-
-[tool.ruff.lint]
-select = ["E", "F", "I", "N", "W"]  # pycodestyle, pyflakes, isort, pep8-naming, pycodestyle warnings
-```
-
-#### Formatage Markdown
+{% elif 'Node' in stack %}
+#### Linting avec ESLint
 
 ```bash
-# Vérifier les fichiers Markdown
-npx markdownlint-cli2 "**/*.md" --config .markdownlint-cli2.yaml
+pnpm lint
 
-# Configuration dans .markdownlint-cli2.yaml
+# Corriger automatiquement
+pnpm lint --fix
 ```
+{% elif 'Go' in stack %}
+#### Linting avec golangci-lint
+
+```bash
+golangci-lint run
+
+# Avec correctifs
+golangci-lint run --fix
+```
+{% elif 'Java' in stack %}
+#### Linting avec Checkstyle
+
+```bash
+mvn checkstyle:check
+```
+{% elif 'Rust' in stack %}
+#### Linting avec Clippy
+
+```bash
+cargo clippy -- -D warnings
+
+# Formatage
+cargo fmt
+```
+{% endif %}
 
 ### Tests
 
-#### Exécuter la suite de tests
-
+{% if 'Python' in stack %}
 ```bash
 # Tous les tests
 poetry run pytest tests/ -v
 
-# Avec couverture de code
-poetry run pytest tests/ --cov=github_scaffolding_generator --cov-report=html
-
-# Un test spécifique
-poetry run pytest tests/test_cli.py::test_validate_all_valid -v
+# Avec couverture
+poetry run pytest tests/ --cov --cov-report=html
 ```
+{% elif 'Node' in stack %}
+```bash
+# Tous les tests
+pnpm test
 
-#### Structure des tests
-
-```python
-# tests/test_cli.py
-from github_scaffolding_generator.validator import validate_all, ValidationError
-
-def test_validate_all_valid():
-    """Teste une validation réussie."""
-    context = validate_all(
-        project_name="test-project",
-        project_type="cli",
-        stack="Python 3.12 + Poetry",
-        license_name="MIT",
-        visibility="public",
-        ci_targets="lint,test"
-    )
-    assert context["project_name"] == "test-project"
-    assert context["project_type"] == "cli"
-    assert context["license"] == "MIT"
-
-def test_validate_invalid_project_type():
-    """Teste une validation échouée."""
-    try:
-        validate_all(
-            project_name="test",
-            project_type="invalid",  # Type invalide
-            stack="Python 3.12 + Poetry"
-        )
-        assert False, "Should have raised ValidationError"
-    except ValidationError:
-        pass
+# En mode watch
+pnpm test -- --watch
 ```
+{% elif 'Go' in stack %}
+```bash
+# Tous les tests
+go test ./...
+
+# Avec couverture
+go test ./... -coverprofile=coverage.out
+go tool cover -html=coverage.out
+```
+{% elif 'Java' in stack %}
+```bash
+# Tous les tests
+mvn test
+
+# Un seul test
+mvn test -Dtest=MonTest
+```
+{% elif 'Rust' in stack %}
+```bash
+# Tous les tests
+cargo test
+
+# Avec output détaillé
+cargo test -- --nocapture
+```
+{% endif %}
 
 ### CI/CD
 
 Le pipeline CI/CD (`.github/workflows/ci.yml`) s'exécute automatiquement à chaque push et PR sur `main` :
 
-| Job | Description | Outils |
-|-----|-------------|--------|
-| **lint** | Vérifie le code Python | `ruff check .` |
-| **lint-md** | Vérifie les fichiers Markdown | `markdownlint-cli2` |
-| **test** | Lance les tests | `pytest tests/` |
-
-**Voir les résultats :**
-- Onglet "Actions" sur GitHub
-- Badge de statut en haut de ce README
+{% if 'Python' in stack %}
+| Job | Description | Commande |
+|-----|-------------|----------|
+{% if "lint" in ci_targets %}| **lint** | Vérifie le code | `ruff check .` |
+{% endif %}{% if "test" in ci_targets %}| **test** | Lance les tests | `pytest tests/` |
+{% endif %}{% if "build" in ci_targets %}| **build** | Construit le package | `poetry build` |
+{% endif %}{% if "release" in ci_targets %}| **release** | Publie sur PyPI | `poetry publish` |
+{% endif %}
+{% elif 'Node' in stack %}
+| Job | Description | Commande |
+|-----|-------------|----------|
+{% if "lint" in ci_targets %}| **lint** | Vérifie le code | `pnpm lint` |
+{% endif %}{% if "test" in ci_targets %}| **test** | Lance les tests | `pnpm test` |
+{% endif %}{% if "build" in ci_targets %}| **build** | Construit le projet | `pnpm build` |
+{% endif %}{% if "release" in ci_targets %}| **release** | Publie sur npm | `pnpm publish` |
+{% endif %}
+{% elif 'Go' in stack %}
+| Job | Description | Commande |
+|-----|-------------|----------|
+{% if "lint" in ci_targets %}| **lint** | Vérifie le code | `golangci-lint run` |
+{% endif %}{% if "test" in ci_targets %}| **test** | Lance les tests | `go test ./...` |
+{% endif %}{% if "build" in ci_targets %}| **build** | Compile le binaire | `go build ./...` |
+{% endif %}{% if "release" in ci_targets %}| **release** | Release GitHub | `goreleaser` |
+{% endif %}
+{% elif 'Java' in stack %}
+| Job | Description | Commande |
+|-----|-------------|----------|
+{% if "lint" in ci_targets %}| **lint** | Vérifie le code | `mvn checkstyle:check` |
+{% endif %}{% if "test" in ci_targets %}| **test** | Lance les tests | `mvn test` |
+{% endif %}{% if "build" in ci_targets %}| **build** | Package le projet | `mvn package` |
+{% endif %}{% if "release" in ci_targets %}| **release** | Déploie | `mvn deploy` |
+{% endif %}
+{% elif 'Rust' in stack %}
+| Job | Description | Commande |
+|-----|-------------|----------|
+{% if "lint" in ci_targets %}| **lint** | Vérifie le code | `cargo clippy` |
+{% endif %}{% if "test" in ci_targets %}| **test** | Lance les tests | `cargo test` |
+{% endif %}{% if "build" in ci_targets %}| **build** | Compile en release | `cargo build --release` |
+{% endif %}{% if "release" in ci_targets %}| **release** | Publie sur crates.io | `cargo publish` |
+{% endif %}
+{% endif %}
 
 ---
 
@@ -782,8 +970,22 @@ git checkout -b feature/ma-nouvelle-fonctionnalite
 # ... éditez les fichiers ...
 
 # 3. Vérifiez le code
+{% if 'Python' in stack %}
 poetry run ruff check .
 poetry run pytest tests/
+{% elif 'Node' in stack %}
+pnpm lint
+pnpm test
+{% elif 'Go' in stack %}
+golangci-lint run
+go test ./...
+{% elif 'Java' in stack %}
+mvn checkstyle:check
+mvn test
+{% elif 'Rust' in stack %}
+cargo clippy -- -D warnings
+cargo test
+{% endif %}
 
 # 4. Committez
 git add -A
@@ -793,7 +995,6 @@ git commit -m "feat: ajout de ma fonctionnalité"
 git push origin feature/ma-nouvelle-fonctionnalite
 
 # 6. Créez la PR sur GitHub
-# Utilisez le template .github/PULL_REQUEST_TEMPLATE.md
 ```
 
 ### Code de conduite
@@ -810,8 +1011,22 @@ Ce projet adhère au [Contributor Covenant 2.1](https://www.contributor-covenant
 
 ### Processus de Pull Request
 
+{% if 'Python' in stack %}
 1. Assurez-vous que les tests passent (`poetry run pytest tests/`)
 2. Vérifiez le lint (`poetry run ruff check .`)
+{% elif 'Node' in stack %}
+1. Assurez-vous que les tests passent (`pnpm test`)
+2. Vérifiez le lint (`pnpm lint`)
+{% elif 'Go' in stack %}
+1. Assurez-vous que les tests passent (`go test ./...`)
+2. Vérifiez le lint (`golangci-lint run`)
+{% elif 'Java' in stack %}
+1. Assurez-vous que les tests passent (`mvn test`)
+2. Vérifiez le lint (`mvn checkstyle:check`)
+{% elif 'Rust' in stack %}
+1. Assurez-vous que les tests passent (`cargo test`)
+2. Vérifiez le lint (`cargo clippy`)
+{% endif %}
 3. Mettez à jour la documentation si nécessaire
 4. Remplissez le template de PR de manière complète
 5. Demandez une review si votre PR est prête
@@ -1090,8 +1305,17 @@ Ce projet est sous licence **{{ license }}**.
 - ✅ Distribution autorisée
 - ⚠️ **Condition** : Tout travail dérivé doit être sous GPL-3.0 (copyleft)
 - ⚠️ **Condition** : Source doit être disponible si distribution
-{% else %}
-- Voir le fichier [LICENSE](LICENSE) pour les détails complets
+{% elif license == 'BSD-3-Clause' %}
+- ✅ Utilisation commerciale autorisée
+- ✅ Modification autorisée
+- ✅ Distribution autorisée
+- ⚠️ **Condition** : Gardez le copyright et la clause de non-endorsement
+- ⚠️ **Condition** : Ne pas utiliser le nom du projet pour promouvoir des dérivés
+{% elif license == 'proprietary' %}
+- ❌ Aucune modification autorisée
+- ❌ Aucune redistribution autorisée
+- ✅ Usage interne autorisé selon les termes
+- ⚠️ Contactez l'auteur pour toute demande de licence
 {% endif %}
 
 **Texte complet :** [LICENSE](LICENSE)
@@ -1129,10 +1353,29 @@ Merci à tous les contributeurs open-source qui rendent ces outils possibles !
 
 - **Documentation GitHub** : [https://docs.github.com/](https://docs.github.com/)
 - **GitHub Community Standards** : [About community profiles](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-growth/about-community-profiles-for-public-repositories)
+{% if 'Python' in stack %}
 - **Python 3.12 Docs** : [https://docs.python.org/3.12/](https://docs.python.org/3.12/)
 - **Poetry Documentation** : [https://python-poetry.org/docs/](https://python-poetry.org/docs/)
-- **Typer Documentation** : [https://typer.tiangolo.com/](https://typer.tiangolo.com/)
-- **Markdown Guide** : [https://www.markdownguide.org/](https://www.markdownguide.org/)
+- **Ruff** : [https://docs.astral.sh/ruff/](https://docs.astral.sh/ruff/)
+{% elif 'Node' in stack %}
+- **Node.js Docs** : [https://nodejs.org/docs/](https://nodejs.org/docs/)
+- **pnpm Documentation** : [https://pnpm.io/](https://pnpm.io/)
+- **TypeScript** : [https://www.typescriptlang.org/docs/](https://www.typescriptlang.org/docs/)
+{% elif 'Go' in stack %}
+- **Go Documentation** : [https://go.dev/doc/](https://go.dev/doc/)
+- **Effective Go** : [https://go.dev/doc/effective_go](https://go.dev/doc/effective_go)
+- **golangci-lint** : [https://golangci-lint.run/](https://golangci-lint.run/)
+{% elif 'Java' in stack %}
+- **Java 21 Docs** : [https://docs.oracle.com/en/java/javase/21/](https://docs.oracle.com/en/java/javase/21/)
+- **Maven Docs** : [https://maven.apache.org/guides/](https://maven.apache.org/guides/)
+- **JUnit 5** : [https://junit.org/junit5/docs/current/user-guide/](https://junit.org/junit5/docs/current/user-guide/)
+{% elif 'Rust' in stack %}
+- **The Rust Book** : [https://doc.rust-lang.org/book/](https://doc.rust-lang.org/book/)
+- **Cargo Book** : [https://doc.rust-lang.org/cargo/](https://doc.rust-lang.org/cargo/)
+- **Rust by Example** : [https://doc.rust-lang.org/rust-by-example/](https://doc.rust-lang.org/rust-by-example/)
+{% endif %}
+- **Conventional Commits** : [https://www.conventionalcommits.org/](https://www.conventionalcommits.org/)
+- **Semantic Versioning** : [https://semver.org/](https://semver.org/)
 
 ---
 
@@ -1245,5 +1488,5 @@ Ce projet a été conçu avec soin pour respecter les plus hauts standards de qu
 
 ---
 
-*Dernière mise à jour : Mai 2026*
+*Dernière mise à jour : {{ today }}*
 *Généré automatiquement par GitHub Universal Scaffolding Generator*

@@ -376,3 +376,51 @@ def test_generator_gitignore_adapts_to_stack(stack, expected_pattern):
         gitignore = Path(tmpdir) / "test-project" / ".gitignore"
         content = gitignore.read_text(encoding="utf-8")
         assert expected_pattern in content
+
+
+# ---------------------------------------------------------------------------
+# README multi-stack adaptation
+# ---------------------------------------------------------------------------
+
+@pytest.mark.parametrize("stack,expected_content", [
+    ("Python 3.12 + Poetry", "poetry install"),
+    ("Node 20 + pnpm", "pnpm install"),
+    ("Go 1.22", "go mod download"),
+    ("Java 21 + Maven", "mvn install"),
+    ("Rust 1.70 + Cargo", "cargo build"),
+])
+def test_generator_readme_adapts_installation_to_stack(stack, expected_content):
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        gen.generate(_make_context(stack=stack))
+        from pathlib import Path
+        readme = Path(tmpdir) / "test-project" / "README.md"
+        content = readme.read_text(encoding="utf-8")
+        assert expected_content in content
+
+
+@pytest.mark.parametrize("stack,expected_tool", [
+    ("Node 20 + pnpm", "pnpm"),
+    ("Go 1.22", "golangci-lint"),
+    ("Java 21 + Maven", "mvn"),
+    ("Rust 1.70 + Cargo", "cargo clippy"),
+])
+def test_generator_readme_shows_correct_dev_tools(stack, expected_tool):
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        gen.generate(_make_context(stack=stack))
+        from pathlib import Path
+        readme = Path(tmpdir) / "test-project" / "README.md"
+        content = readme.read_text(encoding="utf-8")
+        assert expected_tool in content
+
+
+def test_generator_readme_contains_today_date():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        gen.generate(_make_context())
+        from pathlib import Path
+        from datetime import date
+        readme = Path(tmpdir) / "test-project" / "README.md"
+        content = readme.read_text(encoding="utf-8")
+        assert date.today().isoformat() in content

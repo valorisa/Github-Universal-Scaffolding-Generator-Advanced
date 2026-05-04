@@ -153,6 +153,24 @@ Cette stack a été choisie pour :
   - Garanties de sécurité mémoire
   - Performance proche du C/C++
   - Cargo pour la gestion de projet intuitive
+{% elif 'PHP' in stack %}
+- **PHP 8.3+** : Langage web dominant et mature
+  - Support des types enum, readonly, fibers
+  - JIT compiler pour de meilleures performances
+  - Écosystème Composer massif
+- **Composer** : Gestionnaire de dépendances standard PHP
+{% elif '.NET' in stack or 'C#' in stack %}
+- **C# / .NET 8** : Plateforme enterprise cross-platform
+  - Performance native AOT
+  - Écosystème NuGet riche
+  - Support Linux, macOS, Windows
+- **.NET SDK** : Build, test, publish intégrés
+{% elif 'Ruby' in stack %}
+- **Ruby 3.3+** : Langage élégant et productif
+  - YJIT compiler pour 3x plus de performance
+  - Convention over configuration
+  - Écosystème RubyGems mature
+- **Bundler** : Gestionnaire de dépendances fiable
 {% endif %}
 
 ### Outils de développement
@@ -189,6 +207,27 @@ Cette stack a été choisie pour :
 | **Cargo** | Build et dépendances | Inclus dans Rust |
 | **Clippy** | Linter idiomatique | Inclus via rustup |
 | **cargo test** | Tests natifs | Inclus dans Cargo |
+{% elif 'PHP' in stack %}
+| Outil | Usage | Version recommandée |
+|-------|-------|---------------------|
+| **Composer** | Gestionnaire de dépendances | 2.7+ |
+| **PHP_CodeSniffer** | Linter PSR-12 | 3.9+ |
+| **PHPStan** | Analyse statique | 1.10+ |
+| **PHPUnit** | Framework de tests | 11.0+ |
+{% elif '.NET' in stack or 'C#' in stack %}
+| Outil | Usage | Version recommandée |
+|-------|-------|---------------------|
+| **.NET SDK** | Build et dépendances | 8.0+ |
+| **dotnet format** | Linter / formatter | Inclus |
+| **xUnit** | Framework de tests | 2.7+ |
+| **NuGet** | Packages | Inclus |
+{% elif 'Ruby' in stack %}
+| Outil | Usage | Version recommandée |
+|-------|-------|---------------------|
+| **Bundler** | Gestion des gems | 2.5+ |
+| **RuboCop** | Linter idiomatique | 1.62+ |
+| **RSpec** | Framework de tests BDD | 3.13+ |
+| **Rake** | Tâches de build | 13.1+ |
 {% endif %}
 
 ---
@@ -306,6 +345,57 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
 Sous Windows, téléchargez [rustup-init.exe](https://rustup.rs/).
+{% elif 'PHP' in stack %}
+#### 2. PHP 8.3+
+
+```bash
+php --version
+# Doit afficher : PHP 8.3.x (ou supérieur)
+```
+
+**Installation :**
+- **macOS** : `brew install php@8.3`
+- **Linux** : `sudo apt install php8.3 php8.3-mbstring php8.3-xml`
+- **Windows** : [Télécharger sur php.net](https://windows.php.net/download/)
+
+#### 3. Composer
+
+```bash
+composer --version
+```
+
+- [Installer Composer](https://getcomposer.org/download/)
+{% elif '.NET' in stack or 'C#' in stack %}
+#### 2. .NET SDK 8.0+
+
+```bash
+dotnet --version
+# Doit afficher : 8.x.x (ou supérieur)
+```
+
+**Installation :**
+- **macOS** : `brew install dotnet-sdk`
+- **Linux** : [Instructions Microsoft](https://learn.microsoft.com/dotnet/core/install/linux)
+- **Windows** : [Télécharger sur dotnet.microsoft.com](https://dotnet.microsoft.com/download)
+{% elif 'Ruby' in stack %}
+#### 2. Ruby 3.3+
+
+```bash
+ruby --version
+# Doit afficher : ruby 3.3.x (ou supérieur)
+```
+
+**Installation :**
+- **macOS** : `brew install ruby@3.3` ou via [rbenv](https://github.com/rbenv/rbenv)
+- **Linux** : Via [rbenv](https://github.com/rbenv/rbenv) ou `sudo apt install ruby`
+- **Windows** : [RubyInstaller](https://rubyinstaller.org/)
+
+#### 3. Bundler
+
+```bash
+gem install bundler
+bundler --version
+```
 {% endif %}
 
 ---
@@ -343,6 +433,18 @@ mvn install
 ```bash
 cargo build
 ```
+{% elif 'PHP' in stack %}
+```bash
+composer install
+```
+{% elif '.NET' in stack or 'C#' in stack %}
+```bash
+dotnet restore
+```
+{% elif 'Ruby' in stack %}
+```bash
+bundle install
+```
 {% endif %}
 
 #### Étape 3 : Vérifier l'installation
@@ -367,6 +469,18 @@ mvn exec:java
 ```bash
 cargo run
 ```
+{% elif 'PHP' in stack %}
+```bash
+php src/index.php
+```
+{% elif '.NET' in stack or 'C#' in stack %}
+```bash
+dotnet run
+```
+{% elif 'Ruby' in stack %}
+```bash
+bundle exec ruby lib/{{ project_name }}.rb
+```
 {% endif %}
 
 ### Installation sur Windows 10/11
@@ -386,6 +500,12 @@ go mod download
 mvn install
 {% elif 'Rust' in stack %}
 cargo build
+{% elif 'PHP' in stack %}
+composer install
+{% elif '.NET' in stack or 'C#' in stack %}
+dotnet restore
+{% elif 'Ruby' in stack %}
+bundle install
 {% endif %}
 ```
 
@@ -743,6 +863,21 @@ poetry run github-scaffolding-generator init
 {% endif %}
 ├── tests/
 ├── Cargo.toml                        # Configuration Cargo
+{% elif 'PHP' in stack %}
+├── src/                              # Code source PSR-4
+├── tests/                            # Tests PHPUnit
+├── composer.json                     # Configuration Composer
+{% elif '.NET' in stack or 'C#' in stack %}
+├── src/                              # Code source
+├── tests/                            # Tests xUnit
+├── {{ project_name }}.csproj         # Configuration .NET
+├── {{ project_name }}.sln            # Solution Visual Studio
+{% elif 'Ruby' in stack %}
+├── lib/
+│   └── {{ project_name }}.rb         # Point d'entrée
+├── spec/                             # Tests RSpec
+├── Gemfile                           # Dépendances Bundler
+├── Rakefile                          # Tâches Rake
 {% endif %}
 ├── .gitignore
 ├── .gitattributes
@@ -801,6 +936,12 @@ go mod download
 mvn install
 {% elif 'Rust' in stack %}
 cargo build
+{% elif 'PHP' in stack %}
+composer install
+{% elif '.NET' in stack or 'C#' in stack %}
+dotnet restore
+{% elif 'Ruby' in stack %}
+bundle install
 {% endif %}
 ```
 
@@ -810,10 +951,7 @@ cargo build
 #### Linting avec Ruff
 
 ```bash
-# Vérifier tout le code
 poetry run ruff check .
-
-# Corriger automatiquement
 poetry run ruff check . --fix
 ```
 {% elif 'Node' in stack %}
@@ -821,8 +959,6 @@ poetry run ruff check . --fix
 
 ```bash
 pnpm lint
-
-# Corriger automatiquement
 pnpm lint --fix
 ```
 {% elif 'Go' in stack %}
@@ -830,8 +966,6 @@ pnpm lint --fix
 
 ```bash
 golangci-lint run
-
-# Avec correctifs
 golangci-lint run --fix
 ```
 {% elif 'Java' in stack %}
@@ -845,9 +979,28 @@ mvn checkstyle:check
 
 ```bash
 cargo clippy -- -D warnings
-
-# Formatage
 cargo fmt
+```
+{% elif 'PHP' in stack %}
+#### Linting avec PHP_CodeSniffer + PHPStan
+
+```bash
+composer lint
+phpstan analyse src/ --level=max
+```
+{% elif '.NET' in stack or 'C#' in stack %}
+#### Linting avec dotnet format
+
+```bash
+dotnet format --verify-no-changes
+dotnet format
+```
+{% elif 'Ruby' in stack %}
+#### Linting avec RuboCop
+
+```bash
+bundle exec rubocop
+bundle exec rubocop -a
 ```
 {% endif %}
 
@@ -894,6 +1047,30 @@ cargo test
 # Avec output détaillé
 cargo test -- --nocapture
 ```
+{% elif 'PHP' in stack %}
+```bash
+# Tous les tests
+vendor/bin/phpunit tests/
+
+# Avec couverture
+vendor/bin/phpunit tests/ --coverage-html coverage/
+```
+{% elif '.NET' in stack or 'C#' in stack %}
+```bash
+# Tous les tests
+dotnet test
+
+# Avec couverture
+dotnet test --collect:"XPlat Code Coverage"
+```
+{% elif 'Ruby' in stack %}
+```bash
+# Tous les tests
+bundle exec rspec
+
+# Avec couverture
+COVERAGE=true bundle exec rspec
+```
 {% endif %}
 
 ### CI/CD
@@ -939,6 +1116,30 @@ Le pipeline CI/CD (`.github/workflows/ci.yml`) s'exécute automatiquement à cha
 {% endif %}{% if "test" in ci_targets %}| **test** | Lance les tests | `cargo test` |
 {% endif %}{% if "build" in ci_targets %}| **build** | Compile en release | `cargo build --release` |
 {% endif %}{% if "release" in ci_targets %}| **release** | Publie sur crates.io | `cargo publish` |
+{% endif %}
+{% elif 'PHP' in stack %}
+| Job | Description | Commande |
+|-----|-------------|----------|
+{% if "lint" in ci_targets %}| **lint** | Vérifie le code | `phpcs + phpstan` |
+{% endif %}{% if "test" in ci_targets %}| **test** | Lance les tests | `phpunit tests/` |
+{% endif %}{% if "build" in ci_targets %}| **build** | Optimise | `composer install --no-dev` |
+{% endif %}{% if "release" in ci_targets %}| **release** | Packagist | webhook GitHub |
+{% endif %}
+{% elif '.NET' in stack or 'C#' in stack %}
+| Job | Description | Commande |
+|-----|-------------|----------|
+{% if "lint" in ci_targets %}| **lint** | Vérifie le code | `dotnet format` |
+{% endif %}{% if "test" in ci_targets %}| **test** | Lance les tests | `dotnet test` |
+{% endif %}{% if "build" in ci_targets %}| **build** | Compile | `dotnet build --configuration Release` |
+{% endif %}{% if "release" in ci_targets %}| **release** | Publie sur NuGet | `dotnet nuget push` |
+{% endif %}
+{% elif 'Ruby' in stack %}
+| Job | Description | Commande |
+|-----|-------------|----------|
+{% if "lint" in ci_targets %}| **lint** | Vérifie le code | `bundle exec rubocop` |
+{% endif %}{% if "test" in ci_targets %}| **test** | Lance les tests | `bundle exec rspec` |
+{% endif %}{% if "build" in ci_targets %}| **build** | Build la gem | `gem build` |
+{% endif %}{% if "release" in ci_targets %}| **release** | Publie sur RubyGems | `gem push` |
 {% endif %}
 {% endif %}
 
@@ -988,6 +1189,15 @@ mvn test
 {% elif 'Rust' in stack %}
 cargo clippy -- -D warnings
 cargo test
+{% elif 'PHP' in stack %}
+composer lint
+vendor/bin/phpunit tests/
+{% elif '.NET' in stack or 'C#' in stack %}
+dotnet format --verify-no-changes
+dotnet test
+{% elif 'Ruby' in stack %}
+bundle exec rubocop
+bundle exec rspec
 {% endif %}
 
 # 4. Committez
@@ -1029,6 +1239,15 @@ Ce projet adhère au [Contributor Covenant 2.1](https://www.contributor-covenant
 {% elif 'Rust' in stack %}
 1. Assurez-vous que les tests passent (`cargo test`)
 2. Vérifiez le lint (`cargo clippy`)
+{% elif 'PHP' in stack %}
+1. Assurez-vous que les tests passent (`vendor/bin/phpunit tests/`)
+2. Vérifiez le lint (`composer lint`)
+{% elif '.NET' in stack or 'C#' in stack %}
+1. Assurez-vous que les tests passent (`dotnet test`)
+2. Vérifiez le lint (`dotnet format --verify-no-changes`)
+{% elif 'Ruby' in stack %}
+1. Assurez-vous que les tests passent (`bundle exec rspec`)
+2. Vérifiez le lint (`bundle exec rubocop`)
 {% endif %}
 3. Mettez à jour la documentation si nécessaire
 4. Remplissez le template de PR de manière complète
@@ -1408,6 +1627,18 @@ Merci à tous les contributeurs open-source qui rendent ces outils possibles !
 - **The Rust Book** : [https://doc.rust-lang.org/book/](https://doc.rust-lang.org/book/)
 - **Cargo Book** : [https://doc.rust-lang.org/cargo/](https://doc.rust-lang.org/cargo/)
 - **Rust by Example** : [https://doc.rust-lang.org/rust-by-example/](https://doc.rust-lang.org/rust-by-example/)
+{% elif 'PHP' in stack %}
+- **PHP Documentation** : [https://www.php.net/docs.php](https://www.php.net/docs.php)
+- **Composer** : [https://getcomposer.org/doc/](https://getcomposer.org/doc/)
+- **PHPUnit** : [https://phpunit.de/documentation.html](https://phpunit.de/documentation.html)
+{% elif '.NET' in stack or 'C#' in stack %}
+- **.NET Documentation** : [https://learn.microsoft.com/dotnet/](https://learn.microsoft.com/dotnet/)
+- **C# Guide** : [https://learn.microsoft.com/dotnet/csharp/](https://learn.microsoft.com/dotnet/csharp/)
+- **NuGet** : [https://www.nuget.org/](https://www.nuget.org/)
+{% elif 'Ruby' in stack %}
+- **Ruby Documentation** : [https://ruby-doc.org/](https://ruby-doc.org/)
+- **RubyGems** : [https://rubygems.org/](https://rubygems.org/)
+- **RSpec Docs** : [https://rspec.info/documentation/](https://rspec.info/documentation/)
 {% endif %}
 - **Conventional Commits** : [https://www.conventionalcommits.org/](https://www.conventionalcommits.org/)
 - **Semantic Versioning** : [https://semver.org/](https://semver.org/)
@@ -1474,7 +1705,7 @@ Les **topics** sont des étiquettes qui améliorent la découvrabilité de votre
 github-scaffolding, community-standards, generator, cli, python, jinja2, typer, 
 poetry, automation, scaffolding-tool, github-community, open-source, 
 project-template, repository-setup, ci-cd, markdown, linting, testing, 
-{% if 'Python' in stack %}python312, poetry{% elif 'Node' in stack %}nodejs, pnpm{% elif 'Go' in stack %}golang, go122{% elif 'Java' in stack %}java, maven{% elif 'Rust' in stack %}rust, cargo{% endif %}, 
+{% if 'Python' in stack %}python312, poetry{% elif 'Node' in stack %}nodejs, pnpm{% elif 'Go' in stack %}golang, go122{% elif 'Java' in stack %}java, maven{% elif 'Rust' in stack %}rust, cargo{% elif 'PHP' in stack %}php, composer{% elif '.NET' in stack or 'C#' in stack %}csharp, dotnet{% elif 'Ruby' in stack %}ruby, bundler{% endif %}, 
 {{ project_name | lower | replace(' ', '-') }}
 ```
 

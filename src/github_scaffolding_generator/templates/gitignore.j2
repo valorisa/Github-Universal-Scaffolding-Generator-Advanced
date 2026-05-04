@@ -60,6 +60,33 @@ target/
 Cargo.lock
 **/*.rs.bk
 *.pdb
+{% elif "PHP" in stack %}
+# PHP
+vendor/
+composer.lock
+*.cache
+.phpunit.result.cache
+.php-cs-fixer.cache
+.phpstan/
+{% elif ".NET" in stack or "C#" in stack %}
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+packages/
+*.nupkg
+{% elif "Ruby" in stack %}
+# Ruby
+vendor/bundle/
+.bundle/
+Gemfile.lock
+coverage/
+*.gem
+.ruby-version
+tmp/
 {% endif %}
 
 # IDE

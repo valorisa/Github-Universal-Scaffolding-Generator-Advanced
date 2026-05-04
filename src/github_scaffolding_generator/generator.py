@@ -108,5 +108,11 @@ class Generator:
             template_map["pom.xml"] = "pom.xml.j2"
         elif "Rust" in stack:
             template_map["Cargo.toml"] = "Cargo.toml.j2"
+        elif "PHP" in stack:
+            template_map["composer.json"] = "composer.json.j2"
+        elif ".NET" in stack or "C#" in stack:
+            template_map[f"{context.get('project_name', 'project')}.csproj"] = "project.csproj.j2"
+        elif "Ruby" in stack:
+            template_map["Gemfile"] = "Gemfile.j2"
 
         return self._render_template_map(project_dir, template_map, context)

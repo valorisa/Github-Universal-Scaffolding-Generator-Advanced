@@ -41,6 +41,30 @@ indent_size = 4
 max_line_length = 100
 {% endif %}
 
+{% if "PHP" in stack %}
+[*.php]
+indent_size = 4
+max_line_length = 120
+{% endif %}
+
+{% if ".NET" in stack or "C#" in stack %}
+[*.cs]
+indent_size = 4
+max_line_length = 120
+
+[*.csproj]
+indent_size = 2
+{% endif %}
+
+{% if "Ruby" in stack %}
+[*.rb]
+indent_size = 2
+max_line_length = 120
+
+[Gemfile]
+indent_size = 2
+{% endif %}
+
 [*.yml]
 indent_size = 2
 

@@ -30,6 +30,24 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 10
+{% elif "PHP" in stack %}
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+{% elif ".NET" in stack or "C#" in stack %}
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+{% elif "Ruby" in stack %}
+  - package-ecosystem: "bundler"
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
 {% endif %}
   - package-ecosystem: "github-actions"
     directory: "/"

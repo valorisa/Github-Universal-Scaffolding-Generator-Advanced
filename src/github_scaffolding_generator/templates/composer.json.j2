@@ -1,0 +1,49 @@
+{
+    "name": "{{ author }}/{{ project_name }}",
+    "description": "{{ description }}",
+    "type": "{% if project_type == 'library' %}library{% elif project_type == 'webapp' %}project{% else %}project{% endif %}",
+{% if license == "MIT" %}
+    "license": "MIT",
+{% elif license == "Apache-2.0" %}
+    "license": "Apache-2.0",
+{% elif license == "GPL-3.0" %}
+    "license": "GPL-3.0-only",
+{% elif license == "BSD-3-Clause" %}
+    "license": "BSD-3-Clause",
+{% else %}
+    "license": "proprietary",
+{% endif %}
+    "authors": [
+        {
+            "name": "{{ author }}",
+            "homepage": "https://github.com/{{ author }}"
+        }
+    ],
+    "require": {
+        "php": ">=8.3"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^11.0",
+        "squizlabs/php_codesniffer": "^3.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "{{ project_name | replace('-', '') | capitalize }}\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "{{ project_name | replace('-', '') | capitalize }}\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "lint": "phpcs --standard=PSR12 src/",
+        "analyse": "phpstan analyse src/ --level=max",
+        "test": "phpunit tests/",
+        "check": ["@lint", "@analyse", "@test"]
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

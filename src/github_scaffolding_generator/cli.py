@@ -51,6 +51,9 @@ STACK_MAP = {
     "3": "Go 1.22",
     "4": "Java 21 + Maven",
     "5": "Rust 1.70 + Cargo",
+    "6": "PHP 8.3 + Composer",
+    "7": "C# / .NET 8",
+    "8": "Ruby 3.3 + Bundler",
 }
 
 
@@ -73,7 +76,10 @@ def _prompt_stack(default_stack: str) -> str:
     typer.echo("  3 - Go")
     typer.echo("  4 - Java")
     typer.echo("  5 - Rust")
-    choice = typer.prompt("Choix (1-5)", default=default_key)
+    typer.echo("  6 - PHP")
+    typer.echo("  7 - C# / .NET")
+    typer.echo("  8 - Ruby")
+    choice = typer.prompt("Choix (1-8)", default=default_key)
     return STACK_MAP.get(choice, default_stack)
 
 
@@ -178,9 +184,12 @@ def _expert_mode():
     typer.echo("  3 - Go 1.22")
     typer.echo("  4 - Java 21 + Maven")
     typer.echo("  5 - Rust 1.70 + Cargo")
-    stack_choice = typer.prompt("Choix (1-5)")
+    typer.echo("  6 - PHP 8.3 + Composer")
+    typer.echo("  7 - C# / .NET 8")
+    typer.echo("  8 - Ruby 3.3 + Bundler")
+    stack_choice = typer.prompt("Choix (1-8)")
     if stack_choice not in STACK_MAP:
-        typer.echo("Erreur : Choix invalide (1-5)")
+        typer.echo("Erreur : Choix invalide (1-8)")
         raise typer.Exit(1)
     stack = STACK_MAP[stack_choice]
 

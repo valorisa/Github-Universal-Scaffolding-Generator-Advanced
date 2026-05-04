@@ -55,6 +55,9 @@ def test_validate_project_type_invalid():
     "Go 1.22",
     "Java 21 + Maven",
     "Rust 1.70 + Cargo",
+    "PHP 8.3 + Composer",
+    "C# / .NET 8",
+    "Ruby 3.3 + Bundler",
 ])
 def test_validate_stack_valid(stack):
     assert validate_stack(stack) == stack
@@ -268,6 +271,27 @@ def test_generator_rust_stack_includes_cargo_toml():
         assert any("Cargo.toml" in f for f in files)
 
 
+def test_generator_php_stack_includes_composer_json():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        files = gen.generate(_make_context(stack="PHP 8.3 + Composer"))
+        assert any("composer.json" in f for f in files)
+
+
+def test_generator_dotnet_stack_includes_csproj():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        files = gen.generate(_make_context(stack="C# / .NET 8"))
+        assert any(".csproj" in f for f in files)
+
+
+def test_generator_ruby_stack_includes_gemfile():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        files = gen.generate(_make_context(stack="Ruby 3.3 + Bundler"))
+        assert any("Gemfile" in f for f in files)
+
+
 # ---------------------------------------------------------------------------
 # Multi-license generation
 # ---------------------------------------------------------------------------
@@ -325,6 +349,9 @@ def test_generator_injects_project_name_in_templates():
     ("Go 1.22", "setup-go"),
     ("Java 21 + Maven", "setup-java"),
     ("Rust 1.70 + Cargo", "rust-toolchain"),
+    ("PHP 8.3 + Composer", "setup-php"),
+    ("C# / .NET 8", "setup-dotnet"),
+    ("Ruby 3.3 + Bundler", "setup-ruby"),
 ])
 def test_generator_ci_adapts_to_stack(stack, expected_content):
     with tempfile.TemporaryDirectory() as tmpdir:
@@ -346,6 +373,9 @@ def test_generator_ci_adapts_to_stack(stack, expected_content):
     ("Go 1.22", "gomod"),
     ("Java 21 + Maven", "maven"),
     ("Rust 1.70 + Cargo", "cargo"),
+    ("PHP 8.3 + Composer", "composer"),
+    ("C# / .NET 8", "nuget"),
+    ("Ruby 3.3 + Bundler", "bundler"),
 ])
 def test_generator_dependabot_adapts_to_stack(stack, expected_ecosystem):
     with tempfile.TemporaryDirectory() as tmpdir:
@@ -367,6 +397,9 @@ def test_generator_dependabot_adapts_to_stack(stack, expected_ecosystem):
     ("Go 1.22", "vendor"),
     ("Java 21 + Maven", "target/"),
     ("Rust 1.70 + Cargo", "target/"),
+    ("PHP 8.3 + Composer", "vendor/"),
+    ("C# / .NET 8", "bin/"),
+    ("Ruby 3.3 + Bundler", "vendor/bundle"),
 ])
 def test_generator_gitignore_adapts_to_stack(stack, expected_pattern):
     with tempfile.TemporaryDirectory() as tmpdir:
@@ -388,6 +421,9 @@ def test_generator_gitignore_adapts_to_stack(stack, expected_pattern):
     ("Go 1.22", "go mod download"),
     ("Java 21 + Maven", "mvn install"),
     ("Rust 1.70 + Cargo", "cargo build"),
+    ("PHP 8.3 + Composer", "composer install"),
+    ("C# / .NET 8", "dotnet restore"),
+    ("Ruby 3.3 + Bundler", "bundle install"),
 ])
 def test_generator_readme_adapts_installation_to_stack(stack, expected_content):
     with tempfile.TemporaryDirectory() as tmpdir:

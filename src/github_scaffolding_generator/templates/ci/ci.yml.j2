@@ -40,6 +40,26 @@ jobs:
         with:
           components: clippy
       - run: cargo clippy -- -D warnings
+{% elif "PHP" in stack %}
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer, phpcs, phpstan
+      - run: composer install --no-interaction
+      - run: phpcs --standard=PSR12 src/
+      - run: phpstan analyse src/ --level=max
+{% elif ".NET" in stack or "C#" in stack %}
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet restore
+      - run: dotnet format --verify-no-changes
+{% elif "Ruby" in stack %}
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+      - run: bundle exec rubocop
 {% endif %}
 {% endif %}
 {% if "test" in ci_targets %}
@@ -73,6 +93,25 @@ jobs:
 {% elif "Rust" in stack %}
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo test
+{% elif "PHP" in stack %}
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+      - run: composer install --no-interaction
+      - run: vendor/bin/phpunit tests/
+{% elif ".NET" in stack or "C#" in stack %}
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet restore
+      - run: dotnet test
+{% elif "Ruby" in stack %}
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+      - run: bundle exec rspec
 {% endif %}
 {% endif %}
 {% if "build" in ci_targets %}
@@ -106,6 +145,24 @@ jobs:
 {% elif "Rust" in stack %}
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo build --release
+{% elif "PHP" in stack %}
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+      - run: composer install --no-interaction --no-dev --optimize-autoloader
+{% elif ".NET" in stack or "C#" in stack %}
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet restore
+      - run: dotnet build --configuration Release
+{% elif "Ruby" in stack %}
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+      - run: gem build *.gemspec || bundle exec rake build
 {% endif %}
 {% endif %}
 {% if "release" in ci_targets %}
@@ -155,5 +212,28 @@ jobs:
       - run: cargo publish
         env:
           CARGO_REGISTRY_TOKEN: ${{ "${{ secrets.CARGO_TOKEN }}" }}
+{% elif "PHP" in stack %}
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+      - run: composer install --no-interaction
+      - run: echo "Publish to Packagist via GitHub webhook"
+{% elif ".NET" in stack or "C#" in stack %}
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - run: dotnet pack --configuration Release
+      - run: dotnet nuget push **/*.nupkg --source https://api.nuget.org/v3/index.json
+        env:
+          NUGET_API_KEY: ${{ "${{ secrets.NUGET_API_KEY }}" }}
+{% elif "Ruby" in stack %}
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+      - run: gem push *.gem
+        env:
+          GEM_HOST_API_KEY: ${{ "${{ secrets.RUBYGEMS_API_KEY }}" }}
 {% endif %}
 {% endif %}

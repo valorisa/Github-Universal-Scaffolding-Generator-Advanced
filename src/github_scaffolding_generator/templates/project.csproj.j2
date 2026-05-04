@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk{% if project_type == 'webapp' %}.Web{% endif %}">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+{% if project_type == "cli" %}
+    <OutputType>Exe</OutputType>
+{% elif project_type == "library" %}
+    <OutputType>Library</OutputType>
+    <PackageId>{{ project_name }}</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>{{ author }}</Authors>
+    <Description>{{ description }}</Description>
+    <PackageProjectUrl>https://github.com/{{ author }}/{{ project_name }}</PackageProjectUrl>
+{% if license == "MIT" %}
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+{% elif license == "Apache-2.0" %}
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+{% elif license == "GPL-3.0" %}
+    <PackageLicenseExpression>GPL-3.0-only</PackageLicenseExpression>
+{% elif license == "BSD-3-Clause" %}
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+{% endif %}
+{% endif %}
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>{{ project_name | replace('-', '_') | replace('.', '_') }}</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="xunit" Version="2.7.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.7" />
+  </ItemGroup>
+
+</Project>

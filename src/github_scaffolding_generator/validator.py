@@ -13,6 +13,9 @@ VALID_STACKS = [
     "Go 1.22",
     "Java 21 + Maven",
     "Rust 1.70 + Cargo",
+    "PHP 8.3 + Composer",
+    "C# / .NET 8",
+    "Ruby 3.3 + Bundler",
 ]
 
 

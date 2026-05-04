@@ -23,6 +23,19 @@
 *.rs text diff=rust
 *.toml text
 {% endif %}
+{% if "PHP" in stack %}
+*.php text diff=php
+{% endif %}
+{% if ".NET" in stack or "C#" in stack %}
+*.cs text diff=csharp
+*.csproj text
+*.sln text
+{% endif %}
+{% if "Ruby" in stack %}
+*.rb text diff=ruby
+*.gemspec text
+Gemfile text
+{% endif %}
 
 *.md text diff=markdown
 *.yml text

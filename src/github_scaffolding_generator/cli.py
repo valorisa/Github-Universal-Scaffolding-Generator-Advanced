@@ -11,7 +11,7 @@ if sys.platform == "win32":
 import typer
 from .validator import validate_all, ValidationError
 from .generator import Generator
-from .stacks import STACKS, STACK_BY_KEY, get_stack_labels
+from .stacks import STACKS, get_stack_labels
 
 app = typer.Typer(name="github-scaffolding-generator", rich_markup_mode="markdown")
 

@@ -1009,7 +1009,7 @@ L'objectif fondamental est de réduire de **2-4 heures** à **moins d'une minute
 │  • 100% conditionnés par stack / license / project_type         │
 │  • README.md : 1 492 lignes, 14+ blocs conditionnels            │
 │  • CI : jobs adaptés par langage (setup-python/node/go/java/    │
-│    rust-toolchain) + job release                                 │
+│    rust-toolchain) + job release                                │
 │  • Fichiers config : pyproject.toml, package.json, go.mod,      │
 │    Cargo.toml, pom.xml selon la stack                           │
 └─────────────────────────────────────────────────────────────────┘

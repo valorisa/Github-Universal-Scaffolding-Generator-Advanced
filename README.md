@@ -82,6 +82,50 @@ poetry install
 
 ---
 
+## 🔧 Installation pour les développeurs
+
+**Après avoir cloné le repository** :
+
+```bash
+# 1. Installer les dépendances
+poetry install
+
+# 2. Installer les hooks git (optionnel mais recommandé)
+./setup-hooks.sh
+```
+
+### Qu'est-ce que le hook pre-push ?
+
+Le script `setup-hooks.sh` installe un **hook git automatique** qui valide votre code **avant chaque push**. Cela empêche de pousser du code cassé sur GitHub.
+
+**Le hook valide automatiquement** :
+- ✅ **Tests unitaires** (pytest) — 119 tests doivent passer
+- ✅ **Linter Python** (ruff) — Code doit respecter les conventions
+- ✅ **Linter Markdown** (markdownlint-cli2) — Documentation doit être valide
+
+**Exemple d'utilisation** :
+
+```bash
+git push origin main
+# 🔍 Running pre-push validation checks...
+# [1/3] Running pytest...
+# ✅ Tests passed (pytest)
+# [2/3] Running ruff linter...
+# ✅ Linter passed (ruff)
+# [3/3] Running markdownlint...
+# ✅ Markdown linter passed (markdownlint-cli2)
+# ✅ All checks passed! Proceeding with push...
+```
+
+**Si un check échoue**, le push est bloqué et vous devez corriger les erreurs.
+
+**Pour bypasser temporairement** (déconseillé) :
+```bash
+git push --no-verify origin main
+```
+
+---
+
 ## 🟢 Mode NOVICE (5 questions simples)
 
 **Pour qui ?** Vous ne connaissez pas les termes techniques (stack, CI, lint, etc.).

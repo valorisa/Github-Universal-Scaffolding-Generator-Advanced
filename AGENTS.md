@@ -4,6 +4,7 @@
 
 ```bash
 poetry install                        # Install dependencies
+./setup-hooks.sh                      # Install git pre-push hook (recommended)
 poetry run ruff check .               # Lint (CI runs this first)
 poetry run pytest tests/              # Run tests
 poetry run github-scaffolding-generator init  # Run the CLI tool
@@ -13,6 +14,11 @@ Markdown lint (requires `npm install -g markdownlint-cli2`):
 ```bash
 markdownlint-cli2 "**/*.md" --config .markdownlint-cli2.yaml
 ```
+
+**Git pre-push hook** (installed by `./setup-hooks.sh`):
+- Automatically runs pytest + ruff + markdownlint before every push
+- Blocks push if any validation fails
+- Use `git push --no-verify` to bypass (not recommended)
 
 ## Architecture
 

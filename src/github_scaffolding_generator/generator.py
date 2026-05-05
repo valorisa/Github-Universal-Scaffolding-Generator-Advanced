@@ -49,6 +49,12 @@ class Generator:
             if setup_sh.exists():
                 os.chmod(setup_sh, 0o755)
 
+            # Make shell scripts executable
+            project_name = context["project_name"]
+            shell_script = project_dir / f"{project_name}.sh"
+            if shell_script.exists():
+                os.chmod(shell_script, 0o755)
+
         return generated_files
 
     def _render_template_map(self, base_dir: Path, template_map: Dict[str, str], context: Dict) -> List[str]:
@@ -62,8 +68,18 @@ class Generator:
         return files
 
     def _generate_community_standards(self, project_dir: Path, context: Dict) -> List[str]:
+        project_type = context.get("project_type", "")
+
+        # Use custom README for PowerShell and Shell scripts
+        if project_type == "powershell-script":
+            readme_template = "powershell-README.md.j2"
+        elif project_type == "shell-script":
+            readme_template = "shell-README.md.j2"
+        else:
+            readme_template = "community_standards/README.md.j2"
+
         template_map = {
-            "README.md": "community_standards/README.md.j2",
+            "README.md": readme_template,
             "LICENSE": "community_standards/LICENSE.md.j2",
             "CODE_OF_CONDUCT.md": "community_standards/CODE_OF_CONDUCT.md.j2",
             "CONTRIBUTING.md": "community_standards/CONTRIBUTING.md.j2",
@@ -97,8 +113,22 @@ class Generator:
             "setup.sh": "setup.sh.j2",
             "setup.ps1": "setup.ps1.j2",
         }
+
+        project_type = context.get("project_type", "")
         stack = context.get("stack", "")
-        if "Python" in stack:
+        project_name = context.get('project_name', 'project')
+
+        # Handle PowerShell script projects
+        if project_type == "powershell-script":
+            template_map[f"{project_name}.psm1"] = "powershell-module.psm1.j2"
+            template_map[f"{project_name}.psd1"] = "module.psd1.j2"
+            template_map[f"{project_name}.Tests.ps1"] = "powershell-tests.Tests.ps1.j2"
+        # Handle Shell script projects
+        elif project_type == "shell-script":
+            template_map[f"{project_name}.sh"] = "shell-script.sh.j2"
+            template_map[f"{project_name}.bats"] = "shell-tests.bats.j2"
+        # Handle other project types by stack
+        elif "Python" in stack:
             template_map["pyproject.toml"] = "pyproject.toml.j2"
         elif "Node" in stack:
             template_map["package.json"] = "package.json.j2"
@@ -111,10 +141,8 @@ class Generator:
         elif "PHP" in stack:
             template_map["composer.json"] = "composer.json.j2"
         elif ".NET" in stack or "C#" in stack:
-            template_map[f"{context.get('project_name', 'project')}.csproj"] = "project.csproj.j2"
+            template_map[f"{project_name}.csproj"] = "project.csproj.j2"
         elif "Ruby" in stack:
             template_map["Gemfile"] = "Gemfile.j2"
-        elif "PowerShell" in stack:
-            template_map[f"{context.get('project_name', 'module')}.psd1"] = "module.psd1.j2"
 
         return self._render_template_map(project_dir, template_map, context)

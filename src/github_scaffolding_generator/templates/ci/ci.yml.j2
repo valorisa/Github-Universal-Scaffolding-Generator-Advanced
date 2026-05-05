@@ -60,6 +60,16 @@ jobs:
           ruby-version: '3.3'
           bundler-cache: true
       - run: bundle exec rubocop
+{% elif project_type == "powershell-script" %}
+      - shell: pwsh
+        run: |
+          Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser -SkipPublisherCheck
+          Invoke-ScriptAnalyzer -Path . -Recurse -EnableExit
+{% elif project_type == "shell-script" %}
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+          shellcheck *.sh
 {% elif "PowerShell" in stack %}
       - uses: actions/checkout@v4
       - shell: pwsh
@@ -118,6 +128,15 @@ jobs:
           ruby-version: '3.3'
           bundler-cache: true
       - run: bundle exec rspec
+{% elif project_type == "powershell-script" %}
+      - shell: pwsh
+        run: |
+          Install-Module -Name Pester -MinimumVersion 5.0.0 -Force -Scope CurrentUser -SkipPublisherCheck
+          Invoke-Pester -Path . -PassThru
+{% elif project_type == "shell-script" %}
+      - run: |
+          sudo npm install -g bats
+          bats *.bats
 {% elif "PowerShell" in stack %}
       - shell: pwsh
         run: |

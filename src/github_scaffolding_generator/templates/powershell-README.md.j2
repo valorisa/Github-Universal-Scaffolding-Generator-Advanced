@@ -1,0 +1,113 @@
+# {{ project_name }}
+
+{{ description }}
+
+## Prerequisites
+
+- **PowerShell 7.0+** (cross-platform)
+- **Pester 5.0+** for testing
+
+### Install PowerShell 7+
+
+**Windows:**
+```powershell
+winget install Microsoft.PowerShell
+```
+
+**macOS:**
+```bash
+brew install powershell
+```
+
+**Linux:**
+```bash
+# Ubuntu/Debian
+sudo apt-get update
+sudo apt-get install -y wget apt-transport-https software-properties-common
+wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+sudo apt-get update
+sudo apt-get install -y powershell
+```
+
+### Install Pester
+
+```powershell
+Install-Module -Name Pester -MinimumVersion 5.0.0 -Force -SkipPublisherCheck
+```
+
+## Installation
+
+```powershell
+# Clone the repository
+git clone https://github.com/{{ author }}/{{ project_name }}.git
+cd {{ project_name }}
+
+# Import the module
+Import-Module ./{{ project_name }}.psm1
+```
+
+## Usage
+
+```powershell
+# Example: Call the main function
+Invoke-{{ project_name | replace('-', '') | title }}Function -Name "World"
+
+# With pipeline
+"PowerShell" | Invoke-{{ project_name | replace('-', '') | title }}Function
+
+# With verbose output
+Invoke-{{ project_name | replace('-', '') | title }}Function -Name "Test" -Verbose
+```
+
+## Development
+
+### Run Tests
+
+```powershell
+# Run all tests
+Invoke-Pester
+
+# Run with coverage
+Invoke-Pester -CodeCoverage {{ project_name }}.psm1
+
+# Run specific test file
+Invoke-Pester -Path ./{{ project_name }}.Tests.ps1
+```
+
+### Linting
+
+```powershell
+# Install PSScriptAnalyzer
+Install-Module -Name PSScriptAnalyzer -Force -SkipPublisherCheck
+
+# Run linter
+Invoke-ScriptAnalyzer -Path . -Recurse
+```
+
+## Project Structure
+
+```
+{{ project_name }}/
+├── {{ project_name }}.psm1         # Main module file
+├── {{ project_name }}.psd1         # Module manifest
+├── {{ project_name }}.Tests.ps1    # Pester tests
+├── README.md                        # This file
+└── .github/workflows/ci.yml         # CI/CD pipeline
+```
+
+## Contributing
+
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
+## License
+
+This project is licensed under the {{ license }} License - see the [LICENSE](LICENSE) file for details.
+
+## Author
+
+**{{ author }}** - [GitHub Profile](https://github.com/{{ author }})
+
+---
+
+Generated with [GitHub Universal Scaffolding Generator](https://github.com/valorisa/Github-Universal-Scaffolding-Generator-Advanced)

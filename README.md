@@ -132,7 +132,9 @@ Tu fais quoi ?
   4 - Un automate GitHub
   5 - De la documentation
   6 - Plusieurs projets ensemble
-Choix (1-6): 2
+  7 - Un script PowerShell (Windows)
+  8 - Un script Shell (Linux/macOS)
+Choix (1-8): 2
 
 ✓ Je configure pour : Un site web ou application
 
@@ -827,8 +829,8 @@ L'objectif fondamental est de réduire de **2-4 heures** à **moins d'une minute
 | **Dépendances core** | 4 (typer, jinja2, click, python ^3.12) |
 | **Dépendances dev** | 2 (ruff, pytest) |
 | **Fichiers générés par projet** | 16 |
-| **Types de projets supportés** | 6 |
-| **Stacks techniques supportées** | 5 |
+| **Types de projets supportés** | 8 (+ PowerShell & Shell scripts) |
+| **Stacks techniques supportées** | 10 (+ PowerShell 7, Bash/Zsh) |
 | **Licences supportées** | 5 |
 | **Cibles CI/CD** | 4 (combinables) |
 | **Modes d'interface** | 3 |
@@ -934,9 +936,119 @@ Chaque stack technique est supportée de bout en bout :
 | **Visibilité** | Public (automatique) | Prompt (défaut public) | Prompt (défaut public) |
 | **Risque d'erreur** | Nul | Nul | Nul (saisie libre uniquement pour CI custom) |
 
+### ✨ Nouvelles stacks : PowerShell et Bash/Zsh (2026-05-05)
+
+Le générateur supporte désormais deux nouveaux types de projets dédiés aux scripts système :
+
+#### 🔵 PowerShell Script (`powershell-script`)
+
+**Pour qui ?** Développeurs Windows, DevOps, administrateurs système souhaitant créer des modules PowerShell cross-platform (Windows/Linux/macOS).
+
+**Fichiers générés (21 fichiers) :**
+- `{nom-projet}.psm1` — Module PowerShell principal avec fonctions exportées
+- `{nom-projet}.psd1` — Manifeste du module (metadata, version, dépendances)
+- `{nom-projet}.Tests.ps1` — Tests unitaires avec Pester 5.x
+- README.md spécifique — Instructions d'installation PowerShell 7+ sur tous les OS
+- Tous les fichiers standard (LICENSE, CI, GitHub templates, etc.)
+
+**Stack technique :** PowerShell 7 + Pester
+
+**Exemple de génération :**
+```bash
+poetry run github-scaffolding-generator init
+# Choisir : Mode EXPERT (3) → Type powershell-script (7) → Stack PowerShell 7 + Pester (9)
+```
+
+**Ce qui est inclus :**
+- ✅ Fonction exemple avec documentation inline (synopsis, description, paramètres, exemples)
+- ✅ Tests Pester avec contextes `BeforeAll` / `AfterAll`
+- ✅ README avec instructions d'installation PowerShell 7+ sur Windows/macOS/Linux
+- ✅ CI configuré pour PSScriptAnalyzer (lint) + Pester (tests)
+- ✅ `.gitignore` adapté (TestResults, *.psm1.bak, etc.)
+
+#### 🟢 Shell Script (`shell-script`)
+
+**Pour qui ?** Développeurs Linux/macOS, SRE, administrateurs système souhaitant créer des scripts shell portables (Bash/Zsh).
+
+**Fichiers générés (20 fichiers) :**
+- `{nom-projet}.sh` — Script Bash/Zsh exécutable avec parsing d'arguments, couleurs, logging
+- `{nom-projet}.bats` — Tests avec BATS (Bash Automated Testing System)
+- README.md spécifique — Instructions BATS + ShellCheck sur Linux/macOS
+- Tous les fichiers standard (LICENSE, CI, GitHub templates, etc.)
+
+**Stack technique :** Bash/Zsh
+
+**Exemple de génération :**
+```bash
+poetry run github-scaffolding-generator init
+# Choisir : Mode EXPERT (3) → Type shell-script (8) → Stack Bash/Zsh (10)
+```
+
+**Ce qui est inclus :**
+- ✅ Script avec `set -euo pipefail`, logging coloré, fonctions d'aide
+- ✅ Parsing d'arguments (`--verbose`, `--quiet`, `--help`, commandes)
+- ✅ Tests BATS avec setup/teardown
+- ✅ README avec instructions BATS + ShellCheck sur Ubuntu/Debian/Fedora/macOS
+- ✅ CI configuré pour ShellCheck (lint) + BATS (tests)
+- ✅ `.gitignore` adapté (`*.log`, `*.tmp`, test-reports/, etc.)
+- ✅ Script automatiquement exécutable (`chmod +x`) sur Linux/macOS
+
+**Conventions appliquées :**
+- Bash : `snake_case` pour fonctions/variables, constantes en `SCREAMING_SNAKE_CASE`
+- PowerShell : `PascalCase` pour fonctions, `$camelCase` pour variables
+- Indentation : 4 espaces (conforme PSScriptAnalyzer et ShellCheck defaults)
+
+### 🧪 Tests approfondis (2026-05-05)
+
+Les nouvelles stacks PowerShell et Shell ont été testées exhaustivement sur **macOS** avec les configurations suivantes :
+
+#### Tests PowerShell (macOS avec PowerShell 7.6.1)
+
+✅ **Import de module** : Module `.psm1` importé sans erreur  
+✅ **Fonctions exportées** : `Invoke-{NomProjet}Function` correctement exposée  
+✅ **Exécution** : Fonction appelée avec paramètres, retourne le résultat attendu  
+✅ **Pipeline** : Support du pipeline PowerShell (`'Item1', 'Item2' | Invoke-Function`)  
+✅ **Manifeste** : `.psd1` correctement généré avec metadata  
+✅ **Tests Pester** : Fichier `.Tests.ps1` généré (requiert Pester 5.0+)  
+✅ **Workflows CI** : `.github/workflows/ci.yml` adapté pour PowerShell (PSScriptAnalyzer + Pester)  
+
+**Licences testées** : MIT, Apache-2.0, Proprietary (3 projets générés)
+
+#### Tests Shell (macOS avec Bash 5.x et Zsh)
+
+✅ **Permissions** : Scripts `.sh` automatiquement exécutables (`chmod +x`)  
+✅ **Commande `version`** : Affiche version, auteur, licence correctement  
+✅ **Commande `hello`** : Logging coloré fonctionnel (INFO, SUCCESS)  
+✅ **Commande `--help`** : Aide complète affichée avec usage, commandes, options, exemples  
+✅ **Parsing d'arguments** : Flags `--verbose`, `--quiet` reconnus  
+✅ **Tests BATS** : Fichier `.bats` généré avec 10 tests (setup, commandes, edge cases)  
+✅ **Workflows CI** : `.github/workflows/ci.yml` adapté pour Shell (ShellCheck + BATS)  
+
+**Licences testées** : MIT, GPL-3.0, BSD-3-Clause (3 projets générés)
+
+#### Résultats de validation
+
+```bash
+# Tests unitaires (119 tests)
+poetry run pytest tests/ -v
+# ============================= 119 passed in 3.71s ==============================
+
+# Linter Python
+poetry run ruff check .
+# All checks passed!
+
+# Linter Markdown
+markdownlint-cli2 "**/*.md" --config .markdownlint-cli2.yaml
+# Summary: 0 error(s)
+```
+
+**Total de projets générés pour les tests** : 6 projets (3 PowerShell + 3 Shell)  
+**Total de fichiers générés** : 123 fichiers (21 × 3 + 20 × 3)  
+**Aucune erreur détectée** ✅
+
 ### Qualité et fiabilité
 
-- **85 tests paramétrés** couvrant : toutes les fonctions de validation, la cohérence des constantes CLI vs validator, la génération de fichiers par stack, le contenu des licences, l'adaptation CI/dependabot/gitignore par stack, l'injection des variables dynamiques dans les templates, et la structure des fichiers générés.
+- **119 tests paramétrés** couvrant : toutes les fonctions de validation, la cohérence des constantes CLI vs validator, la génération de fichiers par stack, le contenu des licences, l'adaptation CI/dependabot/gitignore par stack, l'injection des variables dynamiques dans les templates, et la structure des fichiers générés.
 - **Lint Ruff** : zéro warning sur l'ensemble du code source et des tests.
 - **Encodage UTF-8** : garanti sur tous les OS — le CLI reconfigure automatiquement stdout/stderr/stdin sur Windows sans intervention utilisateur.
 - **Aucune saisie libre** pour les choix à valeurs finies : tous les paramètres critiques (type, stack, licence) utilisent des menus numérotés, éliminant totalement les erreurs de frappe.

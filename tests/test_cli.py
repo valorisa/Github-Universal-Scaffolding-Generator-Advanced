@@ -35,7 +35,7 @@ def test_validate_project_name_invalid(name):
 # validate_project_type
 # ---------------------------------------------------------------------------
 
-@pytest.mark.parametrize("ptype", ["cli", "library", "webapp", "github-action", "docs", "monorepo"])
+@pytest.mark.parametrize("ptype", ["cli", "library", "webapp", "github-action", "docs", "monorepo", "powershell-script", "shell-script"])
 def test_validate_project_type_valid(ptype):
     assert validate_project_type(ptype) == ptype
 
@@ -59,6 +59,7 @@ def test_validate_project_type_invalid():
     "C# / .NET 8",
     "Ruby 3.3 + Bundler",
     "PowerShell 7 + Pester",
+    "Bash/Zsh",
 ])
 def test_validate_stack_valid(stack):
     assert validate_stack(stack) == stack
@@ -173,7 +174,7 @@ def test_validate_all_invalid_project_type():
 # ---------------------------------------------------------------------------
 
 def test_activity_mapping_keys_are_contiguous():
-    assert set(ACTIVITY_MAPPING.keys()) == {"1", "2", "3", "4", "5", "6"}
+    assert set(ACTIVITY_MAPPING.keys()) == {"1", "2", "3", "4", "5", "6", "7", "8"}
 
 
 def test_license_map_values_are_valid():
@@ -296,7 +297,10 @@ def test_generator_ruby_stack_includes_gemfile():
 def test_generator_powershell_stack_includes_psd1():
     with tempfile.TemporaryDirectory() as tmpdir:
         gen = Generator(output_dir=tmpdir)
-        files = gen.generate(_make_context(stack="PowerShell 7 + Pester"))
+        files = gen.generate(_make_context(
+            project_type="powershell-script",
+            stack="PowerShell 7 + Pester"
+        ))
         assert any(".psd1" in f for f in files)
 
 
@@ -472,3 +476,90 @@ def test_generator_readme_contains_today_date():
         readme = Path(tmpdir) / "test-project" / "README.md"
         content = readme.read_text(encoding="utf-8")
         assert date.today().isoformat() in content
+
+
+# ---------------------------------------------------------------------------
+# PowerShell script project type tests
+# ---------------------------------------------------------------------------
+
+def test_generator_powershell_script_creates_psm1():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        files = gen.generate(_make_context(
+            project_type="powershell-script",
+            stack="PowerShell 7 + Pester"
+        ))
+        assert any("test-project.psm1" in f for f in files)
+
+
+def test_generator_powershell_script_creates_psd1():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        files = gen.generate(_make_context(
+            project_type="powershell-script",
+            stack="PowerShell 7 + Pester"
+        ))
+        assert any("test-project.psd1" in f for f in files)
+
+
+def test_generator_powershell_script_creates_tests():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        files = gen.generate(_make_context(
+            project_type="powershell-script",
+            stack="PowerShell 7 + Pester"
+        ))
+        assert any("test-project.Tests.ps1" in f for f in files)
+
+
+def test_generator_powershell_script_uses_custom_readme():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        gen.generate(_make_context(
+            project_type="powershell-script",
+            stack="PowerShell 7 + Pester"
+        ))
+        from pathlib import Path
+        readme = Path(tmpdir) / "test-project" / "README.md"
+        content = readme.read_text(encoding="utf-8")
+        assert "Pester 5.0+" in content
+        assert "Install-Module" in content
+
+
+# ---------------------------------------------------------------------------
+# Shell script project type tests
+# ---------------------------------------------------------------------------
+
+def test_generator_shell_script_creates_sh():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        files = gen.generate(_make_context(
+            project_type="shell-script",
+            stack="Bash/Zsh"
+        ))
+        assert any("test-project.sh" in f for f in files)
+
+
+def test_generator_shell_script_creates_bats():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        files = gen.generate(_make_context(
+            project_type="shell-script",
+            stack="Bash/Zsh"
+        ))
+        assert any("test-project.bats" in f for f in files)
+
+
+def test_generator_shell_script_uses_custom_readme():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        gen = Generator(output_dir=tmpdir)
+        gen.generate(_make_context(
+            project_type="shell-script",
+            stack="Bash/Zsh"
+        ))
+        from pathlib import Path
+        readme = Path(tmpdir) / "test-project" / "README.md"
+        content = readme.read_text(encoding="utf-8")
+        assert "BATS" in content
+        assert "ShellCheck" in content
+        assert "Bash 4.0+" in content

@@ -2,7 +2,7 @@
 
 from typing import Optional
 
-VALID_PROJECT_TYPES = ["cli", "library", "webapp", "github-action", "docs", "monorepo"]
+VALID_PROJECT_TYPES = ["cli", "library", "webapp", "github-action", "docs", "monorepo", "powershell-script", "shell-script"]
 VALID_LICENSES = ["MIT", "Apache-2.0", "GPL-3.0", "BSD-3-Clause", "proprietary"]
 VALID_VISIBILITIES = ["public", "private"]
 VALID_CI_TARGETS = ["lint", "test", "build", "release"]
@@ -17,6 +17,7 @@ VALID_STACKS = [
     "C# / .NET 8",
     "Ruby 3.3 + Bundler",
     "PowerShell 7 + Pester",
+    "Bash/Zsh",
 ]
 
 

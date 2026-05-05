@@ -1,0 +1,70 @@
+#!/usr/bin/env bats
+# Tests for {{ project_name }}
+# Using BATS (Bash Automated Testing System)
+# https://github.com/bats-core/bats-core
+
+setup() {
+    # Get the containing directory of this file
+    DIR="$( cd "$( dirname "$BATS_TEST_FILENAME" )" >/dev/null 2>&1 && pwd )"
+    # Make script executable
+    chmod +x "${DIR}/{{ project_name }}.sh"
+    # Set PATH to include script directory
+    PATH="${DIR}:${PATH}"
+}
+
+@test "script runs without errors" {
+    run bash "${DIR}/{{ project_name }}.sh" hello
+    [ "$status" -eq 0 ]
+}
+
+@test "hello command with default name" {
+    run bash "${DIR}/{{ project_name }}.sh" hello
+    [ "$status" -eq 0 ]
+    [[ "$output" =~ "Hello, World!" ]]
+}
+
+@test "hello command with custom name" {
+    run bash "${DIR}/{{ project_name }}.sh" hello "Bash"
+    [ "$status" -eq 0 ]
+    [[ "$output" =~ "Hello, Bash!" ]]
+}
+
+@test "version command shows version" {
+    run bash "${DIR}/{{ project_name }}.sh" version
+    [ "$status" -eq 0 ]
+    [[ "$output" =~ "version 0.1.0" ]]
+}
+
+@test "help command shows usage" {
+    run bash "${DIR}/{{ project_name }}.sh" help
+    [ "$status" -eq 0 ]
+    [[ "$output" =~ "Usage:" ]]
+}
+
+@test "--help flag shows usage" {
+    run bash "${DIR}/{{ project_name }}.sh" --help
+    [ "$status" -eq 0 ]
+    [[ "$output" =~ "Usage:" ]]
+}
+
+@test "invalid command shows error" {
+    run bash "${DIR}/{{ project_name }}.sh" invalid-command
+    [ "$status" -eq 1 ]
+    [[ "$output" =~ "ERROR" ]]
+}
+
+@test "no arguments shows usage" {
+    run bash "${DIR}/{{ project_name }}.sh"
+    [ "$status" -eq 0 ]
+    [[ "$output" =~ "Usage:" ]]
+}
+
+@test "verbose flag is accepted" {
+    run bash "${DIR}/{{ project_name }}.sh" --verbose hello
+    [ "$status" -eq 0 ]
+}
+
+@test "quiet flag is accepted" {
+    run bash "${DIR}/{{ project_name }}.sh" --quiet hello
+    [ "$status" -eq 0 ]
+}

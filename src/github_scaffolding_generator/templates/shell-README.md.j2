@@ -1,0 +1,152 @@
+# {{ project_name }}
+
+{{ description }}
+
+## Prerequisites
+
+- **Bash 4.0+** or **Zsh 5.0+**
+- **BATS** (Bash Automated Testing System) for testing
+- **ShellCheck** for linting (optional but recommended)
+
+### Install Prerequisites
+
+**macOS:**
+```bash
+# Install Bash (macOS ships with old Bash 3.x)
+brew install bash
+
+# Install BATS
+brew install bats-core
+
+# Install ShellCheck
+brew install shellcheck
+```
+
+**Linux (Ubuntu/Debian):**
+```bash
+# Bash is pre-installed on most Linux distributions
+
+# Install BATS
+sudo apt-get update
+sudo apt-get install -y bats
+
+# Install ShellCheck
+sudo apt-get install -y shellcheck
+```
+
+**Linux (Fedora/RHEL):**
+```bash
+# Install BATS
+sudo dnf install -y bats
+
+# Install ShellCheck
+sudo dnf install -y ShellCheck
+```
+
+## Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/{{ author }}/{{ project_name }}.git
+cd {{ project_name }}
+
+# Make the script executable
+chmod +x {{ project_name }}.sh
+
+# Optionally, add to PATH
+sudo ln -s "$(pwd)/{{ project_name }}.sh" /usr/local/bin/{{ project_name }}
+```
+
+## Usage
+
+```bash
+# Show help
+./{{ project_name }}.sh --help
+
+# Run hello command
+./{{ project_name }}.sh hello World
+
+# Show version
+./{{ project_name }}.sh version
+
+# Verbose output
+./{{ project_name }}.sh --verbose hello PowerUser
+```
+
+## Development
+
+### Run Tests
+
+```bash
+# Run all tests with BATS
+bats {{ project_name }}.bats
+
+# Run tests with verbose output
+bats -t {{ project_name }}.bats
+```
+
+### Linting
+
+```bash
+# Lint with ShellCheck
+shellcheck {{ project_name }}.sh
+
+# Lint all shell scripts
+find . -name "*.sh" -exec shellcheck {} \;
+```
+
+### Code Style
+
+This script follows these conventions:
+- Use `set -euo pipefail` for safety
+- Prefix readonly variables with `readonly`
+- Use `local` for function variables
+- Quote all variable expansions: `"${var}"`
+- Use `snake_case` for function and variable names
+- Add comments for non-obvious logic
+
+## Project Structure
+
+```
+{{ project_name }}/
+├── {{ project_name }}.sh           # Main script
+├── {{ project_name }}.bats         # BATS test suite
+├── README.md                        # This file
+├── setup.sh                         # Setup script for GitHub
+└── .github/workflows/ci.yml         # CI/CD pipeline
+```
+
+## CI/CD
+
+This project uses GitHub Actions for continuous integration. On every push:
+- ShellCheck lints all shell scripts
+- BATS runs the full test suite
+
+See [.github/workflows/ci.yml](.github/workflows/ci.yml) for details.
+
+## Contributing
+
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
+### Development Workflow
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/my-feature`
+3. Make your changes
+4. Run tests: `bats {{ project_name }}.bats`
+5. Run linter: `shellcheck {{ project_name }}.sh`
+6. Commit: `git commit -m "feat: add my feature"`
+7. Push: `git push origin feature/my-feature`
+8. Open a Pull Request
+
+## License
+
+This project is licensed under the {{ license }} License - see the [LICENSE](LICENSE) file for details.
+
+## Author
+
+**{{ author }}** - [GitHub Profile](https://github.com/{{ author }})
+
+---
+
+Generated with [GitHub Universal Scaffolding Generator](https://github.com/valorisa/Github-Universal-Scaffolding-Generator-Advanced)

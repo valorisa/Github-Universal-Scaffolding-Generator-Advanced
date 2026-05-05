@@ -21,6 +21,8 @@ ACTIVITY_MAPPING = {
     "4": ("github-action", "Node 20 + pnpm", "lint,test", "Un automate GitHub"),
     "5": ("docs", "Node 20 + pnpm", "lint,test", "De la documentation"),
     "6": ("monorepo", "Node 20 + pnpm", "lint,test,build", "Plusieurs projets ensemble"),
+    "7": ("powershell-script", "PowerShell 7 + Pester", "lint,test", "Un script PowerShell (Windows)"),
+    "8": ("shell-script", "Bash/Zsh", "lint,test", "Un script Shell (Linux/macOS)"),
 }
 
 INTERMEDIATE_LABELS = {
@@ -30,6 +32,8 @@ INTERMEDIATE_LABELS = {
     "4": "GitHub Action (automate)",
     "5": "Docs (documentation)",
     "6": "Monorepo (plusieurs projets)",
+    "7": "PowerShell Script (Windows)",
+    "8": "Shell Script (Linux/macOS)",
 }
 
 LICENSE_MAP = {"1": "MIT", "2": "Apache-2.0", "3": "GPL-3.0", "4": "proprietary"}
@@ -43,6 +47,8 @@ PROJECT_TYPE_MAP = {
     "4": "github-action",
     "5": "docs",
     "6": "monorepo",
+    "7": "powershell-script",
+    "8": "shell-script",
 }
 
 STACK_MAP = {
@@ -55,6 +61,7 @@ STACK_MAP = {
     "7": "C# / .NET 8",
     "8": "Ruby 3.3 + Bundler",
     "9": "PowerShell 7 + Pester",
+    "10": "Bash/Zsh",
 }
 
 
@@ -62,9 +69,9 @@ def _prompt_activity(question: str, labels: dict) -> tuple:
     typer.echo(f"\n{question}")
     for key, label in labels.items():
         typer.echo(f"  {key} - {label}")
-    choice = typer.prompt("Choix (1-6)")
+    choice = typer.prompt("Choix (1-8)")
     if choice not in ACTIVITY_MAPPING:
-        typer.echo("Erreur : Choix invalide (1-6)")
+        typer.echo("Erreur : Choix invalide (1-8)")
         raise typer.Exit(1)
     return ACTIVITY_MAPPING[choice]
 
@@ -81,7 +88,8 @@ def _prompt_stack(default_stack: str) -> str:
     typer.echo("  7 - C# / .NET")
     typer.echo("  8 - Ruby")
     typer.echo("  9 - PowerShell")
-    choice = typer.prompt("Choix (1-9)", default=default_key)
+    typer.echo("  10 - Bash/Zsh")
+    choice = typer.prompt("Choix (1-10)", default=default_key)
     return STACK_MAP.get(choice, default_stack)
 
 
@@ -174,9 +182,11 @@ def _expert_mode():
     typer.echo("  4 - github-action")
     typer.echo("  5 - docs")
     typer.echo("  6 - monorepo")
-    type_choice = typer.prompt("Choix (1-6)")
+    typer.echo("  7 - powershell-script")
+    typer.echo("  8 - shell-script")
+    type_choice = typer.prompt("Choix (1-8)")
     if type_choice not in PROJECT_TYPE_MAP:
-        typer.echo("Erreur : Choix invalide (1-6)")
+        typer.echo("Erreur : Choix invalide (1-8)")
         raise typer.Exit(1)
     project_type = PROJECT_TYPE_MAP[type_choice]
 
@@ -190,9 +200,10 @@ def _expert_mode():
     typer.echo("  7 - C# / .NET 8")
     typer.echo("  8 - Ruby 3.3 + Bundler")
     typer.echo("  9 - PowerShell 7 + Pester")
-    stack_choice = typer.prompt("Choix (1-9)")
+    typer.echo("  10 - Bash/Zsh")
+    stack_choice = typer.prompt("Choix (1-10)")
     if stack_choice not in STACK_MAP:
-        typer.echo("Erreur : Choix invalide (1-9)")
+        typer.echo("Erreur : Choix invalide (1-10)")
         raise typer.Exit(1)
     stack = STACK_MAP[stack_choice]
 

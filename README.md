@@ -14,6 +14,73 @@
 
 ---
 
+## 📖 Glossaire - Les termes expliqués simplement
+
+Avant de commencer, voici les termes que vous rencontrerez dans l'outil :
+
+### Types de projets
+
+| Terme | Explication simple | Exemples concrets |
+|-------|-------------------|-------------------|
+| **CLI** | **C**ommand **L**ine **I**nterface = Outil en ligne de commande (terminal) | `git`, `npm`, `docker`, votre propre script utilitaire |
+| **Webapp** | Application web accessible via navigateur | Site e-commerce, blog, dashboard, application SaaS |
+| **Library** | Bibliothèque = Code réutilisable par d'autres développeurs | `requests` (Python), `lodash` (JavaScript), vos propres utils |
+| **GitHub Action** | Automate GitHub = Robot qui s'exécute sur GitHub | CI/CD, bot de labellisation, génération automatique |
+| **Docs** | Site de documentation technique | ReadTheDocs, Docusaurus, VuePress |
+| **Monorepo** | 1 seul repo Git contenant plusieurs projets/packages | Google (2Mds lignes), React (web+native+metro), votre front+back+mobile |
+| **PowerShell Script** | Script Windows (compatible Linux/macOS avec PowerShell 7+) | Automatisation Windows, scripts DevOps, gestion Active Directory |
+| **Shell Script** | Script Bash/Zsh pour Linux et macOS | Scripts d'installation, automatisation serveur, outils DevOps |
+
+### Stacks techniques (langages/outils)
+
+| Stack | Explication | Quand l'utiliser |
+|-------|-------------|------------------|
+| **Python + Poetry** | Langage polyvalent + gestionnaire de dépendances | Data science, API, CLI, scripts, machine learning |
+| **Node + pnpm** | JavaScript/TypeScript + gestionnaire rapide | Web, API REST, outils front-end, applications full-stack |
+| **Go** | Langage compilé ultra-rapide de Google | Microservices, outils CLI performants, infrastructure |
+| **Java + Maven** | Langage entreprise + gestionnaire de build | Applications d'entreprise, Android, systèmes critiques |
+| **Rust + Cargo** | Langage système ultra-sûr et rapide | Systèmes bas-niveau, CLI performants, WebAssembly |
+| **PHP + Composer** | Langage web classique + gestionnaire de dépendances | Sites web, WordPress, Laravel, Symfony |
+| **C# / .NET** | Langage Microsoft cross-platform | Applications Windows, jeux Unity, API enterprise |
+| **Ruby + Bundler** | Langage élégant + gestionnaire de gems | Rails (web), scripts, automatisation |
+| **PowerShell + Pester** | Shell Microsoft + framework de tests | Scripts Windows, automatisation cloud (Azure), DevOps |
+| **Bash/Zsh** | Shells Unix/Linux | Scripts serveur, automatisation, outils DevOps |
+
+### CI/CD et qualité
+
+| Terme | Explication | Pourquoi c'est important |
+|-------|-------------|--------------------------|
+| **CI** | **C**ontinuous **I**ntegration = Robot qui vérifie automatiquement votre code à chaque commit | Détecte les bugs tôt, empêche le code cassé d'être mergé |
+| **CD** | **C**ontinuous **D**elivery/Deployment = Robot qui déploie automatiquement votre code | Déploiement rapide, moins d'erreurs humaines |
+| **Lint** | Vérificateur de style de code (indentation, nommage, etc.) | Code cohérent, facile à lire, moins de bugs |
+| **Test** | Tests automatisés qui vérifient que le code fonctionne | Confiance lors des modifications, détection de régressions |
+| **Build** | Transformation du code source en programme utilisable | Compilation, bundling, optimisation |
+| **Release** | Publication d'une nouvelle version (npm, PyPI, GitHub Releases) | Distribution automatique aux utilisateurs |
+
+### Licences open-source
+
+| Licence | Liberté | Contraintes | Usage typique |
+|---------|---------|-------------|---------------|
+| **MIT** | 🟢 Maximale | Aucune (juste crédit) | Projets libres, startups, prototypes |
+| **Apache-2.0** | 🟢 Maximale | Protection brevet explicite | Projets d'entreprise, cloud |
+| **GPL-3.0** | 🟡 Copyleft | Modifications doivent être GPL aussi | Logiciel libre strict (Linux, GNU) |
+| **BSD-3-Clause** | 🟢 Maximale | Ne pas utiliser le nom du projet pour pub | Académique, FreeBSD |
+| **Propriétaire** | 🔴 Fermée | Tous droits réservés | Code privé, commercial |
+
+### Autres termes
+
+| Terme | Explication |
+|-------|-------------|
+| **Stack** | Ensemble des technologies utilisées (ex: "MERN" = MongoDB + Express + React + Node) |
+| **Visibility** | `public` = tout le monde voit le code / `private` = seul vous (et votre équipe) |
+| **Poetry** | Gestionnaire moderne de dépendances Python (remplace pip + virtualenv) |
+| **pnpm** | Gestionnaire de paquets Node.js rapide et économe en espace disque |
+| **Pester** | Framework de tests unitaires pour PowerShell |
+| **BATS** | **B**ash **A**utomated **T**esting **S**ystem = Tests pour scripts shell |
+| **Community Standards** | 6 fichiers requis par GitHub : README, LICENSE, CODE_OF_CONDUCT, CONTRIBUTING, SECURITY, issue templates |
+
+---
+
 ## 🚀 Installation
 
 ### 1. Installer Python 3.12+

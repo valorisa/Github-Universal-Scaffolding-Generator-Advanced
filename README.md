@@ -188,7 +188,12 @@ Quel langage utilises-tu ? (Entrée = garder le défaut)
   3 - Go
   4 - Java
   5 - Rust
-Choix (1-5) [2]: ← Entrée pour garder Node.js (défaut webapp)
+  6 - PHP
+  7 - C# / .NET
+  8 - Ruby
+  9 - PowerShell
+  10 - Bash/Zsh
+Choix (1-10) [2]: ← Entrée pour garder Node.js (défaut webapp)
 
 Description courte ? (une phrase): Un blog personnel avec articles et commentaires
 Pseudo GitHub ?: monpseudo
@@ -261,7 +266,9 @@ Type de projet ?
   4 - GitHub Action (automate)
   5 - Docs (documentation)
   6 - Monorepo (plusieurs projets)
-Choix (1-6): 2
+  7 - PowerShell Script (Windows)
+  8 - Shell Script (Linux/macOS)
+Choix (1-8): 2
 
 ✓ Type détecté : Un site web ou application
 
@@ -271,7 +278,12 @@ Quel langage utilises-tu ? (Entrée = garder le défaut)
   3 - Go
   4 - Java
   5 - Rust
-Choix (1-5) [2]: 4  ← Override vers Java
+  6 - PHP
+  7 - C# / .NET
+  8 - Ruby
+  9 - PowerShell
+  10 - Bash/Zsh
+Choix (1-10) [2]: 4  ← Override vers Java
 
 Description courte ? (une phrase): Une API REST pour gérer des tâches
 Pseudo GitHub ?: votrepseudo
@@ -357,7 +369,9 @@ Type de projet ?
   4 - github-action
   5 - docs
   6 - monorepo
-Choix (1-6): 1
+  7 - powershell-script
+  8 - shell-script
+Choix (1-8): 1
 
 Stack technique ?
   1 - Python 3.12 + Poetry
@@ -365,7 +379,12 @@ Stack technique ?
   3 - Go 1.22
   4 - Java 21 + Maven
   5 - Rust 1.70 + Cargo
-Choix (1-5): 5
+  6 - PHP 8.3 + Composer
+  7 - C# / .NET 8
+  8 - Ruby 3.3 + Bundler
+  9 - PowerShell 7 + Pester
+  10 - Bash/Zsh
+Choix (1-10): 5
 
 Description ?: Un outil pour convertir des images
 Pseudo GitHub ?: votrepseudo
@@ -495,7 +514,12 @@ Quel langage utilises-tu ? (Entrée = garder le défaut)
   3 - Go
   4 - Java
   5 - Rust
-Choix (1-5) [1]: ← Entrée (garde Python, défaut pour CLI)
+  6 - PHP
+  7 - C# / .NET
+  8 - Ruby
+  9 - PowerShell
+  10 - Bash/Zsh
+Choix (1-10) [1]: ← Entrée (garde Python, défaut pour CLI)
 
 Description courte ? (une phrase): Un outil pour encoder/décoder des credentials en Base64
 Pseudo GitHub ?: testuser
@@ -577,7 +601,9 @@ Type de projet ?
   4 - GitHub Action (automate)
   5 - Docs (documentation)
   6 - Monorepo (plusieurs projets)
-Choix (1-6): 2
+  7 - PowerShell Script (Windows)
+  8 - Shell Script (Linux/macOS)
+Choix (1-8): 2
 
 ✓ Type détecté : Un site web ou application
 
@@ -587,7 +613,12 @@ Quel langage utilises-tu ? (Entrée = garder le défaut)
   3 - Go
   4 - Java
   5 - Rust
-Choix (1-5) [2]: 4  ← Override vers Java
+  6 - PHP
+  7 - C# / .NET
+  8 - Ruby
+  9 - PowerShell
+  10 - Bash/Zsh
+Choix (1-10) [2]: 4  ← Override vers Java
 
 Description courte ? (une phrase): Une API REST pour gérer des tâches
 Pseudo GitHub ?: votrepseudo

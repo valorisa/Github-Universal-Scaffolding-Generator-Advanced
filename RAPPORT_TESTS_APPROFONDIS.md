@@ -20,7 +20,7 @@
 
 ## 1. Tests PowerShell
 
-### Projets générés
+### Projets PowerShell générés
 
 | Projet | Licence | CI Targets | Fichiers |
 |--------|---------|------------|----------|
@@ -28,7 +28,7 @@
 | `ps-logging-toolkit` | Apache-2.0 | lint,test,build | 21 |
 | `ps-enterprise-tools` | Proprietary | lint,test,build,release | 21 |
 
-### Tests manuels (macOS + PowerShell 7.6.1)
+### Tests manuels PowerShell (macOS + PowerShell 7.6.1)
 
 ```bash
 # Import du module
@@ -46,7 +46,7 @@ pwsh -NoProfile -Command "Import-Module ./ps-utils-core.psm1 -Force; 'PowerShell
 #    Hello, Valorisa!
 ```
 
-### Vérifications structurelles
+### Vérifications structurelles PowerShell
 
 ✅ **Module `.psm1`**
 - Génération correcte avec fonctions exportées
@@ -96,7 +96,7 @@ jobs:
 
 ## 2. Tests Shell (Bash/Zsh)
 
-### Projets générés
+### Projets Shell générés
 
 | Projet | Licence | CI Targets | Fichiers |
 |--------|---------|------------|----------|
@@ -104,7 +104,7 @@ jobs:
 | `shell-monitor-daemon` | GPL-3.0 | lint,test,build | 20 |
 | `shell-deploy-orchestrator` | BSD-3-Clause | lint,test,build,release | 20 |
 
-### Tests manuels (macOS + Bash/Zsh)
+### Tests manuels Shell (macOS + Bash/Zsh)
 
 ```bash
 # Vérification des permissions
@@ -132,7 +132,7 @@ ls -lh shell-backup-tool.sh
 #    Options: -v, --verbose, -q, --quiet, -h, --help
 ```
 
-### Vérifications structurelles
+### Vérifications structurelles Shell
 
 ✅ **Script `.sh`**
 - Shebang `#!/usr/bin/env bash`

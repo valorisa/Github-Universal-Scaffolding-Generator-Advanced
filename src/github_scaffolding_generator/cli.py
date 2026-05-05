@@ -11,9 +11,14 @@ if sys.platform == "win32":
 import typer
 from .validator import validate_all, ValidationError
 from .generator import Generator
+from .stacks import STACKS, STACK_BY_KEY, get_stack_labels
 
 app = typer.Typer(name="github-scaffolding-generator", rich_markup_mode="markdown")
 
+# Derived from the centralized stack registry
+STACK_MAP = get_stack_labels()
+
+# Activity mapping for novice mode (project-type oriented)
 ACTIVITY_MAPPING = {
     "1": ("cli", "Python 3.12 + Poetry", "lint,test", "Un outil en ligne de commande (terminal)"),
     "2": ("webapp", "Node 20 + pnpm", "lint,test", "Un site web ou application"),
@@ -51,19 +56,6 @@ PROJECT_TYPE_MAP = {
     "8": "shell-script",
 }
 
-STACK_MAP = {
-    "1": "Python 3.12 + Poetry",
-    "2": "Node 20 + pnpm",
-    "3": "Go 1.22",
-    "4": "Java 21 + Maven",
-    "5": "Rust 1.70 + Cargo",
-    "6": "PHP 8.3 + Composer",
-    "7": "C# / .NET 8",
-    "8": "Ruby 3.3 + Bundler",
-    "9": "PowerShell 7 + Pester",
-    "10": "Bash/Zsh",
-}
-
 
 def _prompt_activity(question: str, labels: dict) -> tuple:
     typer.echo(f"\n{question}")
@@ -79,17 +71,9 @@ def _prompt_activity(question: str, labels: dict) -> tuple:
 def _prompt_stack(default_stack: str) -> str:
     default_key = next((k for k, v in STACK_MAP.items() if v == default_stack), "1")
     typer.echo("\nQuel langage utilises-tu ? (Entrée = garder le défaut)")
-    typer.echo("  1 - Python")
-    typer.echo("  2 - JavaScript / Node.js")
-    typer.echo("  3 - Go")
-    typer.echo("  4 - Java")
-    typer.echo("  5 - Rust")
-    typer.echo("  6 - PHP")
-    typer.echo("  7 - C# / .NET")
-    typer.echo("  8 - Ruby")
-    typer.echo("  9 - PowerShell")
-    typer.echo("  10 - Bash/Zsh")
-    choice = typer.prompt("Choix (1-10)", default=default_key)
+    for s in STACKS:
+        typer.echo(f"  {s.key} - {s.language}")
+    choice = typer.prompt(f"Choix (1-{len(STACKS)})", default=default_key)
     return STACK_MAP.get(choice, default_stack)
 
 
@@ -176,14 +160,8 @@ def _expert_mode():
     project_name = typer.prompt("Nom du projet ?")
 
     typer.echo("\nType de projet ?")
-    typer.echo("  1 - cli")
-    typer.echo("  2 - webapp")
-    typer.echo("  3 - library")
-    typer.echo("  4 - github-action")
-    typer.echo("  5 - docs")
-    typer.echo("  6 - monorepo")
-    typer.echo("  7 - powershell-script")
-    typer.echo("  8 - shell-script")
+    for key, value in PROJECT_TYPE_MAP.items():
+        typer.echo(f"  {key} - {value}")
     type_choice = typer.prompt("Choix (1-8)")
     if type_choice not in PROJECT_TYPE_MAP:
         typer.echo("Erreur : Choix invalide (1-8)")
@@ -191,19 +169,11 @@ def _expert_mode():
     project_type = PROJECT_TYPE_MAP[type_choice]
 
     typer.echo("\nStack technique ?")
-    typer.echo("  1 - Python 3.12 + Poetry")
-    typer.echo("  2 - Node 20 + pnpm")
-    typer.echo("  3 - Go 1.22")
-    typer.echo("  4 - Java 21 + Maven")
-    typer.echo("  5 - Rust 1.70 + Cargo")
-    typer.echo("  6 - PHP 8.3 + Composer")
-    typer.echo("  7 - C# / .NET 8")
-    typer.echo("  8 - Ruby 3.3 + Bundler")
-    typer.echo("  9 - PowerShell 7 + Pester")
-    typer.echo("  10 - Bash/Zsh")
-    stack_choice = typer.prompt("Choix (1-10)")
+    for s in STACKS:
+        typer.echo(f"  {s.key} - {s.label}")
+    stack_choice = typer.prompt(f"Choix (1-{len(STACKS)})")
     if stack_choice not in STACK_MAP:
-        typer.echo("Erreur : Choix invalide (1-10)")
+        typer.echo(f"Erreur : Choix invalide (1-{len(STACKS)})")
         raise typer.Exit(1)
     stack = STACK_MAP[stack_choice]
 

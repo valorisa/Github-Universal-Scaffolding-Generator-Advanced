@@ -15,6 +15,7 @@ from datetime import date
 from pathlib import Path
 from jinja2 import Environment, FileSystemLoader
 from typing import Dict, List
+from .stacks import STACK_BY_LABEL
 
 TEMPLATE_DIR = Path(__file__).parent / "templates"
 
@@ -34,6 +35,17 @@ class Generator:
         context.setdefault("today", today.isoformat())
         context.setdefault("year", str(today.year))
 
+        stack_label = context.get("stack", "")
+        stack_config = STACK_BY_LABEL.get(stack_label)
+        if stack_config:
+            context.setdefault("ecosystem", stack_config.ecosystem)
+            context.setdefault("install_cmd", stack_config.install_cmd)
+            context.setdefault("lint_cmd", stack_config.lint_cmd)
+            context.setdefault("test_cmd", stack_config.test_cmd)
+            context.setdefault("build_cmd", stack_config.build_cmd)
+            context.setdefault("setup_action", stack_config.setup_action)
+            context.setdefault("setup_action_version", stack_config.setup_action_version)
+
         project_name = context["project_name"]
         project_dir = self.output_dir / project_name
         project_dir.mkdir(parents=True, exist_ok=True)
@@ -49,8 +61,6 @@ class Generator:
             if setup_sh.exists():
                 os.chmod(setup_sh, 0o755)
 
-            # Make shell scripts executable
-            project_name = context["project_name"]
             shell_script = project_dir / f"{project_name}.sh"
             if shell_script.exists():
                 os.chmod(shell_script, 0o755)
@@ -70,7 +80,6 @@ class Generator:
     def _generate_community_standards(self, project_dir: Path, context: Dict) -> List[str]:
         project_type = context.get("project_type", "")
 
-        # Use custom README for PowerShell and Shell scripts
         if project_type == "powershell-script":
             readme_template = "powershell-README.md.j2"
         elif project_type == "shell-script":
@@ -104,6 +113,18 @@ class Generator:
         }
         return self._render_template_map(project_dir, template_map, context)
 
+    _MANIFEST_TEMPLATES: Dict[str, tuple] = {
+        "Python": ("pyproject.toml", "pyproject.toml.j2"),
+        "Node": ("package.json", "package.json.j2"),
+        "Go": ("go.mod", "go.mod.j2"),
+        "Java": ("pom.xml", "pom.xml.j2"),
+        "Rust": ("Cargo.toml", "Cargo.toml.j2"),
+        "PHP": ("composer.json", "composer.json.j2"),
+        ".NET": ("{project_name}.csproj", "project.csproj.j2"),
+        "Ruby": ("Gemfile", "Gemfile.j2"),
+        "PowerShell": ("{project_name}.psd1", "module.psd1.j2"),
+    }
+
     def _generate_project_files(self, project_dir: Path, context: Dict) -> List[str]:
         template_map = {
             ".gitignore": "gitignore.j2",
@@ -115,34 +136,21 @@ class Generator:
         }
 
         project_type = context.get("project_type", "")
-        stack = context.get("stack", "")
-        project_name = context.get('project_name', 'project')
+        project_name = context.get("project_name", "project")
 
-        # Handle PowerShell script projects
         if project_type == "powershell-script":
             template_map[f"{project_name}.psm1"] = "powershell-module.psm1.j2"
             template_map[f"{project_name}.psd1"] = "module.psd1.j2"
             template_map[f"{project_name}.Tests.ps1"] = "powershell-tests.Tests.ps1.j2"
-        # Handle Shell script projects
         elif project_type == "shell-script":
             template_map[f"{project_name}.sh"] = "shell-script.sh.j2"
             template_map[f"{project_name}.bats"] = "shell-tests.bats.j2"
-        # Handle other project types by stack
-        elif "Python" in stack:
-            template_map["pyproject.toml"] = "pyproject.toml.j2"
-        elif "Node" in stack:
-            template_map["package.json"] = "package.json.j2"
-        elif "Go" in stack:
-            template_map["go.mod"] = "go.mod.j2"
-        elif "Java" in stack:
-            template_map["pom.xml"] = "pom.xml.j2"
-        elif "Rust" in stack:
-            template_map["Cargo.toml"] = "Cargo.toml.j2"
-        elif "PHP" in stack:
-            template_map["composer.json"] = "composer.json.j2"
-        elif ".NET" in stack or "C#" in stack:
-            template_map[f"{project_name}.csproj"] = "project.csproj.j2"
-        elif "Ruby" in stack:
-            template_map["Gemfile"] = "Gemfile.j2"
+        else:
+            stack_label = context.get("stack", "")
+            stack_config = STACK_BY_LABEL.get(stack_label)
+            if stack_config and stack_config.template_key in self._MANIFEST_TEMPLATES:
+                filename_pattern, template_file = self._MANIFEST_TEMPLATES[stack_config.template_key]
+                filename = filename_pattern.format(project_name=project_name)
+                template_map[filename] = template_file
 
         return self._render_template_map(project_dir, template_map, context)

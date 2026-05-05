@@ -4,32 +4,7 @@ Thank you for your interest in contributing to **{{ project_name }}**!
 
 ## Prerequisites
 
-{% if "Python" in stack %}
-- Python 3.12+
-- Poetry (package manager)
-{% elif "Node" in stack %}
-- Node.js 20+
-- pnpm (package manager)
-{% elif "Go" in stack %}
-- Go 1.22+
-{% elif "Java" in stack %}
-- Java 21+
-- Maven
-{% elif "Rust" in stack %}
-- Rust 1.70+ (via rustup)
-- Cargo
-{% elif "PHP" in stack %}
-- PHP 8.3+
-- Composer
-{% elif ".NET" in stack or "C#" in stack %}
-- .NET SDK 8.0+
-{% elif "Ruby" in stack %}
-- Ruby 3.3+
-- Bundler
-{% elif "PowerShell" in stack %}
-- PowerShell 7+
-- Pester (testing framework)
-{% endif %}
+- {{ stack }}
 
 ## Getting Started
 
@@ -43,119 +18,18 @@ Thank you for your interest in contributing to **{{ project_name }}**!
 
 ## Local Development
 
-{% if "Python" in stack %}
 ```bash
-poetry install
+{{ install_cmd }}
 {% if "lint" in ci_targets %}
-poetry run ruff check .          # Lint
+{{ lint_cmd }}
 {% endif %}
 {% if "test" in ci_targets %}
-poetry run pytest tests/         # Test
+{{ test_cmd }}
 {% endif %}
 {% if "build" in ci_targets %}
-poetry build                     # Build
+{{ build_cmd }}
 {% endif %}
 ```
-{% elif "Node" in stack %}
-```bash
-pnpm install
-{% if "lint" in ci_targets %}
-pnpm lint                        # Lint
-{% endif %}
-{% if "test" in ci_targets %}
-pnpm test                        # Test
-{% endif %}
-{% if "build" in ci_targets %}
-pnpm build                       # Build
-{% endif %}
-```
-{% elif "Go" in stack %}
-```bash
-{% if "lint" in ci_targets %}
-golangci-lint run                # Lint
-{% endif %}
-{% if "test" in ci_targets %}
-go test ./...                    # Test
-{% endif %}
-{% if "build" in ci_targets %}
-go build ./...                   # Build
-{% endif %}
-```
-{% elif "Java" in stack %}
-```bash
-{% if "lint" in ci_targets %}
-mvn checkstyle:check             # Lint
-{% endif %}
-{% if "test" in ci_targets %}
-mvn test                         # Test
-{% endif %}
-{% if "build" in ci_targets %}
-mvn package -DskipTests          # Build
-{% endif %}
-```
-{% elif "Rust" in stack %}
-```bash
-{% if "lint" in ci_targets %}
-cargo clippy -- -D warnings      # Lint
-{% endif %}
-{% if "test" in ci_targets %}
-cargo test                       # Test
-{% endif %}
-{% if "build" in ci_targets %}
-cargo build --release            # Build
-{% endif %}
-```
-{% elif "PHP" in stack %}
-```bash
-composer install
-{% if "lint" in ci_targets %}
-composer lint                    # Lint (phpcs + phpstan)
-{% endif %}
-{% if "test" in ci_targets %}
-vendor/bin/phpunit tests/        # Test
-{% endif %}
-```
-{% elif ".NET" in stack or "C#" in stack %}
-```bash
-dotnet restore
-{% if "lint" in ci_targets %}
-dotnet format --verify-no-changes  # Lint
-{% endif %}
-{% if "test" in ci_targets %}
-dotnet test                      # Test
-{% endif %}
-{% if "build" in ci_targets %}
-dotnet build --configuration Release  # Build
-{% endif %}
-```
-{% elif "Ruby" in stack %}
-```bash
-bundle install
-{% if "lint" in ci_targets %}
-bundle exec rubocop              # Lint
-{% endif %}
-{% if "test" in ci_targets %}
-bundle exec rspec                # Test
-{% endif %}
-{% if "build" in ci_targets %}
-gem build *.gemspec              # Build
-{% endif %}
-```
-{% elif "PowerShell" in stack %}
-```powershell
-Install-Module -Name Pester -Force -Scope CurrentUser
-Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
-{% if "lint" in ci_targets %}
-Invoke-ScriptAnalyzer -Path src/ -Recurse  # Lint
-{% endif %}
-{% if "test" in ci_targets %}
-Invoke-Pester -Path tests/       # Test
-{% endif %}
-{% if "build" in ci_targets %}
-Test-ModuleManifest -Path *.psd1  # Build/Validate
-{% endif %}
-```
-{% endif %}
 
 ## Branch Naming
 

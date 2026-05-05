@@ -1,24 +1,14 @@
 """Validation module for project inputs."""
 
 from typing import Optional
+from .stacks import get_all_valid_labels
 
 VALID_PROJECT_TYPES = ["cli", "library", "webapp", "github-action", "docs", "monorepo", "powershell-script", "shell-script"]
 VALID_LICENSES = ["MIT", "Apache-2.0", "GPL-3.0", "BSD-3-Clause", "proprietary"]
 VALID_VISIBILITIES = ["public", "private"]
 VALID_CI_TARGETS = ["lint", "test", "build", "release"]
 
-VALID_STACKS = [
-    "Python 3.12 + Poetry",
-    "Node 20 + pnpm",
-    "Go 1.22",
-    "Java 21 + Maven",
-    "Rust 1.70 + Cargo",
-    "PHP 8.3 + Composer",
-    "C# / .NET 8",
-    "Ruby 3.3 + Bundler",
-    "PowerShell 7 + Pester",
-    "Bash/Zsh",
-]
+VALID_STACKS = get_all_valid_labels()
 
 
 class ValidationError(ValueError):

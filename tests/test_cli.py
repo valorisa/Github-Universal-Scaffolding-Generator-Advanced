@@ -2,6 +2,8 @@ import tempfile
 
 import pytest
 
+from github_scaffolding_generator.cli import ACTIVITY_MAPPING, CI_MAP, LICENSE_MAP
+from github_scaffolding_generator.generator import Generator
 from github_scaffolding_generator.validator import (
     ValidationError,
     validate_all,
@@ -12,9 +14,6 @@ from github_scaffolding_generator.validator import (
     validate_stack,
     validate_visibility,
 )
-from github_scaffolding_generator.generator import Generator
-from github_scaffolding_generator.cli import ACTIVITY_MAPPING, LICENSE_MAP, CI_MAP
-
 
 # ---------------------------------------------------------------------------
 # validate_project_name
@@ -333,12 +332,12 @@ def test_generator_injects_today_and_year():
     with tempfile.TemporaryDirectory() as tmpdir:
         gen = Generator(output_dir=tmpdir)
         gen.generate(_make_context())
+        from datetime import datetime, timezone
         from pathlib import Path
-        from datetime import date
         changelog = Path(tmpdir) / "test-project" / "CHANGELOG.md"
         content = changelog.read_text(encoding="utf-8")
-        assert date.today().isoformat() in content
-        assert str(date.today().year) in content
+        assert datetime.now(tz=timezone.utc).date().isoformat() in content
+        assert str(datetime.now(tz=timezone.utc).date().year) in content
 
 
 def test_generator_injects_project_name_in_templates():
@@ -471,11 +470,11 @@ def test_generator_readme_contains_today_date():
     with tempfile.TemporaryDirectory() as tmpdir:
         gen = Generator(output_dir=tmpdir)
         gen.generate(_make_context())
+        from datetime import datetime, timezone
         from pathlib import Path
-        from datetime import date
         readme = Path(tmpdir) / "test-project" / "README.md"
         content = readme.read_text(encoding="utf-8")
-        assert date.today().isoformat() in content
+        assert datetime.now(tz=timezone.utc).date().isoformat() in content
 
 
 # ---------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 """Validation module for project inputs."""
 
-from typing import Optional
+
 from .stacks import get_all_valid_labels
 
 VALID_PROJECT_TYPES = ["cli", "library", "webapp", "github-action", "docs", "monorepo", "powershell-script", "shell-script"]
@@ -35,7 +35,7 @@ def validate_stack(stack: str) -> str:
     return stack
 
 
-def validate_license(license_name: Optional[str]) -> str:
+def validate_license(license_name: str | None) -> str:
     if license_name is None:
         return "MIT"
     normalized = license_name.lower()
@@ -45,7 +45,7 @@ def validate_license(license_name: Optional[str]) -> str:
     raise ValidationError(f"Invalid license. Must be one of: {', '.join(VALID_LICENSES)}")
 
 
-def validate_visibility(visibility: Optional[str]) -> str:
+def validate_visibility(visibility: str | None) -> str:
     if visibility is None:
         return "public"
     if visibility not in VALID_VISIBILITIES:
@@ -53,7 +53,7 @@ def validate_visibility(visibility: Optional[str]) -> str:
     return visibility
 
 
-def validate_ci_targets(ci_targets: Optional[str]) -> list:
+def validate_ci_targets(ci_targets: str | None) -> list:
     if ci_targets is None:
         return ["lint", "test"]
     targets = [t.strip() for t in ci_targets.split(",")]
@@ -67,9 +67,9 @@ def validate_all(
     project_name: str,
     project_type: str,
     stack: str,
-    license_name: Optional[str] = None,
-    visibility: Optional[str] = None,
-    ci_targets: Optional[str] = None,
+    license_name: str | None = None,
+    visibility: str | None = None,
+    ci_targets: str | None = None,
 ) -> dict:
     return {
         "project_name": validate_project_name(project_name),

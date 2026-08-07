@@ -1,0 +1,597 @@
+I001 [*] Import block is un-sorted or un-formatted
+ --> src/github_scaffolding_generator/cli.py:1:1
+  |
+1 | / import sys
+2 | | import os
+  | |_________^
+3 |
+4 |   if sys.platform == "win32":
+  |
+help: Organize imports
+  |
+1 + import os
+2 | import sys
+  - import os
+3 |
+  |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> src/github_scaffolding_generator/cli.py:11:1
+   |
+ 9 |           sys.stdin.reconfigure(encoding="utf-8")
+10 |
+11 | / import typer
+12 | | from .validator import validate_all, ValidationError
+13 | | from .generator import Generator
+14 | | from .stacks import STACKS, get_stack_labels
+   | |____________________________________________^
+15 |
+16 |   app = typer.Typer(name="github-scaffolding-generator", rich_markup_mode="markdown")
+   |
+help: Organize imports
+   |
+11 | import typer
+   - from .validator import validate_all, ValidationError
+12 +
+13 | from .generator import Generator
+14 | from .stacks import STACKS, get_stack_labels
+15 + from .validator import ValidationError, validate_all
+16 |
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> src/github_scaffolding_generator/generator.py:12:1
+   |
+10 |   """
+11 |
+12 | / import os
+13 | | import sys
+14 | | from datetime import date
+15 | | from pathlib import Path
+16 | | from jinja2 import Environment, FileSystemLoader
+17 | | from typing import Dict, List
+18 | | from .stacks import STACK_BY_LABEL
+   | |__________________________________^
+19 |
+20 |   TEMPLATE_DIR = Path(__file__).parent / "templates"
+   |
+help: Organize imports
+   |
+15 | from pathlib import Path
+16 + from typing import Dict, List
+17 +
+18 | from jinja2 import Environment, FileSystemLoader
+   - from typing import Dict, List
+19 +
+20 | from .stacks import STACK_BY_LABEL
+   |
+
+UP035 `typing.Dict` is deprecated, use `dict` instead
+  --> src/github_scaffolding_generator/generator.py:17:1
+   |
+15 | from pathlib import Path
+16 | from jinja2 import Environment, FileSystemLoader
+17 | from typing import Dict, List
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+18 | from .stacks import STACK_BY_LABEL
+   |
+
+UP035 `typing.List` is deprecated, use `list` instead
+  --> src/github_scaffolding_generator/generator.py:17:1
+   |
+15 | from pathlib import Path
+16 | from jinja2 import Environment, FileSystemLoader
+17 | from typing import Dict, List
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+18 | from .stacks import STACK_BY_LABEL
+   |
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+  --> src/github_scaffolding_generator/generator.py:33:33
+   |
+31 |         )
+32 |
+33 |     def generate(self, context: Dict) -> List[str]:
+   |                                 ^^^^
+34 |         today = date.today()
+35 |         context.setdefault("today", today.isoformat())
+   |
+help: Replace with `dict`
+   |
+32 |
+   -     def generate(self, context: Dict) -> List[str]:
+33 +     def generate(self, context: dict) -> List[str]:
+34 |         today = date.today()
+   |
+
+UP006 [*] Use `list` instead of `List` for type annotation
+  --> src/github_scaffolding_generator/generator.py:33:42
+   |
+31 |         )
+32 |
+33 |     def generate(self, context: Dict) -> List[str]:
+   |                                          ^^^^
+34 |         today = date.today()
+35 |         context.setdefault("today", today.isoformat())
+   |
+help: Replace with `list`
+   |
+32 |
+   -     def generate(self, context: Dict) -> List[str]:
+33 +     def generate(self, context: Dict) -> list[str]:
+34 |         today = date.today()
+   |
+
+DTZ011 `datetime.date.today()` used
+  --> src/github_scaffolding_generator/generator.py:34:17
+   |
+33 |     def generate(self, context: Dict) -> List[str]:
+34 |         today = date.today()
+   |                 ^^^^^^^^^^^^
+35 |         context.setdefault("today", today.isoformat())
+36 |         context.setdefault("year", str(today.year))
+   |
+help: Use `datetime.datetime.now(tz=...).date()` instead
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+  --> src/github_scaffolding_generator/generator.py:70:66
+   |
+68 |         return generated_files
+69 |
+70 |     def _render_template_map(self, base_dir: Path, template_map: Dict[str, str], context: Dict) -> List[str]:
+   |                                                                  ^^^^
+71 |         files = []
+72 |         for output_name, template_name in template_map.items():
+   |
+help: Replace with `dict`
+   |
+69 |
+   -     def _render_template_map(self, base_dir: Path, template_map: Dict[str, str], context: Dict) -> List[str]:
+70 +     def _render_template_map(self, base_dir: Path, template_map: dict[str, str], context: Dict) -> List[str]:
+71 |         files = []
+   |
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+  --> src/github_scaffolding_generator/generator.py:70:91
+   |
+68 |         return generated_files
+69 |
+70 |     def _render_template_map(self, base_dir: Path, template_map: Dict[str, str], context: Dict) -> List[str]:
+   |                                                                                           ^^^^
+71 |         files = []
+72 |         for output_name, template_name in template_map.items():
+   |
+help: Replace with `dict`
+   |
+69 |
+   -     def _render_template_map(self, base_dir: Path, template_map: Dict[str, str], context: Dict) -> List[str]:
+70 +     def _render_template_map(self, base_dir: Path, template_map: Dict[str, str], context: dict) -> List[str]:
+71 |         files = []
+   |
+
+UP006 [*] Use `list` instead of `List` for type annotation
+  --> src/github_scaffolding_generator/generator.py:70:100
+   |
+68 |         return generated_files
+69 |
+70 |     def _render_template_map(self, base_dir: Path, template_map: Dict[str, str], context: Dict) -> List[str]:
+   |                                                                                                    ^^^^
+71 |         files = []
+72 |         for output_name, template_name in template_map.items():
+   |
+help: Replace with `list`
+   |
+69 |
+   -     def _render_template_map(self, base_dir: Path, template_map: Dict[str, str], context: Dict) -> List[str]:
+70 +     def _render_template_map(self, base_dir: Path, template_map: Dict[str, str], context: Dict) -> list[str]:
+71 |         files = []
+   |
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+  --> src/github_scaffolding_generator/generator.py:80:73
+   |
+78 |         return files
+79 |
+80 |     def _generate_community_standards(self, project_dir: Path, context: Dict) -> List[str]:
+   |                                                                         ^^^^
+81 |         project_type = context.get("project_type", "")
+   |
+help: Replace with `dict`
+   |
+79 |
+   -     def _generate_community_standards(self, project_dir: Path, context: Dict) -> List[str]:
+80 +     def _generate_community_standards(self, project_dir: Path, context: dict) -> List[str]:
+81 |         project_type = context.get("project_type", "")
+   |
+
+UP006 [*] Use `list` instead of `List` for type annotation
+  --> src/github_scaffolding_generator/generator.py:80:82
+   |
+78 |         return files
+79 |
+80 |     def _generate_community_standards(self, project_dir: Path, context: Dict) -> List[str]:
+   |                                                                                  ^^^^
+81 |         project_type = context.get("project_type", "")
+   |
+help: Replace with `list`
+   |
+79 |
+   -     def _generate_community_standards(self, project_dir: Path, context: Dict) -> List[str]:
+80 +     def _generate_community_standards(self, project_dir: Path, context: Dict) -> list[str]:
+81 |         project_type = context.get("project_type", "")
+   |
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+   --> src/github_scaffolding_generator/generator.py:100:66
+    |
+ 98 |         return self._render_template_map(project_dir, template_map, context)
+ 99 |
+100 |     def _generate_github_files(self, project_dir: Path, context: Dict) -> List[str]:
+    |                                                                  ^^^^
+101 |         template_map = {
+102 |             ".github/CODEOWNERS": "github/CODEOWNERS.j2",
+    |
+help: Replace with `dict`
+    |
+99  |
+    -     def _generate_github_files(self, project_dir: Path, context: Dict) -> List[str]:
+100 +     def _generate_github_files(self, project_dir: Path, context: dict) -> List[str]:
+101 |         template_map = {
+    |
+
+UP006 [*] Use `list` instead of `List` for type annotation
+   --> src/github_scaffolding_generator/generator.py:100:75
+    |
+ 98 |         return self._render_template_map(project_dir, template_map, context)
+ 99 |
+100 |     def _generate_github_files(self, project_dir: Path, context: Dict) -> List[str]:
+    |                                                                           ^^^^
+101 |         template_map = {
+102 |             ".github/CODEOWNERS": "github/CODEOWNERS.j2",
+    |
+help: Replace with `list`
+    |
+99  |
+    -     def _generate_github_files(self, project_dir: Path, context: Dict) -> List[str]:
+100 +     def _generate_github_files(self, project_dir: Path, context: Dict) -> list[str]:
+101 |         template_map = {
+    |
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+   --> src/github_scaffolding_generator/generator.py:110:56
+    |
+108 |         return self._render_template_map(project_dir, template_map, context)
+109 |
+110 |     def _generate_ci(self, project_dir: Path, context: Dict) -> List[str]:
+    |                                                        ^^^^
+111 |         template_map = {
+112 |             ".github/workflows/ci.yml": "ci/ci.yml.j2",
+    |
+help: Replace with `dict`
+    |
+109 |
+    -     def _generate_ci(self, project_dir: Path, context: Dict) -> List[str]:
+110 +     def _generate_ci(self, project_dir: Path, context: dict) -> List[str]:
+111 |         template_map = {
+    |
+
+UP006 [*] Use `list` instead of `List` for type annotation
+   --> src/github_scaffolding_generator/generator.py:110:65
+    |
+108 |         return self._render_template_map(project_dir, template_map, context)
+109 |
+110 |     def _generate_ci(self, project_dir: Path, context: Dict) -> List[str]:
+    |                                                                 ^^^^
+111 |         template_map = {
+112 |             ".github/workflows/ci.yml": "ci/ci.yml.j2",
+    |
+help: Replace with `list`
+    |
+109 |
+    -     def _generate_ci(self, project_dir: Path, context: Dict) -> List[str]:
+110 +     def _generate_ci(self, project_dir: Path, context: Dict) -> list[str]:
+111 |         template_map = {
+    |
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+   --> src/github_scaffolding_generator/generator.py:116:26
+    |
+114 |         return self._render_template_map(project_dir, template_map, context)
+115 |
+116 |     _MANIFEST_TEMPLATES: Dict[str, tuple] = {
+    |                          ^^^^
+117 |         "Python": ("pyproject.toml", "pyproject.toml.j2"),
+118 |         "Node": ("package.json", "package.json.j2"),
+    |
+help: Replace with `dict`
+    |
+115 |
+    -     _MANIFEST_TEMPLATES: Dict[str, tuple] = {
+116 +     _MANIFEST_TEMPLATES: dict[str, tuple] = {
+117 |         "Python": ("pyproject.toml", "pyproject.toml.j2"),
+    |
+
+RUF012 Mutable default value for class attribute
+   --> src/github_scaffolding_generator/generator.py:116:45
+    |
+114 |           return self._render_template_map(project_dir, template_map, context)
+115 |
+116 |       _MANIFEST_TEMPLATES: Dict[str, tuple] = {
+    |  _____________________________________________^
+117 | |         "Python": ("pyproject.toml", "pyproject.toml.j2"),
+118 | |         "Node": ("package.json", "package.json.j2"),
+119 | |         "Go": ("go.mod", "go.mod.j2"),
+120 | |         "Java": ("pom.xml", "pom.xml.j2"),
+121 | |         "Rust": ("Cargo.toml", "Cargo.toml.j2"),
+122 | |         "PHP": ("composer.json", "composer.json.j2"),
+123 | |         ".NET": ("{project_name}.csproj", "project.csproj.j2"),
+124 | |         "Ruby": ("Gemfile", "Gemfile.j2"),
+125 | |         "PowerShell": ("{project_name}.psd1", "module.psd1.j2"),
+126 | |     }
+    | |_____^
+127 |
+128 |       def _generate_project_files(self, project_dir: Path, context: Dict) -> List[str]:
+    |
+help: Consider initializing in `__init__` or annotating with `typing.ClassVar`
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+   --> src/github_scaffolding_generator/generator.py:128:67
+    |
+126 |     }
+127 |
+128 |     def _generate_project_files(self, project_dir: Path, context: Dict) -> List[str]:
+    |                                                                   ^^^^
+129 |         template_map = {
+130 |             ".gitignore": "gitignore.j2",
+    |
+help: Replace with `dict`
+    |
+127 |
+    -     def _generate_project_files(self, project_dir: Path, context: Dict) -> List[str]:
+128 +     def _generate_project_files(self, project_dir: Path, context: dict) -> List[str]:
+129 |         template_map = {
+    |
+
+UP006 [*] Use `list` instead of `List` for type annotation
+   --> src/github_scaffolding_generator/generator.py:128:76
+    |
+126 |     }
+127 |
+128 |     def _generate_project_files(self, project_dir: Path, context: Dict) -> List[str]:
+    |                                                                            ^^^^
+129 |         template_map = {
+130 |             ".gitignore": "gitignore.j2",
+    |
+help: Replace with `list`
+    |
+127 |
+    -     def _generate_project_files(self, project_dir: Path, context: Dict) -> List[str]:
+128 +     def _generate_project_files(self, project_dir: Path, context: Dict) -> list[str]:
+129 |         template_map = {
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> src/github_scaffolding_generator/validator.py:3:1
+  |
+1 |   """Validation module for project inputs."""
+2 |
+3 | / from typing import Optional
+4 | | from .stacks import get_all_valid_labels
+  | |________________________________________^
+5 |
+6 |   VALID_PROJECT_TYPES = ["cli", "library", "webapp", "github-action", "docs", "monorepo", "powershell-script", "shell-script"]
+  |
+help: Organize imports
+  |
+3 | from typing import Optional
+4 +
+5 | from .stacks import get_all_valid_labels
+  |
+
+UP045 [*] Use `X | None` for type annotations
+  --> src/github_scaffolding_generator/validator.py:38:36
+   |
+38 | def validate_license(license_name: Optional[str]) -> str:
+   |                                    ^^^^^^^^^^^^^
+39 |     if license_name is None:
+40 |         return "MIT"
+   |
+help: Convert to `X | None`
+   |
+37 |
+   - def validate_license(license_name: Optional[str]) -> str:
+38 + def validate_license(license_name: str | None) -> str:
+39 |     if license_name is None:
+   |
+
+UP045 [*] Use `X | None` for type annotations
+  --> src/github_scaffolding_generator/validator.py:48:37
+   |
+48 | def validate_visibility(visibility: Optional[str]) -> str:
+   |                                     ^^^^^^^^^^^^^
+49 |     if visibility is None:
+50 |         return "public"
+   |
+help: Convert to `X | None`
+   |
+47 |
+   - def validate_visibility(visibility: Optional[str]) -> str:
+48 + def validate_visibility(visibility: str | None) -> str:
+49 |     if visibility is None:
+   |
+
+UP045 [*] Use `X | None` for type annotations
+  --> src/github_scaffolding_generator/validator.py:56:37
+   |
+56 | def validate_ci_targets(ci_targets: Optional[str]) -> list:
+   |                                     ^^^^^^^^^^^^^
+57 |     if ci_targets is None:
+58 |         return ["lint", "test"]
+   |
+help: Convert to `X | None`
+   |
+55 |
+   - def validate_ci_targets(ci_targets: Optional[str]) -> list:
+56 + def validate_ci_targets(ci_targets: str | None) -> list:
+57 |     if ci_targets is None:
+   |
+
+UP045 [*] Use `X | None` for type annotations
+  --> src/github_scaffolding_generator/validator.py:70:19
+   |
+68 |     project_type: str,
+69 |     stack: str,
+70 |     license_name: Optional[str] = None,
+   |                   ^^^^^^^^^^^^^
+71 |     visibility: Optional[str] = None,
+72 |     ci_targets: Optional[str] = None,
+   |
+help: Convert to `X | None`
+   |
+69 |     stack: str,
+   -     license_name: Optional[str] = None,
+70 +     license_name: str | None = None,
+71 |     visibility: Optional[str] = None,
+   |
+
+UP045 [*] Use `X | None` for type annotations
+  --> src/github_scaffolding_generator/validator.py:71:17
+   |
+69 |     stack: str,
+70 |     license_name: Optional[str] = None,
+71 |     visibility: Optional[str] = None,
+   |                 ^^^^^^^^^^^^^
+72 |     ci_targets: Optional[str] = None,
+73 | ) -> dict:
+   |
+help: Convert to `X | None`
+   |
+70 |     license_name: Optional[str] = None,
+   -     visibility: Optional[str] = None,
+71 +     visibility: str | None = None,
+72 |     ci_targets: Optional[str] = None,
+   |
+
+UP045 [*] Use `X | None` for type annotations
+  --> src/github_scaffolding_generator/validator.py:72:17
+   |
+70 |     license_name: Optional[str] = None,
+71 |     visibility: Optional[str] = None,
+72 |     ci_targets: Optional[str] = None,
+   |                 ^^^^^^^^^^^^^
+73 | ) -> dict:
+74 |     return {
+   |
+help: Convert to `X | None`
+   |
+71 |     visibility: Optional[str] = None,
+   -     ci_targets: Optional[str] = None,
+72 +     ci_targets: str | None = None,
+73 | ) -> dict:
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> tests/test_cli.py:1:1
+   |
+ 1 | / import tempfile
+ 2 | |
+ 3 | | import pytest
+ 4 | |
+ 5 | | from github_scaffolding_generator.validator import (
+ 6 | |     ValidationError,
+ 7 | |     validate_all,
+ 8 | |     validate_ci_targets,
+ 9 | |     validate_license,
+10 | |     validate_project_name,
+11 | |     validate_project_type,
+12 | |     validate_stack,
+13 | |     validate_visibility,
+14 | | )
+15 | | from github_scaffolding_generator.generator import Generator
+16 | | from github_scaffolding_generator.cli import ACTIVITY_MAPPING, LICENSE_MAP, CI_MAP
+   | |__________________________________________________________________________________^
+help: Organize imports
+   |
+4  |
+5  + from github_scaffolding_generator.cli import ACTIVITY_MAPPING, CI_MAP, LICENSE_MAP
+6  + from github_scaffolding_generator.generator import Generator
+7  | from github_scaffolding_generator.validator import (
+--------------------------------------------------------------------------------
+16 | )
+   - from github_scaffolding_generator.generator import Generator
+   - from github_scaffolding_generator.cli import ACTIVITY_MAPPING, LICENSE_MAP, CI_MAP
+   -
+17 |
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+   --> tests/test_cli.py:336:9
+    |
+334 |           gen = Generator(output_dir=tmpdir)
+335 |           gen.generate(_make_context())
+336 | /         from pathlib import Path
+337 | |         from datetime import date
+    | |_________________________________^
+338 |           changelog = Path(tmpdir) / "test-project" / "CHANGELOG.md"
+339 |           content = changelog.read_text(encoding="utf-8")
+    |
+help: Organize imports
+    |
+335 |         gen.generate(_make_context())
+336 +         from datetime import date
+337 |         from pathlib import Path
+    -         from datetime import date
+338 |         changelog = Path(tmpdir) / "test-project" / "CHANGELOG.md"
+    |
+
+DTZ011 `datetime.date.today()` used
+   --> tests/test_cli.py:340:16
+    |
+338 |         changelog = Path(tmpdir) / "test-project" / "CHANGELOG.md"
+339 |         content = changelog.read_text(encoding="utf-8")
+340 |         assert date.today().isoformat() in content
+    |                ^^^^^^^^^^^^
+341 |         assert str(date.today().year) in content
+    |
+help: Use `datetime.datetime.now(tz=...).date()` instead
+
+DTZ011 `datetime.date.today()` used
+   --> tests/test_cli.py:341:20
+    |
+339 |         content = changelog.read_text(encoding="utf-8")
+340 |         assert date.today().isoformat() in content
+341 |         assert str(date.today().year) in content
+    |                    ^^^^^^^^^^^^
+help: Use `datetime.datetime.now(tz=...).date()` instead
+
+I001 [*] Import block is un-sorted or un-formatted
+   --> tests/test_cli.py:474:9
+    |
+472 |           gen = Generator(output_dir=tmpdir)
+473 |           gen.generate(_make_context())
+474 | /         from pathlib import Path
+475 | |         from datetime import date
+    | |_________________________________^
+476 |           readme = Path(tmpdir) / "test-project" / "README.md"
+477 |           content = readme.read_text(encoding="utf-8")
+    |
+help: Organize imports
+    |
+473 |         gen.generate(_make_context())
+474 +         from datetime import date
+475 |         from pathlib import Path
+    -         from datetime import date
+476 |         readme = Path(tmpdir) / "test-project" / "README.md"
+    |
+
+DTZ011 `datetime.date.today()` used
+   --> tests/test_cli.py:478:16
+    |
+476 |         readme = Path(tmpdir) / "test-project" / "README.md"
+477 |         content = readme.read_text(encoding="utf-8")
+478 |         assert date.today().isoformat() in content
+    |                ^^^^^^^^^^^^
+help: Use `datetime.datetime.now(tz=...).date()` instead
+
+Found 34 errors.
+[*] 27 fixable with the `--fix` option.

@@ -11,10 +11,12 @@ All generated documentation should prioritize completeness and detail over brevi
 
 import os
 import sys
-from datetime import date
+from datetime import datetime, timezone
 from pathlib import Path
+from typing import ClassVar
+
 from jinja2 import Environment, FileSystemLoader
-from typing import Dict, List
+
 from .stacks import STACK_BY_LABEL
 
 TEMPLATE_DIR = Path(__file__).parent / "templates"
@@ -30,8 +32,8 @@ class Generator:
             lstrip_blocks=True,
         )
 
-    def generate(self, context: Dict) -> List[str]:
-        today = date.today()
+    def generate(self, context: dict) -> list[str]:
+        today = datetime.now(tz=timezone.utc).date()
         context.setdefault("today", today.isoformat())
         context.setdefault("year", str(today.year))
 
@@ -67,7 +69,7 @@ class Generator:
 
         return generated_files
 
-    def _render_template_map(self, base_dir: Path, template_map: Dict[str, str], context: Dict) -> List[str]:
+    def _render_template_map(self, base_dir: Path, template_map: dict[str, str], context: dict) -> list[str]:
         files = []
         for output_name, template_name in template_map.items():
             content = self.env.get_template(template_name).render(**context)
@@ -77,7 +79,7 @@ class Generator:
             files.append(str(out_path))
         return files
 
-    def _generate_community_standards(self, project_dir: Path, context: Dict) -> List[str]:
+    def _generate_community_standards(self, project_dir: Path, context: dict) -> list[str]:
         project_type = context.get("project_type", "")
 
         if project_type == "powershell-script":
@@ -97,7 +99,7 @@ class Generator:
         }
         return self._render_template_map(project_dir, template_map, context)
 
-    def _generate_github_files(self, project_dir: Path, context: Dict) -> List[str]:
+    def _generate_github_files(self, project_dir: Path, context: dict) -> list[str]:
         template_map = {
             ".github/CODEOWNERS": "github/CODEOWNERS.j2",
             ".github/dependabot.yml": "github/dependabot.yml.j2",
@@ -107,13 +109,13 @@ class Generator:
         }
         return self._render_template_map(project_dir, template_map, context)
 
-    def _generate_ci(self, project_dir: Path, context: Dict) -> List[str]:
+    def _generate_ci(self, project_dir: Path, context: dict) -> list[str]:
         template_map = {
             ".github/workflows/ci.yml": "ci/ci.yml.j2",
         }
         return self._render_template_map(project_dir, template_map, context)
 
-    _MANIFEST_TEMPLATES: Dict[str, tuple] = {
+    _MANIFEST_TEMPLATES: ClassVar[dict[str, tuple]] = {
         "Python": ("pyproject.toml", "pyproject.toml.j2"),
         "Node": ("package.json", "package.json.j2"),
         "Go": ("go.mod", "go.mod.j2"),
@@ -125,7 +127,7 @@ class Generator:
         "PowerShell": ("{project_name}.psd1", "module.psd1.j2"),
     }
 
-    def _generate_project_files(self, project_dir: Path, context: Dict) -> List[str]:
+    def _generate_project_files(self, project_dir: Path, context: dict) -> list[str]:
         template_map = {
             ".gitignore": "gitignore.j2",
             ".gitattributes": "gitattributes.j2",
